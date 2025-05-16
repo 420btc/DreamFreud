@@ -1333,47 +1333,183 @@ function calcularRelevancia(simbolo: SimboloFreudiano, palabras: string[]): numb
   return puntuacion;
 }
 
-// Función para generar un resumen de análisis basado en los símbolos encontrados
+// Interfaz para el resultado de encontrarConexiones
+interface AnalisisConexiones {
+  temasComunes: string[];
+  categoriaPrincipal: string;
+}
+
+// Función para encontrar conexiones entre símbolos
+function encontrarConexiones(simbolos: SimboloFreudiano[]): AnalisisConexiones {
+  const temas: Record<string, number> = {};
+  const categorias: Record<string, number> = {};
+  
+  // Analizar temas y categorías recurrentes
+  simbolos.forEach(simbolo => {
+    // Contar categorías
+    const categoria = simbolo.categoria || 'General';
+    categorias[categoria] = (categorias[categoria] || 0) + 1;
+    
+    // Extraer temas clave de la interpretación
+    const palabrasClave = simbolo.interpretacion
+      .toLowerCase()
+      .split(/[ ,.]+/)
+      .filter(palabra => palabra.length > 4); // Filtrar palabras significativas
+    
+    palabrasClave.forEach(palabra => {
+      temas[palabra] = (temas[palabra] || 0) + 1;
+    });
+  });
+  
+  // Encontrar temas recurrentes (aparecen en múltiples símbolos)
+  const temasComunes = Object.entries(temas)
+    .filter(([_, count]) => count > 1)
+    .sort((a, b) => b[1] - a[1])
+    .map(([tema]) => tema);
+    
+  // Encontrar categorías predominantes
+  const categoriaPrincipal = Object.entries(categorias)
+    .sort((a, b) => b[1] - a[1])[0]?.[0] || 'General';
+    
+  return { temasComunes, categoriaPrincipal };
+}
+
+// Función para generar una interpretación coherente basada en los símbolos
 export function generarAnalisisFreudiano(simbolos: SimboloFreudiano[]): string {
   if (simbolos.length === 0) {
-    return "No se encontraron símbolos freudianos significativos en este sueño. " +
+    return "## Análisis del Sueño\n\n" +
+           "No se encontraron símbolos claramente identificables en tu sueño. " +
            "Esto podría deberse a que el contenido es muy simbólico o abstracto. " +
-           "Considera reflexionar sobre los elementos del sueño que más te llamaron la atención.";
+           "Te sugiero reflexionar sobre qué elementos del sueño te llamaron más la atención y qué emociones despertaron en ti.";
   }
 
   // Agrupar símbolos por categoría
   const porCategoria: Record<string, SimboloFreudiano[]> = {};
   simbolos.forEach(simbolo => {
-    const categoria = simbolo.categoria || 'General';
+    const categoria = simbolo.categoria?.split(', ')[0] || 'General'; // Tomar solo la primera categoría si hay múltiples
     if (!porCategoria[categoria]) {
       porCategoria[categoria] = [];
     }
     porCategoria[categoria].push(simbolo);
   });
 
+  // Analizar conexiones entre símbolos
+  const { temasComunes, categoriaPrincipal } = encontrarConexiones(simbolos);
+  
   // Construir el análisis
-  let analisis = "## Análisis Freudiano del Sueño\n\n";
+  let analisis = "## Análisis del Sueño\n\n";
   
-  analisis += "Basado en los símbolos encontrados en tu sueño, aquí tienes un análisis según la teoría freudiana:\n\n";
+  // Introducción personalizada
+  analisis += `Tu sueño presenta varios elementos significativos que, según el enfoque freudiano, ` +
+             `pueden ofrecer pistas sobre tu mundo inconsciente. `;
   
-  // Añadir sección por categoría
+  // Mencionar la categoría predominante si es relevante
+  if (categoriaPrincipal !== 'General') {
+    analisis += `Los símbolos se agrupan principalmente en la categoría de "${categoriaPrincipal}", ` +
+               `lo que sugiere que este sueño podría estar relacionado con `;
+               
+    switch(categoriaPrincipal.toLowerCase()) {
+      case 'objetos':
+        analisis += "aspectos materiales o simbólicos de tu vida cotidiana. ";
+        break;
+      case 'animales':
+        analisis += "tus instintos más básicos o aspectos primitivos de tu personalidad. ";
+        break;
+      case 'acciones':
+        analisis += "dinámicas de acción o interacción que estás experimentando. ";
+        break;
+      case 'lugares':
+        analisis += "tu sentido de pertenencia o ubicación en diferentes aspectos de tu vida. ";
+        break;
+      default:
+        analisis += "esta área específica de tu experiencia. ";
+    }
+  }
+  
+  // Mencionar temas recurrentes si los hay
+  if (temasComunes.length > 0) {
+    analisis += `\n\n### Temas recurrentes\n\n` +
+               `Los siguientes temas aparecen de manera recurrente en los símbolos de tu sueño:\n\n` +
+               `- ${temasComunes.slice(0, 3).join("\n- ")}\n\n` +
+               `Esto sugiere que estos elementos podrían ser particularmente significativos ` +
+               `en la interpretación de tu sueño.`;
+  }
+  
+  // Detallar los símbolos encontrados por categoría
+  analisis += "\n\n## Símbolos identificados\n\n";
+  
   Object.entries(porCategoria).forEach(([categoria, simbolosCategoria]) => {
     analisis += `### ${categoria}\n`;
     
     simbolosCategoria.forEach(simbolo => {
-      analisis += `- **${simbolo.simbolo}**: ${simbolo.interpretacion}\n`;
+      // Resaltar las palabras clave dentro de la interpretación
+      let interpretacion = simbolo.interpretacion;
+      simbolo.palabrasClave.forEach(palabra => {
+        const regex = new RegExp(`\\b${palabra}\\b`, 'gi');
+        interpretacion = interpretacion.replace(regex, `**${palabra}**`);
+      });
+      
+      analisis += `- **${simbolo.simbolo}**: ${interpretacion}\n`;
     });
     
     analisis += "\n";
   });
 
-  // Añadir conclusión
-  analisis += "### Interpretación General\n";
-  analisis += "Recuerda que en el psicoanálisis freudiano, los sueños son considerados " +
-             "como la vía regia hacia el inconsciente. Los símbolos aquí identificados pueden representar " +
-             "deseos reprimidos, conflictos internos o aspectos de tu personalidad que merecen atención. " +
-             "Te animamos a reflexionar sobre cómo estos elementos podrían relacionarse con tus experiencias " +
-             "y emociones en la vida despierta.";
+  // Interpretación integrada
+  analisis += "## Interpretación integrada\n\n";
+  
+  // Crear una interpretación coherente basada en los símbolos
+  const simbolosPrincipales = simbolos.slice(0, 3).map(s => s.simbolo).join(", ");
+  
+  analisis += `Considerando los principales símbolos (${simbolosPrincipales}), ` +
+             `este sueño parece reflejar una dinámica donde `;
+  
+  // Añadir interpretación basada en la categoría principal
+  switch(categoriaPrincipal.toLowerCase()) {
+    case 'objetos':
+      analisis += "los objetos que te rodean adquieren un significado especial. " +
+                "Podrías estar procesando tu relación con el mundo material o con herramientas que utilizas en tu vida diaria. ";
+      break;
+    case 'animales':
+      analisis += "tus instintos y emociones más básicas están jugando un papel importante. " +
+                "Esto podría indicar que estás en contacto con aspectos más primitivos de tu personalidad. ";
+      break;
+    case 'acciones':
+      analisis += "las acciones y dinámicas de movimiento son fundamentales. " +
+                "Podrías estar procesando cambios o transiciones en tu vida. ";
+      break;
+    case 'lugares':
+      analisis += "el sentido de lugar y ubicación es significativo. " +
+                "Esto podría reflejar tu búsqueda de pertenencia o tu relación con diferentes aspectos de tu vida. ";
+      break;
+    default:
+      analisis += "varios elementos simbólicos están interactuando de maneras significativas. ";
+  }
+  
+  // Añadir sección de posibles razones del sueño
+  analisis += "\n\n## Posibles razones de este sueño\n\n" +
+             "Basándome en los símbolos analizados, este sueño podría estar relacionado con:\n\n" +
+             "1. **Procesamiento emocional**: Tu mente podría estar procesando emociones o experiencias recientes. " +
+             `Los elementos como ${simbolos.slice(0, 2).map(s => `"${s.simbolo}"`).join(' y ')} sugieren ` +
+             `que estás trabajando en asuntos relacionados con ${categoriaPrincipal.toLowerCase()}.\n\n` +
+             
+             "2. **Deseos o preocupaciones inconscientes**: Según Freud, los sueños son la realización disfrazada de deseos reprimidos. " +
+             "¿Hay algún deseo o temor que estés evitando enfrentar en tu vida diaria?\n\n" +
+             
+             "3. **Conflictos internos**: La presencia de símbolos contrastantes podría indicar tensiones internas. " +
+             "¿Estás experimentando alguna situación que te haga sentir dividido o en conflicto?\n\n" +
+             
+             "4. **Procesos de cambio**: Si hay símbolos de transformación, podrían reflejar transiciones importantes " +
+             "que estás experimentando o que necesitas realizar.`;\n\n" +
+             
+             // Mantener la reflexión final original
+             "## Reflexión final\n\n" +
+             "Recuerda que, según Freud, los sueños son la vía regia hacia el inconsciente. " +
+             "Los símbolos aquí identificados pueden representar deseos reprimidos, conflictos internos " +
+             "o aspectos de tu personalidad que merecen atención. " +
+             "Te animo a reflexionar sobre cómo estos elementos podrían estar relacionados con tus experiencias, " +
+             "emociones y relaciones en tu vida despierta. " +
+             "¿Qué conexiones personales puedes establecer con estos símbolos? ¿Qué emociones evocan en ti?";
 
   return analisis;
 }
