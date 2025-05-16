@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
+import LoadingScreen from "@/components/ui/loading-screen"
 import Navbar from "@/components/navbar"
 import Introduccion from "@/components/introduccion"
 import RegistrarSueno from "@/components/registrar-sueno"
@@ -11,8 +13,25 @@ import MiPerfil from "@/components/mi-perfil"
 import RelojDespertador from "@/components/reloj-despertador"
 import LibroFreud from "@/components/libro-freud"
 
+// Cargar componentes dinámicamente para mejor rendimiento
+const DynamicComponents = {
+  Introduccion: dynamic(() => import("@/components/introduccion"), { loading: () => <div>Cargando...</div> }),
+  RegistrarSueno: dynamic(() => import("@/components/registrar-sueno"), { loading: () => <div>Cargando...</div> }),
+  AnalizarUltimoSueno: dynamic(() => import("@/components/analizar-ultimo-sueno"), { loading: () => <div>Cargando...</div> }),
+  DiccionarioSuenos: dynamic(() => import("@/components/diccionario-suenos"), { loading: () => <div>Cargando...</div> }),
+  HistorialSuenos: dynamic(() => import("@/components/historial-suenos"), { loading: () => <div>Cargando...</div> }),
+  MiPerfil: dynamic(() => import("@/components/mi-perfil"), { loading: () => <div>Cargando...</div> }),
+  RelojDespertador: dynamic(() => import("@/components/reloj-despertador"), { loading: () => <div>Cargando...</div> }),
+  LibroFreud: dynamic(() => import("@/components/libro-freud"), { loading: () => <div>Cargando...</div> }),
+}
+
 export default function Home() {
   const [seccionActiva, setSeccionActiva] = useState("introduccion")
+  const [isLoading, setIsLoading] = useState(true)
+
+  const handleEnterClick = () => {
+    setIsLoading(false);
+  };
 
   const cambiarSeccion = (seccion: string) => {
     setSeccionActiva(seccion)
@@ -22,24 +41,28 @@ export default function Home() {
   const renderSeccion = () => {
     switch (seccionActiva) {
       case "introduccion":
-        return <Introduccion />
+        return <DynamicComponents.Introduccion />
       case "registrarSueno":
-        return <RegistrarSueno />
+        return <DynamicComponents.RegistrarSueno />
       case "analizarUltimoSueno":
-        return <AnalizarUltimoSueno />
+        return <DynamicComponents.AnalizarUltimoSueno />
       case "diccionarioSuenos":
-        return <DiccionarioSuenos />
+        return <DynamicComponents.DiccionarioSuenos />
       case "historialSuenos":
-        return <HistorialSuenos />
+        return <DynamicComponents.HistorialSuenos />
       case "miPerfil":
-        return <MiPerfil />
+        return <DynamicComponents.MiPerfil />
       case "relojDespertador":
-        return <RelojDespertador />
+        return <DynamicComponents.RelojDespertador />
       case "libroFreud":
-        return <LibroFreud />
+        return <DynamicComponents.LibroFreud />
       default:
-        return <Introduccion />
+        return <DynamicComponents.Introduccion />
     }
+  }
+
+  if (isLoading) {
+    return <LoadingScreen onEnter={handleEnterClick} />;
   }
 
   return (
@@ -48,7 +71,12 @@ export default function Home() {
         {/* Este componente ya no se usa en la nueva versión con rutas */}
         <Navbar seccionActiva={seccionActiva} cambiarSeccion={cambiarSeccion} />
       </div>
-      <div className="flex-grow py-6">{seccionActiva === "introduccion" ? <Introduccion /> : renderSeccion()}</div>
+      <div className="flex-grow py-6">
+        {seccionActiva === "introduccion" ? 
+          <DynamicComponents.Introduccion /> : 
+          renderSeccion()
+        }
+      </div>
     </main>
   )
 }

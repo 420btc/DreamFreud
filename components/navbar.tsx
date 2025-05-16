@@ -6,7 +6,12 @@ import { Book, Clock, History, Home, Moon, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "./theme-toggle"
 
-export default function Navbar() {
+interface NavbarProps {
+  seccionActiva?: string;
+  cambiarSeccion?: (seccion: string) => void;
+}
+
+export default function Navbar({ seccionActiva, cambiarSeccion }: NavbarProps) {
   const pathname = usePathname()
 
   const navItems = [
