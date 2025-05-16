@@ -1056,6 +1056,204 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     interpretacion: "Autoridad, reglas, conciencia, orden, o sentirse controlado o culpable.",
     categoria: "Freudiano (padre), General",
     palabrasClave: ["policía", "autoridad", "regla", "conciencia", "orden", "culpa"]
+  },
+  {
+    simbolo: "Príncipe/Princesa",
+    interpretacion: "El yo idealizado, potencial, romance, o aspectos inmaduros de la personalidad.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["príncipe", "princesa", "ideal", "potencial", "romance", "inmadurez"]
+  },
+  {
+    simbolo: "Puente",
+    interpretacion: "Transición, conexión entre dos estados o lugares, superar obstáculos, o tomar decisiones.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["puente", "transición", "conexión", "obstáculo", "decisión", "cruce"]
+  },
+  {
+    simbolo: "Puerta",
+    interpretacion: "Oportunidades, transiciones, acceso a algo nuevo, o barreras. Abierta o cerrada es significativo.",
+    categoria: "General",
+    palabrasClave: ["puerta", "oportunidad", "transición", "acceso", "barrera", "umbral"]
+  },
+  {
+    simbolo: "Reloj",
+    interpretacion: "Tiempo, urgencia, plazos, el paso de la vida, o la necesidad de prestar atención al tiempo.",
+    categoria: "General",
+    palabrasClave: ["reloj", "tiempo", "urgencia", "plazo", "vida", "atención"]
+  },
+  {
+    simbolo: "Rey/Reina",
+    interpretacion: "Autoridad, poder, control, o figuras parentales internalizadas.",
+    categoria: "Freudiano, Junguiano",
+    palabrasClave: ["rey", "reina", "autoridad", "poder", "control", "padres"]
+  },
+  {
+    simbolo: "Río",
+    interpretacion: "El flujo de la vida, emociones, tiempo, o un viaje. Cruzar un río: una transición importante.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["río", "flujo", "vida", "emoción", "tiempo", "viaje"]
+  },
+  {
+    simbolo: "Ropa",
+    interpretacion: "La imagen que se proyecta, la persona, roles sociales. Ropa sucia: necesidad de cambio; ropa nueva: nueva identidad.",
+    categoria: "Freudiano, General",
+    palabrasClave: ["ropa", "imagen", "persona", "rol", "identidad", "cambio"]
+  },
+  {
+    simbolo: "Ruinas",
+    interpretacion: "El pasado, decadencia, algo que ha terminado o necesita ser reconstruido.",
+    categoria: "General",
+    palabrasClave: ["ruina", "pasado", "decadencia", "fin", "reconstrucción", "abandono"]
+  },
+  {
+    simbolo: "Sangre",
+    interpretacion: "Energía vital, pasión, vida, muerte, herida emocional o física, o lazos familiares.",
+    categoria: "General",
+    palabrasClave: ["sangre", "energía", "pasión", "vida", "muerte", "familia"]
+  },
+  {
+    simbolo: "Sapo/Rana",
+    interpretacion: "Transformación (cuento del príncipe rana), repulsión, o fertilidad.",
+    categoria: "General",
+    palabrasClave: ["sapo", "rana", "transformación", "repulsión", "fertilidad", "cambio"]
+  },
+  {
+    simbolo: "Semillas",
+    interpretacion: "Potencial, nuevos comienzos, crecimiento, o ideas que necesitan ser cultivadas.",
+    categoria: "General",
+    palabrasClave: ["semilla", "potencial", "comienzo", "crecimiento", "idea", "cultivo"]
+  },
+  {
+    simbolo: "Sexo",
+    interpretacion: "Unión, intimidad, creatividad, deseo, o la integración de opuestos. No siempre literal.",
+    categoria: "General (Freudiano: muy central)",
+    palabrasClave: ["sexo", "unión", "intimidad", "creatividad", "deseo", "integración"]
+  },
+  {
+    simbolo: "Sí Mismo (Self)",
+    interpretacion: "El centro de la psique, totalidad, individuación, el objetivo del desarrollo psicológico.",
+    categoria: "Junguiano",
+    palabrasClave: ["sí mismo", "self", "totalidad", "individuación", "psique", "desarrollo"]
+  },
+  {
+    simbolo: "Sombra (Shadow)",
+    interpretacion: "Aspectos reprimidos o negados del yo, el 'lado oscuro', proyecciones.",
+    categoria: "Junguiano",
+    palabrasClave: ["sombra", "shadow", "reprimido", "negación", "oscuridad", "proyección"]
+  },
+  {
+    simbolo: "Sombrero",
+    interpretacion: "Rol, identidad, pensamientos, o protección.",
+    categoria: "General",
+    palabrasClave: ["sombrero", "rol", "identidad", "pensamiento", "protección", "cabeza"]
+  },
+  {
+    simbolo: "Subir/Escalar",
+    interpretacion: "Esfuerzo, ambición, superar obstáculos, o alcanzar metas.",
+    categoria: "Freudiano, General, Adleriano",
+    palabrasClave: ["subir", "escalar", "esfuerzo", "ambición", "obstáculo", "meta"]
+  },
+  {
+    simbolo: "Teatro",
+    interpretacion: "La vida como un escenario, roles que se desempeñan, o la observación de las propias acciones y emociones.",
+    categoria: "General",
+    palabrasClave: ["teatro", "escenario", "rol", "actuación", "observación", "emoción"]
+  },
+  {
+    simbolo: "Telaraña",
+    interpretacion: "Sentirse atrapado, situaciones complicadas, o redes de conexión.",
+    categoria: "General",
+    palabrasClave: ["telaraña", "atrapado", "complicación", "red", "conexión", "trampa"]
+  },
+  {
+    simbolo: "Tesoro",
+    interpretacion: "Algo de gran valor (interno o externo), el yo verdadero, talentos ocultos, o metas importantes.",
+    categoria: "Freudiano, Junguiano",
+    palabrasClave: ["tesoro", "valor", "yo", "talento", "meta", "importante"]
+  },
+  {
+    simbolo: "Tierra/Suelo",
+    interpretacion: "Realidad, fundamentos, estabilidad, naturaleza, o la madre tierra.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["tierra", "suelo", "realidad", "estabilidad", "naturaleza", "madre tierra"]
+  },
+  {
+    simbolo: "Tigre",
+    interpretacion: "Poder, agresión, pasión, o belleza peligrosa.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["tigre", "poder", "agresión", "pasión", "belleza", "peligro"]
+  },
+  {
+    simbolo: "Tinta",
+    interpretacion: "Comunicación, autoexpresión, o dejar una marca permanente.",
+    categoria: "General",
+    palabrasClave: ["tinta", "comunicación", "expresión", "marca", "permanencia", "escritura"]
+  },
+  {
+    simbolo: "Tormenta",
+    interpretacion: "Conflicto emocional, caos, ira, o una crisis que puede llevar a la limpieza y claridad.",
+    categoria: "General",
+    palabrasClave: ["tormenta", "conflicto", "caos", "ira", "crisis", "claridad"]
+  },
+  {
+    simbolo: "Toro",
+    interpretacion: "Fuerza, virilidad, terquedad, o agresión.",
+    categoria: "General",
+    palabrasClave: ["toro", "fuerza", "virilidad", "terquedad", "agresión", "animal"]
+  },
+  {
+    simbolo: "Tortuga",
+    interpretacion: "Lentitud, perseverancia, sabiduría ancestral, protección, o el inconsciente colectivo animal.",
+    categoria: "Junguiano",
+    palabrasClave: ["tortuga", "lentitud", "perseverancia", "sabiduría", "protección", "inconsciente"]
+  },
+  {
+    simbolo: "Trabajo/Empleo",
+    interpretacion: "Responsabilidades, identidad profesional, estrés, o la forma en que uno contribuye al mundo.",
+    categoria: "General, Adleriano",
+    palabrasClave: ["trabajo", "empleo", "responsabilidad", "identidad", "estrés", "contribución"]
+  },
+  {
+    simbolo: "Tren",
+    interpretacion: "Viaje en la vida, destino, conformidad (seguir las vías), o oportunidades. Perder el tren: oportunidades perdidas.",
+    categoria: "General",
+    palabrasClave: ["tren", "viaje", "destino", "conformidad", "oportunidad", "vía"]
+  },
+  {
+    simbolo: "Triángulo",
+    interpretacion: "Unidad de tres (mente-cuerpo-espíritu), conflicto (triángulo amoroso), o estabilidad.",
+    categoria: "General",
+    palabrasClave: ["triángulo", "unidad", "mente", "cuerpo", "espíritu", "conflicto"]
+  },
+  {
+    simbolo: "Tumba/Sepulcro",
+    interpretacion: "Finales, el pasado enterrado, o la necesidad de dejar ir algo.",
+    categoria: "General",
+    palabrasClave: ["tumba", "sepulcro", "final", "pasado", "enterrar", "dejar ir"]
+  },
+  {
+    simbolo: "Túnel",
+    interpretacion: "Transición, paso a lo desconocido, o un período de incertidumbre antes de alcanzar la 'luz al final del túnel'.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["túnel", "transición", "desconocido", "incertidumbre", "luz", "camino"]
+  },
+  {
+    simbolo: "Universidad",
+    interpretacion: "Aprendizaje superior, búsqueda de conocimiento, o un período de desarrollo y exploración.",
+    categoria: "General, Adleriano",
+    palabrasClave: ["universidad", "aprendizaje", "conocimiento", "desarrollo", "exploración", "educación"]
+  },
+  {
+    simbolo: "Uvas",
+    interpretacion: "Abundancia, placer, o celebración (vino).",
+    categoria: "General",
+    palabrasClave: ["uva", "uvas", "abundancia", "placer", "celebración", "vino"]
+  },
+  {
+    simbolo: "Vampiro",
+    interpretacion: "Algo o alguien que drena energía vital, miedo a la pérdida de vitalidad, o aspectos seductores y peligrosos.",
+    categoria: "General",
+    palabrasClave: ["vampiro", "energía", "vitalidad", "miedo", "seducción", "peligro"]
   }
 ];
 
