@@ -930,6 +930,132 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     interpretacion: "Problemas, tensión, sentirse atado o restringido, o una conexión compleja.",
     categoria: "General",
     palabrasClave: ["nudo", "problema", "tensión", "atadura", "restricción", "conexión"]
+  },
+  {
+    simbolo: "Números",
+    interpretacion: "Pueden tener significados personales, simbólicos (según la numerología), o representar orden/caos.",
+    categoria: "Freudiano (3), General",
+    palabrasClave: ["número", "números", "numerología", "orden", "caos", "significado"]
+  },
+  {
+    simbolo: "Océano",
+    interpretacion: "El inconsciente colectivo, la inmensidad de las emociones, lo desconocido, o el origen de la vida.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["océano", "mar", "inconsciente", "emoción", "inmensidad", "origen"]
+  },
+  {
+    simbolo: "Oficina",
+    interpretacion: "Trabajo, responsabilidades, estructura, o a veces, monotonía y estrés.",
+    categoria: "General",
+    palabrasClave: ["oficina", "trabajo", "responsabilidad", "estructura", "monotonía", "estrés"]
+  },
+  {
+    simbolo: "Ojo(s)",
+    interpretacion: "Visión, percepción, conciencia, alma ('las ventanas del alma'), o sentirse observado.",
+    categoria: "General",
+    palabrasClave: ["ojo", "ojos", "visión", "percepción", "conciencia", "alma"]
+  },
+  {
+    simbolo: "Ola",
+    interpretacion: "Emociones poderosas, cambios repentinos, o fuerza abrumadora.",
+    categoria: "General",
+    palabrasClave: ["ola", "olas", "emoción", "cambio", "fuerza", "mar"]
+  },
+  {
+    simbolo: "Oro",
+    interpretacion: "Valor, riqueza (material o espiritual), pureza, el yo superior.",
+    categoria: "Freudiano (contexto específico), Junguiano, General",
+    palabrasClave: ["oro", "valor", "riqueza", "pureza", "yo superior", "tesoro"]
+  },
+  {
+    simbolo: "Oscuridad",
+    interpretacion: "El inconsciente, miedo, lo desconocido, potencial oculto, o un período de confusión.",
+    categoria: "Junguiano, General",
+    palabrasClave: ["oscuridad", "oscuridad", "inconsciente", "miedo", "desconocido", "potencial"]
+  },
+  {
+    simbolo: "Pájaro",
+    interpretacion: "Libertad, trascendencia, mensajes, el alma, o aspiraciones. Diferentes pájaros tienen simbolismos específicos.",
+    categoria: "General",
+    palabrasClave: ["pájaro", "ave", "libertad", "trascendencia", "alma", "aspiración"]
+  },
+  {
+    simbolo: "Pan",
+    interpretacion: "Nutrición básica, sustento (físico o espiritual), o compartir.",
+    categoria: "General",
+    palabrasClave: ["pan", "alimento", "nutrición", "sustento", "compartir", "eucaristía"]
+  },
+  {
+    simbolo: "Pantano",
+    interpretacion: "Sentirse atascado, confusión, emociones negativas estancadas, o una situación difícil de la que salir.",
+    categoria: "General",
+    palabrasClave: ["pantano", "atascado", "confusión", "emoción", "estancamiento", "dificultad"]
+  },
+  {
+    simbolo: "Paquete/Regalo",
+    interpretacion: "Sorpresas, talentos ocultos, oportunidades, o algo que se recibe o se da.",
+    categoria: "General",
+    palabrasClave: ["paquete", "regalo", "sorpresa", "talento", "oportunidad", "obsequio"]
+  },
+  {
+    simbolo: "Parálisis",
+    interpretacion: "Incapacidad para actuar o tomar decisiones, sentirse atrapado o indefenso, a veces relacionado con la parálisis del sueño.",
+    categoria: "General, Adleriano",
+    palabrasClave: ["parálisis", "inmovilidad", "indecisión", "atrapado", "indefensión", "sueño"]
+  },
+  {
+    simbolo: "Payaso",
+    interpretacion: "Alegría fingida, ocultar verdaderos sentimientos, miedo (coulrofobia), o el arquetipo del bufón.",
+    categoria: "Junguiano (Trickster), General",
+    palabrasClave: ["payaso", "bufón", "alegría", "máscara", "miedo", "trickster"]
+  },
+  {
+    simbolo: "Pelo (vello corporal)",
+    interpretacion: "Instintos, naturaleza animal, o virilidad/feminidad.",
+    categoria: "General",
+    palabrasClave: ["pelo", "vello", "instinto", "naturaleza", "virilidad", "feminidad"]
+  },
+  {
+    simbolo: "Perderse",
+    interpretacion: "Incertidumbre, falta de dirección, confusión, o la búsqueda de un nuevo camino.",
+    categoria: "General, Adleriano",
+    palabrasClave: ["perderse", "perdido", "incertidumbre", "dirección", "confusión", "camino"]
+  },
+  {
+    simbolo: "Perro",
+    interpretacion: "Lealtad, amistad, protección, instintos. Un perro agresivo: traición o miedo.",
+    categoria: "Freudiano (contexto específico), General",
+    palabrasClave: ["perro", "can", "lealtad", "amistad", "protección", "instinto"]
+  },
+  {
+    simbolo: "Persecución (ser perseguido)",
+    interpretacion: "Ansiedad, evitación de un problema o emoción, sentirse amenazado por algo o alguien (interno o externo).",
+    categoria: "Freudiano, General",
+    palabrasClave: ["persecución", "perseguir", "ansiedad", "amenaza", "huida", "miedo"]
+  },
+  {
+    simbolo: "Persona (arquetipo)",
+    interpretacion: "La máscara social que se presenta al mundo, que puede diferir del verdadero yo.",
+    categoria: "Junguiano",
+    palabrasClave: ["persona", "máscara", "personalidad", "social", "yo", "arquetipo"]
+  },
+  {
+    simbolo: "Pez",
+    interpretacion: "El inconsciente, emociones, intuición, fertilidad, o conocimiento oculto.",
+    categoria: "Freudiano (contexto específico), Junguiano, General",
+    palabrasClave: ["pez", "peces", "inconsciente", "emoción", "intuición", "fertilidad"]
+  },
+  {
+    simbolo: "Piedras/Rocas",
+    interpretacion: "Obstáculos, fuerza, estabilidad, o cargas emocionales.",
+    categoria: "General",
+    palabrasClave: ["piedra", "roca", "obstáculo", "fuerza", "estabilidad", "carga"]
+  },
+  {
+    simbolo: "Policía",
+    interpretacion: "Autoridad, reglas, conciencia, orden, o sentirse controlado o culpable.",
+    categoria: "Freudiano (padre), General",
+    palabrasClave: ["policía", "autoridad", "regla", "conciencia", "orden", "culpa"]
   }
 ];
 
