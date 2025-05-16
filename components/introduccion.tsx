@@ -4,12 +4,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Book, Brain, History, Moon } from "lucide-react"
 import Link from "next/link"
+import { TituloConSparkles } from "@/components/ui/TituloConSparkles"
 
 export default function Introduccion() {
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
       <div className="max-w-3xl w-full text-center space-y-8 py-8">
-        <h1 className="text-4xl font-bold tracking-tight">La Interpretación de los Sueños</h1>
+        {/* Título con efecto sparkles */}
+        <div className="mb-4">
+          <TituloConSparkles />
+        </div>
         <h2 className="text-2xl font-semibold text-muted-foreground">Basado en la obra de Sigmund Freud</h2>
 
         <p className="text-lg">
