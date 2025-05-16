@@ -1305,24 +1305,117 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   }
 ];
 
-export function buscarSimbolos(texto: string): SimboloFreudiano[] {
-  if (!texto) return [];
+// Función para limpiar y tokenizar el texto
+function limpiarYTokenizar(texto: string): string[] {
+  // Eliminar signos de puntuación y dividir en palabras
+  return texto
+    .toLowerCase()
+    .replace(/[.,;:!?¡¿"'()\[\]{}]/g, '') // Eliminar signos de puntuación
+    .split(/\s+/) // Dividir por espacios
+    .filter(palabra => palabra.length > 0); // Filtrar palabras vacías
+}
 
-  const textoLower = texto.toLowerCase();
-  const simbolosEncontrados: SimboloFreudiano[] = [];
-
-  simbolosFreudianos.forEach((simbolo: SimboloFreudiano) => {
-    // Verificar si alguna palabra clave del símbolo está en el texto
-    const encontrado = simbolo.palabrasClave.some((palabra: string) => 
-      textoLower.includes(palabra.toLowerCase())
-    );
-
-    if (encontrado && !simbolosEncontrados.some((s) => s.simbolo === simbolo.simbolo)) {
-      simbolosEncontrados.push(simbolo);
+// Función para calcular la relevancia de un símbolo en el texto
+function calcularRelevancia(simbolo: SimboloFreudiano, palabras: string[]): number {
+  let puntuacion = 0;
+  
+  // Contar coincidencias de palabras clave
+  simbolo.palabrasClave.forEach(palabraClave => {
+    const palabraClaveLower = palabraClave.toLowerCase();
+    // Buscar coincidencias exactas de palabras completas
+    if (palabras.includes(palabraClaveLower)) {
+      puntuacion += 2; // Puntuación más alta para coincidencias exactas
+    } else if (palabras.some(p => p.includes(palabraClaveLower))) {
+      puntuacion += 1; // Puntuación más baja para coincidencias parciales
     }
   });
 
-  return simbolosEncontrados;
+  return puntuacion;
+}
+
+// Función para generar un resumen de análisis basado en los símbolos encontrados
+export function generarAnalisisFreudiano(simbolos: SimboloFreudiano[]): string {
+  if (simbolos.length === 0) {
+    return "No se encontraron símbolos freudianos significativos en este sueño. " +
+           "Esto podría deberse a que el contenido es muy simbólico o abstracto. " +
+           "Considera reflexionar sobre los elementos del sueño que más te llamaron la atención.";
+  }
+
+  // Agrupar símbolos por categoría
+  const porCategoria: Record<string, SimboloFreudiano[]> = {};
+  simbolos.forEach(simbolo => {
+    const categoria = simbolo.categoria || 'General';
+    if (!porCategoria[categoria]) {
+      porCategoria[categoria] = [];
+    }
+    porCategoria[categoria].push(simbolo);
+  });
+
+  // Construir el análisis
+  let analisis = "## Análisis Freudiano del Sueño\n\n";
+  
+  analisis += "Basado en los símbolos encontrados en tu sueño, aquí tienes un análisis según la teoría freudiana:\n\n";
+  
+  // Añadir sección por categoría
+  Object.entries(porCategoria).forEach(([categoria, simbolosCategoria]) => {
+    analisis += `### ${categoria}\n`;
+    
+    simbolosCategoria.forEach(simbolo => {
+      analisis += `- **${simbolo.simbolo}**: ${simbolo.interpretacion}\n`;
+    });
+    
+    analisis += "\n";
+  });
+
+  // Añadir conclusión
+  analisis += "### Interpretación General\n";
+  analisis += "Recuerda que en el psicoanálisis freudiano, los sueños son considerados " +
+             "como la vía regia hacia el inconsciente. Los símbolos aquí identificados pueden representar " +
+             "deseos reprimidos, conflictos internos o aspectos de tu personalidad que merecen atención. " +
+             "Te animamos a reflexionar sobre cómo estos elementos podrían relacionarse con tus experiencias " +
+             "y emociones en la vida despierta.";
+
+  return analisis;
+}
+
+export function buscarSimbolos(texto: string): {simbolos: SimboloFreudiano[], analisis: string} {
+  if (!texto) return { simbolos: [], analisis: '' };
+
+  const palabras = limpiarYTokenizar(texto);
+  const simbolosConPuntuacion: {simbolo: SimboloFreudiano, puntuacion: number}[] = [];
+
+  // Calcular puntuación para cada símbolo
+  simbolosFreudianos.forEach(simbolo => {
+    const puntuacion = calcularRelevancia(simbolo, palabras);
+    if (puntuacion > 0) {
+      // Verificar si ya existe un símbolo similar (mismo nombre)
+      const indiceExistente = simbolosConPuntuacion.findIndex(s => 
+        s.simbolo.simbolo === simbolo.simbolo
+      );
+      
+      if (indiceExistente === -1) {
+        // Si no existe, agregarlo
+        simbolosConPuntuacion.push({ simbolo, puntuacion });
+      } else if (puntuacion > simbolosConPuntuacion[indiceExistente].puntuacion) {
+        // Si existe y tiene mayor puntuación, reemplazarlo
+        simbolosConPuntuacion[indiceExistente] = { simbolo, puntuacion };
+      }
+    }
+  });
+
+  // Ordenar por puntuación (mayor a menor)
+  simbolosConPuntuacion.sort((a, b) => b.puntuacion - a.puntuacion);
+  
+  // Extraer solo los símbolos
+  const simbolosEncontrados = simbolosConPuntuacion.map(item => item.simbolo);
+  
+  // Generar análisis
+  const analisis = generarAnalisisFreudiano(simbolosEncontrados);
+
+  return {
+    simbolos: simbolosEncontrados,
+    analisis
+  };
 }
 
 // Función para obtener todas las categorías disponibles

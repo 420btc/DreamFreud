@@ -16,6 +16,7 @@ interface AnalizarUltimoSuenoProps {
 export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProps) {
   const [sueno, setSueno] = useState<Sueno | null>(null)
   const [simbolosEncontrados, setSimbolosEncontrados] = useState<SimboloFreudiano[]>([])
+  const [analisisFreudiano, setAnalisisFreudiano] = useState<string>('')
   const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
@@ -47,10 +48,11 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
           if (suenoParaAnalizar) {
             setSueno(suenoParaAnalizar)
 
-            // Buscar símbolos en el texto del sueño
+            // Buscar símbolos en el texto del sueño y generar análisis
             if (suenoParaAnalizar.texto) {
-              const simbolos = buscarSimbolos(suenoParaAnalizar.texto)
+              const { simbolos, analisis } = buscarSimbolos(suenoParaAnalizar.texto)
               setSimbolosEncontrados(simbolos)
+              setAnalisisFreudiano(analisis)
             }
           }
         }
@@ -185,32 +187,56 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
               <CardDescription>Interpretación basada en los principios del psicoanálisis</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-medium">Contenido Manifiesto vs. Contenido Latente</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Según Freud, el contenido manifiesto es lo que recuerdas de tu sueño, mientras que el contenido
-                    latente es el significado oculto. Los símbolos encontrados en tu sueño pueden indicar deseos o
-                    preocupaciones inconscientes.
-                  </p>
+              <div className="space-y-6">
+                <div className="prose max-w-none">
+                  {analisisFreudiano.split('\n').map((parrafo, index) => {
+                    // Si el párrafo comienza con ###, es un encabezado de categoría
+                    if (parrafo.startsWith('###')) {
+                      return (
+                        <h3 key={index} className="text-lg font-semibold mt-6 mb-3">
+                          {parrafo.replace(/^#+/g, '').trim()}
+                        </h3>
+                      )
+                    }
+                    // Si el párrafo comienza con ##, es un título principal
+                    if (parrafo.startsWith('##')) {
+                      return (
+                        <h2 key={index} className="text-xl font-bold mt-8 mb-4 border-b pb-2">
+                          {parrafo.replace(/^#+/g, '').trim()}
+                        </h2>
+                      )
+                    }
+                    // Si el párrafo está vacío, no renderizar nada
+                    if (!parrafo.trim()) return null;
+                    // Párrafo normal
+                    return (
+                      <p key={index} className="mb-4 text-foreground">
+                        {parrafo.trim()}
+                      </p>
+                    )
+                  })}
                 </div>
-
-                <div>
-                  <h3 className="font-medium">Posible Cumplimiento de Deseos</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Freud creía que los sueños representan deseos reprimidos. Considera qué deseos podrían estar
-                    expresándose simbólicamente en este sueño.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-medium">Mecanismos del Sueño</h3>
-                  <p className="text-sm text-muted-foreground mt-1">Tu sueño puede mostrar signos de:</p>
-                  <ul className="list-disc list-inside text-sm text-muted-foreground mt-1 space-y-1">
-                    <li>Condensación: múltiples ideas representadas por una sola imagen</li>
-                    <li>Desplazamiento: emociones transferidas de un objeto a otro</li>
-                    <li>Representabilidad: transformación de pensamientos en imágenes visuales</li>
-                    <li>Elaboración secundaria: intento de dar coherencia lógica al sueño</li>
+                
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-medium text-lg mb-3">Mecanismos del Sueño</h3>
+                  <p className="text-muted-foreground mb-3">Tu sueño puede mostrar signos de:</p>
+                  <ul className="space-y-2">
+                    <li className="flex">
+                      <span className="font-medium min-w-[120px]">Condensación:</span>
+                      <span>Múltiples ideas representadas por una sola imagen</span>
+                    </li>
+                    <li className="flex">
+                      <span className="font-medium min-w-[120px]">Desplazamiento:</span>
+                      <span>Emociones transferidas de un objeto a otro</span>
+                    </li>
+                    <li className="flex">
+                      <span className="font-medium min-w-[120px]">Representabilidad:</span>
+                      <span>Transformación de pensamientos en imágenes visuales</span>
+                    </li>
+                    <li className="flex">
+                      <span className="font-medium min-w-[120px]">Elaboración secundaria:</span>
+                      <span>Intento de dar coherencia lógica al sueño</span>
+                    </li>
                   </ul>
                 </div>
               </div>
