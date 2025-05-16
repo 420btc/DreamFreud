@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,12 +9,14 @@ import type { Sueno } from "@/types/sueno"
 import { buscarSimbolos, type SimboloFreudiano } from "@/lib/simbolos-freudianos"
 import Link from "next/link"
 
-export default function AnalizarUltimoSueno() {
+interface AnalizarUltimoSuenoProps {
+  suenoId?: string
+}
+
+export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProps) {
   const [sueno, setSueno] = useState<Sueno | null>(null)
   const [simbolosEncontrados, setSimbolosEncontrados] = useState<SimboloFreudiano[]>([])
   const [cargando, setCargando] = useState(true)
-  const searchParams = useSearchParams()
-  const suenoId = searchParams.get("id")
 
   useEffect(() => {
     try {
