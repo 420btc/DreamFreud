@@ -808,7 +808,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Insectos",
     interpretacion: "Pequeñas molestias, ansiedades, o cosas que 'fastidian'. El tipo de insecto puede dar más detalles.",
-    categoria: "General",
+    categoria: "Animales",
     palabrasClave: ["insecto", "bicho", "molestia", "ansiedad", "pequeño", "fastidio"]
   },
   {
@@ -976,7 +976,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Pájaro",
     interpretacion: "Libertad, trascendencia, mensajes, el alma, o aspiraciones. Diferentes pájaros tienen simbolismos específicos.",
-    categoria: "General",
+    categoria: "Animales",
     palabrasClave: ["pájaro", "ave", "libertad", "trascendencia", "alma", "aspiración"]
   },
   {
@@ -1042,7 +1042,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Pez",
     interpretacion: "El inconsciente, emociones, intuición, fertilidad, o conocimiento oculto.",
-    categoria: "Freudiano (contexto específico), Junguiano, General",
+    categoria: "Animales",
     palabrasClave: ["pez", "peces", "inconsciente", "emoción", "intuición", "fertilidad"]
   },
   {
@@ -1114,7 +1114,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Sapo/Rana",
     interpretacion: "Transformación (cuento del príncipe rana), repulsión, o fertilidad.",
-    categoria: "General",
+    categoria: "Animales",
     palabrasClave: ["sapo", "rana", "transformación", "repulsión", "fertilidad", "cambio"]
   },
   {
@@ -1180,7 +1180,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Tigre",
     interpretacion: "Poder, agresión, pasión, o belleza peligrosa.",
-    categoria: "Junguiano, General",
+    categoria: "Animales",
     palabrasClave: ["tigre", "poder", "agresión", "pasión", "belleza", "peligro"]
   },
   {
@@ -1204,7 +1204,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Tortuga",
     interpretacion: "Lentitud, perseverancia, sabiduría ancestral, protección, o el inconsciente colectivo animal.",
-    categoria: "Junguiano",
+    categoria: "Animales",
     palabrasClave: ["tortuga", "lentitud", "perseverancia", "sabiduría", "protección", "inconsciente"]
   },
   {
@@ -1254,6 +1254,54 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     interpretacion: "Algo o alguien que drena energía vital, miedo a la pérdida de vitalidad, o aspectos seductores y peligrosos.",
     categoria: "General",
     palabrasClave: ["vampiro", "energía", "vitalidad", "miedo", "seducción", "peligro"]
+  },
+  {
+    simbolo: "Vela",
+    interpretacion: "Luz en la oscuridad, esperanza, espiritualidad, o el paso del tiempo (vela que se consume).",
+    categoria: "General",
+    palabrasClave: ["vela", "luz", "esperanza", "espiritualidad", "tiempo", "consumo"]
+  },
+  {
+    simbolo: "Ventana",
+    interpretacion: "Perspectiva, oportunidades, la forma en que se ve el mundo o se es visto por él.",
+    categoria: "General",
+    palabrasClave: ["ventana", "perspectiva", "oportunidad", "visión", "mundo", "mirada"]
+  },
+  {
+    simbolo: "Verano",
+    interpretacion: "Plenitud, calidez, crecimiento, o un tiempo de ocio y disfrute.",
+    categoria: "General",
+    palabrasClave: ["verano", "plenitud", "calidez", "crecimiento", "ocio", "disfrute"]
+  },
+  {
+    simbolo: "Volar",
+    interpretacion: "Libertad, trascendencia, ambición, escapar de problemas, o una nueva perspectiva.",
+    categoria: "Freudiano, General, Adleriano",
+    palabrasClave: ["volar", "libertad", "trascendencia", "ambición", "escapar", "perspectiva"]
+  },
+  {
+    simbolo: "Volcán",
+    interpretacion: "Emociones reprimidas a punto de estallar, ira contenida, o un poder creativo inmenso.",
+    categoria: "Lugares",
+    palabrasClave: ["volcán", "emoción", "ira", "represión", "poder", "creatividad"]
+  },
+  {
+    simbolo: "Voz",
+    interpretacion: "Comunicación, autoexpresión, la conciencia, o un mensaje importante (interno o externo).",
+    categoria: "General",
+    palabrasClave: ["voz", "comunicación", "expresión", "conciencia", "mensaje", "importante"]
+  },
+  {
+    simbolo: "Zapatos",
+    interpretacion: "El camino en la vida, la postura ante el mundo, o la preparación para un viaje.",
+    categoria: "Objetos",
+    palabrasClave: ["zapato", "zapatos", "camino", "vida", "postura", "viaje"]
+  },
+  {
+    simbolo: "Zoo",
+    interpretacion: "Instintos controlados o reprimidos, sentirse enjaulado, o la necesidad de organizar aspectos caóticos de la vida.",
+    categoria: "Lugares",
+    palabrasClave: ["zoo", "zoológico", "instinto", "control", "jaula", "caos"]
   }
 ];
 
