@@ -73,8 +73,8 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
 
   if (cargando) {
     return (
-      <div className="container mx-auto p-4">
-        <div className="flex justify-center items-center h-64">
+      <div className="container mx-auto p-40">
+        <div className="flex justify-center items-center">
           <p>Cargando análisis de sueño...</p>
         </div>
       </div>
@@ -100,7 +100,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Análisis de Sueño</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center mt-20">Análisis de Sueño</h1>
 
       <Card className="mb-6">
         <CardHeader>
