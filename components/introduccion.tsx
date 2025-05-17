@@ -6,31 +6,27 @@ import Link from "next/link"
 import { TituloConSparkles } from "@/components/ui/TituloConSparkles"
 import { GradientCard } from "@/components/ui/gradient-card"
 import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
+import { HeroSection } from "@/components/hero-odyssey";
 
 export default function Introduccion() {
   return (
-    <div className="container mx-auto p-4 flex flex-col items-center">
-      <div className="max-w-3xl w-full text-center space-y-2">
-         {/* Contenido principal */}
-      <div className="relative z-20 w-full">
-        <div className="w-fit mx-auto flex flex-col items-center">
-          <h1 className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-5xl font-bold">
-            La interpretación de los Sueños
-          </h1>
-          {/* Línea blanca exactamente debajo del texto */}
-          <div className="mt-1 w-full h-[2px] bg-gradient-to-r from-transparent via-white to-transparent blur-sm" />
-          <div className="-mt-2 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-        </div>
+    <div className="min-h-screen bg-black text-white">
+      {/* Hero Section */}
+      <div className="relative -mt-6">
+        <HeroSection />
       </div>
-        {/* Título con efecto sparkles */}
-        <div className="mb-4 -mt-8">
-          <TituloConSparkles />
+      
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12 relative z-10">
+        <div className="text-center mb-12">
+          <TituloConSparkles>
+            Tu Diario de Sueños
+          </TituloConSparkles>
+          <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto">
+            Explora el fascinante mundo de tus sueños con herramientas modernas basadas en las teorías de
+            Sigmund Freud, el padre del psicoanálisis.
+          </p>
         </div>
-
-        <p className="text-lg">
-          Bienvenido a esta aplicación interactiva para el registro y análisis de tus sueños basada en las teorías de
-          Sigmund Freud, el padre del psicoanálisis.
-        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {/* Tarjeta 1 */}
@@ -123,28 +119,30 @@ export default function Introduccion() {
         </div>
 
         {/* Sección del Asistente de IA */}
-        <div className="w-full max-w-6xl mt-12 mb-12">
+        <div className="w-full max-w-6xl mx-auto mt-20 mb-12">
           <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-xl backdrop-blur-sm">
-            <div className="flex items-center mb-6">
+            <div className="flex items-center justify-center mb-6">
               <Bot className="h-8 w-8 mr-3 text-blue-400" />
               <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 Asistente de Sueños Freudiano
               </h3>
             </div>
-            <p className="text-muted-foreground text-lg mb-6 max-w-3xl">
-              Explora el significado de tus sueños con la ayuda de nuestra IA entrenada en la teoría psicoanalítica de Freud. Haz preguntas sobre símbolos, interpretaciones o conceptos freudianos.
+            <p className="text-gray-300 text-lg mb-6 max-w-3xl mx-auto text-center">
+              Explora el significado de tus sueños con la ayuda de nuestra IA entrenada en la teoría psicoanalítica de Freud. 
+              Haz preguntas sobre símbolos, interpretaciones o conceptos freudianos.
             </p>
-            <div className="bg-background/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-border/50 min-h-[400px] flex flex-col">
+            <div className="bg-black/50 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-gray-800/50 min-h-[400px] flex flex-col">
               <AIMessageBarWrapper />
             </div>
-            <p className="text-sm text-muted-foreground mt-3 text-center">
-              No se guarda ningún mensaje en la base de datos. La IA puede cometer errores. Usa tu criterio y consulta con un profesional para interpretaciones clínicas.
+            <p className="text-sm text-gray-500 mt-4 text-center">
+              No se guarda ningún mensaje en la base de datos. La IA puede cometer errores. 
+              Usa tu criterio y consulta con un profesional para interpretaciones clínicas.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-muted-foreground italic">
+        <div className="mt-12 text-center">
+          <p className="text-gray-400 italic text-lg">
             "Los sueños son la vía regia hacia el inconsciente." - Sigmund Freud
           </p>
         </div>

@@ -2,7 +2,11 @@
 import React from "react";
 import { SparklesCore } from "@/components/ui/sparkles";
 
-export function TituloConSparkles() {
+interface TituloConSparklesProps {
+  children: React.ReactNode;
+}
+
+export function TituloConSparkles({ children }: TituloConSparklesProps) {
   return (
     <div className="w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md relative">
       {/* Capa de partículas de fondo */}
