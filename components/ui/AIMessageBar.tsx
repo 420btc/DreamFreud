@@ -177,13 +177,13 @@ export const AIMessageBar = () => {
     return (
       <div 
         key={index} 
-        className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}
+        className={`flex w-full ${isUser ? 'justify-end' : 'justify-center'} mb-4 px-4`}
       >
         <div 
-          className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+          className={`w-full max-w-2xl px-6 py-3 rounded-lg ${
             isUser 
-              ? 'bg-blue-600 text-white rounded-br-none' 
-              : 'bg-black text-white rounded-bl-none'
+              ? 'bg-blue-600 text-white rounded-br-none max-w-md' 
+              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto'
           }`}
         >
           {message.isLoading ? (
