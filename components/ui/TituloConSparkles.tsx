@@ -30,17 +30,7 @@ export function TituloConSparkles() {
         />
       </div>
       
-      {/* Contenido principal */}
-      <div className="relative z-20 w-full">
-        <div className="w-fit mx-auto flex flex-col items-center">
-          <h1 className="md:text-4xl text-xl lg:text-5xl font-bold text-center text-white relative z-20">
-            La interpretación de los Sueños
-          </h1>
-          {/* Línea azul exactamente debajo del texto */}
-          <div className="mt-1 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent blur-sm" />
-          <div className="-mt-1 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-        </div>
-      </div>
+      
       
       {/* Espacio para el efecto de partículas */}
       <div className="w-[40rem] h-40 relative">

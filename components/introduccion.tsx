@@ -14,19 +14,29 @@ import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
 export default function Introduccion() {
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
-      <div className="max-w-3xl w-full text-center space-y-2 py-8">
+      <div className="max-w-3xl w-full text-center space-y-2">
+         {/* Contenido principal */}
+      <div className="relative z-20 w-full">
+        <div className="w-fit mx-auto flex flex-col items-center">
+          <h1 className="md:text-5xl text-xl lg:text-5xl font-bold text-center text-white relative z-20">
+            La interpretación de los Sueños
+          </h1>
+          {/* Línea azul exactamente debajo del texto */}
+          <div className="mt-1 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent blur-sm" />
+          <div className="-mt-2 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+        </div>
+      </div>
         {/* Título con efecto sparkles */}
-        <div className="mb-1">
+        <div className="mb-4 -mt-8">
           <TituloConSparkles />
         </div>
-        <h2 className="text-2xl font-semibold text-muted-foreground mb-8">Basado en la obra de Sigmund Freud</h2>
 
         <p className="text-lg">
           Bienvenido a esta aplicación interactiva para el registro y análisis de tus sueños basada en las teorías de
           Sigmund Freud, el padre del psicoanálisis.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
 
           {/* Tarjeta 1 */}
           <div className="p-[1.5px] rounded-2xl" style={{background: 'conic-gradient(at top left, #3b82f6 10%, transparent 40%, #3b82f6 90%, transparent 100%)'}}>
@@ -60,7 +70,7 @@ export default function Introduccion() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-center mb-4">
-                  Descubre el significado de tus sueños según las teorías freudianas.
+                  Descubre el significado de tus sueños según las teorías mas comunes, o incluso las mas raras.
                 </CardDescription>
                 <Link href="/analizar" className="w-full">
                   <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
