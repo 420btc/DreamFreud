@@ -37,16 +37,16 @@ export default function Introduccion() {
             <GradientCard>
               <div className="h-full flex flex-col p-6">
                 <div className="flex items-center justify-center mb-4">
-                  <Book className="mr-2 h-6 w-6 text-blue-400" />
+                  <Book className="mr-2 h-6 w-6 text-gray-400" />
                   <h3 className="text-xl font-semibold text-white">
                     Registra tus Sueños
                   </h3>
                 </div>
-                <p className="text-gray-300 text-center mb-6 flex-grow">
+                <p className="text-gray-300 text-center mb-6 flex-grow mt-1">
                   Mantén un diario de tus sueños para descubrir patrones y significados ocultos.
                 </p>
                 <Link href="/registrar" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white">
+                  <Button className="w-full bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white mt-4">
                     Registrar un Sueño
                   </Button>
                 </Link>
@@ -68,7 +68,7 @@ export default function Introduccion() {
                   Descubre el significado de tus sueños según las teorías más comunes, o incluso las más raras.
                 </p>
                 <Link href="/analizar" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white">
+                  <Button className="w-full bg-gradient-to-r from-gray-800 to-gray-600 hover:from-gray-700 hover:to-gray-500 text-white -mt-1">
                     Analizar Último Sueño
                   </Button>
                 </Link>
@@ -81,16 +81,16 @@ export default function Introduccion() {
             <GradientCard>
               <div className="h-full flex flex-col p-6">
                 <div className="flex items-center justify-center mb-4">
-                  <Moon className="mr-2 h-6 w-6 text-indigo-400" />
-                  <h3 className="text-xl font-semibold text-white -mt-2">
+                  <Moon className="mr-2 h-6 w-6 text-indigo-400 -mt-4" />
+                  <h3 className="text-xl font-semibold text-white -mt-1">
                     Diccionario de Símbolos
                   </h3>
                 </div>
-                <p className="text-gray-300 text-center mb-6 flex-grow -mt-4">
+                <p className="text-gray-300 text-center mb-6 flex-grow">
                   Explora el significado de los símbolos oníricos según Freud.
                 </p>
                 <Link href="/diccionario" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white -mt-1">
+                  <Button className="w-full bg-gradient-to-r from-gray-700 to-gray-500 hover:from-gray-600 hover:to-gray-400 text-white -mt-1">
                     Consultar Diccionario
                   </Button>
                 </Link>
@@ -104,7 +104,7 @@ export default function Introduccion() {
               <div className="h-full flex flex-col p-6">
                 <div className="flex items-center justify-center mb-4">
                   <History className="mr-2 h-6 w-6 text-pink-400" />
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-xl font-semibold text-white -mt-2">
                     Historial de Sueños
                   </h3>
                 </div>
@@ -112,7 +112,7 @@ export default function Introduccion() {
                   Revisa todos tus sueños anteriores y sus interpretaciones.
                 </p>
                 <Link href="/historial" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white">
+                  <Button className="w-full bg-gradient-to-r from-gray-600 to-gray-400 hover:from-gray-500 hover:to-gray-300 text-white">
                     Ver Historial
                   </Button>
                 </Link>

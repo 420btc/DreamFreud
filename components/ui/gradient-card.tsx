@@ -66,40 +66,39 @@ export const GradientCard: React.FC<GradientCardProps> = ({ children, className 
       <motion.div
         className="absolute inset-0 z-35 pointer-events-none"
         style={{
-          background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.05) 100%)",
-          backdropFilter: "blur(2px)",
+          background: "linear-gradient(135deg, rgba(00,00,00,0.06) 0%, rgba(00,00,00,0.02) 40%, rgba(00,00,00,0) 70%, rgba(00,00,00,0.03) 100%)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
         }}
         animate={{
-          opacity: isHovered ? 0.7 : 0.5,
-          rotateX: -rotation.x * 0.2,
-          rotateY: -rotation.y * 0.2,
+          opacity: isHovered ? 0.5 : 0.3,
+          rotateX: -rotation.x * 0.1,
+          rotateY: -rotation.y * 0.1,
           z: 1,
         }}
         transition={{
-          duration: 0.4,
-          ease: "easeOut"
+          duration: 0.6,
+          ease: [0.2, 0.8, 0.2, 1]
         }}
       />
 
-      {/* Dark background with black gradient */}
+      {/* Subtle background */}
       <motion.div
         className="absolute inset-0 z-0"
         style={{
-          background: "linear-gradient(180deg, #000000 0%, #000000 70%)",
+          background: "rgba(00, 00, 00, 0.5)",
         }}
         animate={{
-          z: -1
+          z: -1,
         }}
       />
 
-      {/* Noise texture overlay */}
-      <motion.div
-        className="absolute inset-0 opacity-30 mix-blend-overlay z-10"
+      {/* Glass edge highlight */}
+      <motion.div 
+        className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-        animate={{
-          z: -0.5
+          boxShadow: "inset 0 0 15px rgba(00, 00, 00, 0.1)",
+          z: 2
         }}
       />
 
