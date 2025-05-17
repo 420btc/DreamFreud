@@ -85,7 +85,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
     return (
       <div className="container mx-auto p-4">
         <div className="text-center py-12">
-          <Brain className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <Brain className="h-12 w-12 mx-auto text-muted-foreground mb-4 mt-60" />
           <h3 className="text-lg font-medium mb-2">No hay sueños para analizar</h3>
           <p className="text-muted-foreground mb-4">
             Registra un sueño primero para poder analizarlo según la teoría freudiana.

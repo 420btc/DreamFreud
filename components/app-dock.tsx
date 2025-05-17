@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Book, Clock, History, Home, User, Search, Brain } from "lucide-react"
+import { Book, History, Home, User, Search, Brain } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function AppDock() {
@@ -17,7 +17,6 @@ export function AppDock() {
     { href: "/diccionario", label: "Diccionario", icon: Search },
     { href: "/historial", label: "Historial", icon: History },
     { href: "/perfil", label: "Perfil", icon: User },
-    { href: "/reloj", label: "Reloj", icon: Clock },
   ]
 
   return (

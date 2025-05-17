@@ -10,7 +10,6 @@ import AnalizarUltimoSueno from "@/components/analizar-ultimo-sueno"
 import DiccionarioSuenos from "@/components/diccionario-suenos"
 import HistorialSuenos from "@/components/historial-suenos"
 import MiPerfil from "@/components/mi-perfil"
-import RelojDespertador from "@/components/reloj-despertador"
 import LibroFreud from "@/components/libro-freud"
 
 // Cargar componentes dinámicamente para mejor rendimiento
@@ -21,7 +20,6 @@ const DynamicComponents = {
   DiccionarioSuenos: dynamic(() => import("@/components/diccionario-suenos"), { loading: () => <div>Cargando...</div> }),
   HistorialSuenos: dynamic(() => import("@/components/historial-suenos"), { loading: () => <div>Cargando...</div> }),
   MiPerfil: dynamic(() => import("@/components/mi-perfil"), { loading: () => <div>Cargando...</div> }),
-  RelojDespertador: dynamic(() => import("@/components/reloj-despertador"), { loading: () => <div>Cargando...</div> }),
   LibroFreud: dynamic(() => import("@/components/libro-freud"), { loading: () => <div>Cargando...</div> }),
 }
 
@@ -76,8 +74,6 @@ export default function Home() {
         return <DynamicComponents.HistorialSuenos />
       case "miPerfil":
         return <DynamicComponents.MiPerfil />
-      case "relojDespertador":
-        return <DynamicComponents.RelojDespertador />
       case "libroFreud":
         return <DynamicComponents.LibroFreud />
       default:

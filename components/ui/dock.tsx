@@ -21,10 +21,10 @@ import {
 } from 'react';
 import { cn } from '@/lib/utils';
 
-const DOCK_HEIGHT = 128;
+const DOCK_HEIGHT = 120;
 const DEFAULT_MAGNIFICATION = 80;
 const DEFAULT_DISTANCE = 150;
-const DEFAULT_PANEL_HEIGHT = 64;
+const DEFAULT_PANEL_HEIGHT = 60;
 
 type DockProps = {
   children: React.ReactNode;
@@ -94,9 +94,9 @@ function Dock({
     <motion.div
       style={{
         height: height,
-        scrollbarWidth: 'none',
+        scrollbarWidth: 'thin',
       }}
-      className='mx-2 flex max-w-full items-end overflow-x-auto'
+      className='mx-1 flex max-w-full items-end overflow-x-auto'
     >
       <motion.div
         onMouseMove={({ pageX }) => {
@@ -108,7 +108,7 @@ function Dock({
           mouseX.set(Infinity);
         }}
         className={cn(
-          'mx-auto flex w-fit gap-4 rounded-2xl bg-gray-50 px-4 dark:bg-neutral-900',
+          'mx-auto flex w-fit gap-4 rounded-2xl bg-gray-50 px-2 dark:bg-neutral-900',
           className
         )}
         style={{ height: panelHeight }}
