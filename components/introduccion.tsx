@@ -6,6 +6,7 @@ import { Book, Brain, History, Moon, Bot } from "lucide-react"
 import dynamic from 'next/dynamic';
 import Link from "next/link"
 import { TituloConSparkles } from "@/components/ui/TituloConSparkles"
+import { RainbowButton } from "@/components/ui/rainbow-button"
 
 // Importar el componente wrapper
 import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
@@ -13,13 +14,12 @@ import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
 export default function Introduccion() {
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
-      <div className="max-w-3xl w-full text-center space-y-8 py-8">
-
+      <div className="max-w-3xl w-full text-center space-y-2 py-8">
         {/* Título con efecto sparkles */}
-        <div className="mb-4">
+        <div className="mb-1">
           <TituloConSparkles />
         </div>
-        <h2 className="text-2xl font-semibold text-muted-foreground">Basado en la obra de Sigmund Freud</h2>
+        <h2 className="text-2xl font-semibold text-muted-foreground mb-8">Basado en la obra de Sigmund Freud</h2>
 
         <p className="text-lg">
           Bienvenido a esta aplicación interactiva para el registro y análisis de tus sueños basada en las teorías de
@@ -41,8 +41,10 @@ export default function Introduccion() {
                 <CardDescription className="text-center mb-4">
                   Mantén un diario de tus sueños para descubrir patrones y significados ocultos.
                 </CardDescription>
-                <Link href="/registrar">
-                  <Button className="w-full">Registrar un Sueño</Button>
+                <Link href="/registrar" className="w-full">
+                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                    Registrar un Sueño
+                  </RainbowButton>
                 </Link>
               </CardContent>
             </Card>
@@ -60,8 +62,10 @@ export default function Introduccion() {
                 <CardDescription className="text-center mb-4">
                   Descubre el significado de tus sueños según las teorías freudianas.
                 </CardDescription>
-                <Link href="/analizar">
-                  <Button className="w-full">Analizar Último Sueño</Button>
+                <Link href="/analizar" className="w-full">
+                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                    Analizar Último Sueño
+                  </RainbowButton>
                 </Link>
               </CardContent>
             </Card>
@@ -79,8 +83,10 @@ export default function Introduccion() {
                 <CardDescription className="text-center mb-4">
                   Explora el significado de los símbolos oníricos según Freud.
                 </CardDescription>
-                <Link href="/diccionario">
-                  <Button className="w-full">Consultar Diccionario</Button>
+                <Link href="/diccionario" className="w-full">
+                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                    Consultar Diccionario
+                  </RainbowButton>
                 </Link>
               </CardContent>
             </Card>
@@ -98,8 +104,10 @@ export default function Introduccion() {
                 <CardDescription className="text-center mb-4">
                   Revisa todos tus sueños anteriores y sus interpretaciones.
                 </CardDescription>
-                <Link href="/historial">
-                  <Button className="w-full">Ver Historial</Button>
+                <Link href="/historial" className="w-full">
+                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                    Ver Historial
+                  </RainbowButton>
                 </Link>
               </CardContent>
             </Card>

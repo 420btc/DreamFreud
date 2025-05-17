@@ -32,7 +32,7 @@ export default function Navbar({ seccionActiva, cambiarSeccion }: NavbarProps) {
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <Moon className="h-6 w-6 mr-2" />
-              <span className="font-bold text-lg">Sueños Freudianos</span>
+              <span className="font-bold text-lg">Ai Dreamer</span>
             </Link>
           </div>
 
