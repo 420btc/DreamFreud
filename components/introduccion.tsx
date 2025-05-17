@@ -122,12 +122,12 @@ export default function Introduccion() {
         </div>
 
         {/* Sección del Asistente de IA */}
-        <div className="w-full max-w-6xl mx-auto mt-20 mb-12" id="asistente-ia">
+        <div className="w-full max-w-8xl mx-auto mt-20 mb-12" id="asistente-ia">
           <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-xl backdrop-blur-sm">
             <div className="flex items-center justify-center mb-6">
               <Bot className="h-8 w-8 mr-3 text-blue-400" />
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                Asistente de Sueños Freudiano
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-center">
+                Asistente de Sueños
               </h3>
             </div>
             <p className="text-gray-300 text-lg mb-6 max-w-3xl mx-auto text-center">

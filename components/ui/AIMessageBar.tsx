@@ -16,21 +16,28 @@ type TypewriterProps = {
 
 const Typewriter = ({ text, speed = 20, onComplete, className = '' }: TypewriterProps) => {
   const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const words = text.split(' ');
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
   useEffect(() => {
-    if (currentIndex >= text.length) {
+    if (currentWordIndex >= words.length) {
       onComplete?.();
       return;
     }
 
+    const wordsPerChunk = 2; // Número de palabras a mostrar cada vez
+    const nextIndex = Math.min(currentWordIndex + wordsPerChunk, words.length);
+    const wordsToAdd = words.slice(currentWordIndex, nextIndex).join(' ');
+
     const timeout = setTimeout(() => {
-      setDisplayText(prev => prev + text[currentIndex]);
-      setCurrentIndex(prev => prev + 1);
+      setDisplayText(prev => 
+        prev ? `${prev} ${wordsToAdd}` : wordsToAdd
+      );
+      setCurrentWordIndex(nextIndex);
     }, speed);
 
     return () => clearTimeout(timeout);
-  }, [text, currentIndex, speed, onComplete]);
+  }, [words, currentWordIndex, speed, onComplete]);
 
   return <span className={className}>{displayText}</span>;
 };
@@ -241,8 +248,8 @@ export const AIMessageBar = () => {
         <div 
           className={`relative w-full px-4 py-3 sm:px-6 sm:py-3 rounded-lg ${
             isUser 
-              ? 'bg-black/80 text-white rounded-br-lg max-w-full sm:max-w-2xl' 
-              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-2xl'
+              ? 'bg-black/80 text-white rounded-br-lg max-w-full sm:max-w-4xl' 
+              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl'
           }`}
         >
           {!isUser && !message.isLoading && (
@@ -266,12 +273,12 @@ export const AIMessageBar = () => {
                 {isLastAIReply ? (
                   <Typewriter 
                     text={message.content} 
-                    speed={10} 
+                    speed={1} 
                     onComplete={() => {
                       // Scroll al finalizar la escritura
                       setTimeout(() => {
                         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
+                      }, 50);
                     }}
                   />
                 ) : (
