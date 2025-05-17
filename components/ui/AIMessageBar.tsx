@@ -241,14 +241,24 @@ export const AIMessageBar = () => {
         <div 
           className={`relative w-full px-4 py-3 sm:px-6 sm:py-3 rounded-lg ${
             isUser 
-              ? 'bg-blue-600 text-white rounded-br-none max-w-full sm:max-w-md' 
+              ? 'bg-black/80 text-white rounded-br-lg max-w-full sm:max-w-2xl' 
               : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-2xl'
           }`}
         >
+          {!isUser && !message.isLoading && (
+            <div className="text-xs font-medium text-gray-300 mb-1">
+              Ai Dreamer
+            </div>
+          )}
+          {isUser && !message.isLoading && (
+            <div className="text-xs font-medium text-blue-400 mb-1">
+              Tú
+            </div>
+          )}
           {message.isLoading ? (
             <div className="flex items-center">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              <span>Pensando...</span>
+              <span className="text-sm">Pensando...</span>
             </div>
           ) : (
             <div className="relative">
