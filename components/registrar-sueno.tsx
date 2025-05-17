@@ -36,6 +36,8 @@ export default function RegistrarSueno() {
         fecha: fecha ? new Date(fecha).toISOString() : new Date().toISOString(),
         texto: texto.trim(),
         notas: notas.trim() || undefined,
+        createdAt: Date.now(),
+        updatedAt: Date.now()
       }
 
       // Obtener sueños existentes
