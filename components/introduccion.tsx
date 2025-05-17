@@ -18,7 +18,7 @@ export default function Introduccion() {
          {/* Contenido principal */}
       <div className="relative z-20 w-full">
         <div className="w-fit mx-auto flex flex-col items-center">
-          <h1 className="md:text-5xl text-xl lg:text-5xl font-bold text-center text-white relative z-20">
+          <h1 className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-5xl font-bold">
             La interpretación de los Sueños
           </h1>
           {/* Línea azul exactamente debajo del texto */}

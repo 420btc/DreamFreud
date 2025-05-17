@@ -45,8 +45,10 @@ export default function Navbar({ seccionActiva, cambiarSeccion }: NavbarProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
-                    isActive ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                    isActive 
+                      ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg" 
+                      : "text-foreground hover:bg-gradient-to-r from-blue-500/10 to-purple-600/10 hover:shadow-md"
                   }`}
                 >
                   <Icon className="h-4 w-4 mr-2" />
@@ -96,8 +98,10 @@ function MobileMenu({ navItems, pathname }: { navItems: any[]; pathname: string 
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center px-4 py-2 text-sm ${
-                    isActive ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"
+                  className={`flex items-center px-4 py-2 text-sm transition-all duration-300 ${
+                    isActive 
+                      ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white" 
+                      : "text-foreground hover:bg-gradient-to-r from-blue-500/10 to-purple-600/10"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
