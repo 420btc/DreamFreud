@@ -12,7 +12,7 @@ const Loader = () => (
 
 // Importación dinámica del componente AIMessageBar
 const AIMessageBar = dynamic(
-  () => import('./ai-assistat').then((mod) => mod.default),
+  () => import('./AIMessageBar').then((mod) => mod.AIMessageBar),
   {
     ssr: false,
     loading: () => <Loader />,
