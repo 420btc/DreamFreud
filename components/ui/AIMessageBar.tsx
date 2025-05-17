@@ -52,18 +52,63 @@ export const AIMessageBar = () => {
     await handleAIResponse(userMessage);
   };
 
+  // Función para guardar la conversación en el historial
+  const guardarEnHistorial = (mensajes: ChatMessage[]) => {
+    try {
+      // Extraer el mensaje del usuario (asumimos que es el primer mensaje)
+      const mensajeUsuario = mensajes.find(m => m.role === 'user');
+      const respuestaIA = mensajes.find(m => m.role === 'assistant' && !m.isLoading);
+      
+      if (!mensajeUsuario || !respuestaIA) return;
+      
+      // Crear un nuevo objeto de sueño
+      const nuevoSueno = {
+        id: Date.now().toString(),
+        fecha: new Date().toISOString(),
+        texto: mensajeUsuario.content,
+        titulo: `Sueño del ${new Date().toLocaleDateString()}`,
+        mensajes: mensajes.map(m => ({
+          role: m.role,
+          content: m.content,
+          timestamp: m.timestamp
+        })),
+        notas: respuestaIA.content.substring(0, 100) + '...' // Resumen de la respuesta
+      };
+      
+      // Obtener sueños existentes
+      const suenosExistentes = JSON.parse(localStorage.getItem('suenos') || '[]');
+      
+      // Agregar el nuevo sueño al principio del array
+      const nuevosSuenos = [nuevoSueno, ...suenosExistentes];
+      
+      // Guardar en localStorage
+      localStorage.setItem('suenos', JSON.stringify(nuevosSuenos));
+      
+      console.log('Conversación guardada en el historial');
+    } catch (error) {
+      console.error('Error al guardar en el historial:', error);
+    }
+  };
+
   // Función para manejar la respuesta de la IA
   const handleAIResponse = async (userMessage: string) => {
     setIsTyping(true);
     
     try {
+      // Primero, obtenemos los mensajes actuales
+      const currentMessages = [...messages];
+      
       // Agregamos un mensaje de carga mientras se procesa
       const loadingMessage: ChatMessage = { 
         content: "Analizando tu sueño...", 
         role: 'assistant',
-        isLoading: true
+        isLoading: true,
+        timestamp: Date.now()
       };
-      addMessage(loadingMessage);
+      
+      // Actualizamos los mensajes con el indicador de carga
+      const messagesWithLoading = [...currentMessages, loadingMessage];
+      setMessages(messagesWithLoading);
       
       // Obtenemos la respuesta de la IA
       const aiResponse = await conversarConAsistente(userMessage, conversationHistory);
@@ -74,19 +119,24 @@ export const AIMessageBar = () => {
         { role: 'assistant', content: aiResponse }
       ]);
       
-      // Reemplazamos el mensaje de carga con la respuesta real
+      // Creamos el mensaje de respuesta
       const responseMessage: ChatMessage = {
         content: aiResponse,
-        role: 'assistant'
+        role: 'assistant',
+        timestamp: Date.now()
       };
       
-      // Eliminamos el mensaje de carga y agregamos la respuesta real
-      const updatedMessages = messages
-        .filter((msg: ChatMessage) => !msg.isLoading)
-        .concat(responseMessage);
+      // Actualizamos los mensajes manteniendo los mensajes del usuario
+      // y reemplazando el mensaje de carga por la respuesta real
+      const finalMessages = [
+        ...currentMessages, // Mantenemos los mensajes anteriores (incluyendo el del usuario)
+        responseMessage    // Añadimos la respuesta de la IA
+      ];
       
-      // Actualizamos los mensajes en el estado
-      setMessages(updatedMessages);
+      setMessages(finalMessages);
+      
+      // Guardamos la conversación en el historial
+      guardarEnHistorial(finalMessages);
       
       return aiResponse;
     } catch (error) {
@@ -112,10 +162,13 @@ export const AIMessageBar = () => {
 
   // Efecto para hacer scroll al final de los mensajes
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
+    // Usar un pequeño retraso para asegurar que el DOM se haya actualizado
+    const timer = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [messages, isTyping]); // También activar cuando cambie el estado de isTyping
 
   // Renderizar mensajes
   const renderMessage = (message: ChatMessage, index: number) => {
@@ -169,7 +222,7 @@ export const AIMessageBar = () => {
       </div>
 
       {/* Área de mensajes */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(100vh - 180px)' }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center text-gray-400">
             <Sparkles className="h-24 w-24 mb-6 text-blue-200" />
@@ -177,13 +230,19 @@ export const AIMessageBar = () => {
             <p className="text-xl max-w-2xl">Cuéntame sobre tu sueño y te ayudaré a analizarlo.</p>
           </div>
         ) : (
-          messages.map((message, index) => renderMessage(message, index))
+          <div className="space-y-4">
+            {messages.map((message, index) => (
+              <div key={`${message.role}-${index}-${message.timestamp}`} className="message-container">
+                {renderMessage(message, index)}
+              </div>
+            ))}
+          </div>
         )}
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef} className="h-4" />
       </div>
 
       {/* Área de entrada */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t bg-black">
         <form 
           ref={formRef}
           onSubmit={handleSubmit}
@@ -194,7 +253,7 @@ export const AIMessageBar = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Escribe tu mensaje..."
-            className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-2 bg-gray-900 text-white border border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
             disabled={isTyping}
           />
           <button
@@ -203,7 +262,7 @@ export const AIMessageBar = () => {
             className={`p-2 rounded-full ${
               input.trim() && !isTyping
                 ? 'bg-blue-600 text-white hover:bg-blue-700'
-                : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                : 'bg-gray-800 text-gray-500 cursor-not-allowed'
             }`}
             title={!input.trim() ? "Escribe un mensaje" : "Enviar mensaje"}
           >

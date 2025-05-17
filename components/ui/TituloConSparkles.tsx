@@ -4,19 +4,9 @@ import { SparklesCore } from "@/components/ui/sparkles";
 
 export function TituloConSparkles() {
   return (
-    <div className="w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-      <div className="relative w-fit mx-auto flex flex-col items-center">
-        <h1 className="md:text-4xl text-xl lg:text-5xl font-bold text-center text-white relative z-20">
-          La interpretación de los Sueños
-        </h1>
-        {/* Línea azul exactamente debajo del texto */}
-        <div className="mt-2 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent blur-sm" />
-        <div className="-mt-2 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-      </div>
-      <div className="w-[40rem] h-40 relative">
-        {/* Sparkles y gradientes secundarios (puedes dejar solo el efecto principal si quieres más limpio) */}
-
-        {/* Core component */}
+    <div className="w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md relative">
+      {/* Capa de partículas de fondo */}
+      <div className="absolute inset-0 w-full h-full z-0">
         <SparklesCore
           background="transparent"
           minSize={0.4}
@@ -25,9 +15,36 @@ export function TituloConSparkles() {
           className="w-full h-full"
           particleColor="#FFFFFF"
         />
-
-        {/* Radial Gradient to prevent sharp edges */}
-        <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
+        <div className="absolute inset-0 w-full h-full bg-black/50 [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
+      </div>
+      
+      {/* Imagen de fondo dreamer.png */}
+      <div className="absolute inset-0 w-full h-full flex items-center justify-center z-10">
+        <img 
+          src="/dreamer.png" 
+          alt="Dreamer" 
+          className="h-[80%] w-auto object-contain opacity-20 mt-9"
+          style={{
+            filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))',
+          }}
+        />
+      </div>
+      
+      {/* Contenido principal */}
+      <div className="relative z-20 w-full">
+        <div className="w-fit mx-auto flex flex-col items-center">
+          <h1 className="md:text-4xl text-xl lg:text-5xl font-bold text-center text-white relative z-20">
+            La interpretación de los Sueños
+          </h1>
+          {/* Línea azul exactamente debajo del texto */}
+          <div className="mt-1 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent blur-sm" />
+          <div className="-mt-1 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+        </div>
+      </div>
+      
+      {/* Espacio para el efecto de partículas */}
+      <div className="w-[40rem] h-40 relative">
+        {/* Este div mantiene el espacio para el efecto de partículas */}
       </div>
     </div>
   );
