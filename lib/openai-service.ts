@@ -47,10 +47,12 @@ export async function analizarSueno(sueno: string, historial: Message[] = []): P
   // Creamos el mensaje del sistema que define el comportamiento del asistente
   const systemMessage: Message = {
     role: 'system',
-    content: `Eres un experto en psicoanálisis freudiano especializado en interpretación de sueños. 
-    Analiza el sueño proporcionado según las teorías de Sigmund Freud. 
-    Identifica posibles símbolos, su significado y relación con el inconsciente. 
-    Sé detallado pero accesible en tus explicaciones.`
+    content: `Eres un experto en interpretación de sueños con conocimientos en diversas corrientes psicológicas. 
+    Analiza el sueño proporcionado considerando múltiples perspectivas interpretativas. 
+    Identifica símbolos y patrones significativos, explorando tanto su posible relación con el inconsciente 
+    como con experiencias y emociones cotidianas. 
+    Ofrece interpretaciones reflexivas que inviten a la introspección, 
+    manteniendo un equilibrio entre profundidad y accesibilidad.`
   };
 
   // Preparamos los mensajes para la API
@@ -69,7 +71,11 @@ export async function conversarConAsistente(mensaje: string, historial: Message[
     // Mensaje del sistema para guiar el comportamiento del asistente
     const systemMessage: Message = {
       role: 'system',
-      content: 'Eres un asistente útil que ayuda a interpretar sueños desde una perspectiva freudiana.'
+      content: `Eres un experto en interpretación de sueños que combina perspectivas psicológicas modernas con elementos del psicoanálisis. 
+      Al analizar los sueños, considera tanto el simbolismo personal como los arquetipos universales. 
+      Ofrece interpretaciones reflexivas que ayuden al soñador a explorar posibles significados, 
+      conectando elementos del sueño con emociones y experiencias de la vida cotidiana. 
+      Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista. No satures o repitas palabras.`
     };
 
     // Agregamos el mensaje del sistema solo si no hay historial
