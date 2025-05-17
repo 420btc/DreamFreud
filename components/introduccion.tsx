@@ -140,7 +140,7 @@ export default function Introduccion() {
               <AIMessageBarWrapper />
             </div>
             <p className="text-sm text-muted-foreground mt-3 text-center">
-              La IA puede cometer errores. Usa tu criterio y consulta con un profesional para interpretaciones clínicas.
+              No se guarda ningún mensaje en la base de datos. La IA puede cometer errores. Usa tu criterio y consulta con un profesional para interpretaciones clínicas.
             </p>
           </div>
         </div>
