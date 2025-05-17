@@ -19,6 +19,9 @@ export default function Introduccion() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="text-center mb-12">
+          <p className="text-2xl md:text-3xl font-light text-gray-300 italic mb-8 max-w-3xl mx-auto">
+            
+          </p>
           <TituloConSparkles>
             Tu Diario de Sueños
           </TituloConSparkles>
@@ -119,7 +122,7 @@ export default function Introduccion() {
         </div>
 
         {/* Sección del Asistente de IA */}
-        <div className="w-full max-w-6xl mx-auto mt-20 mb-12">
+        <div className="w-full max-w-6xl mx-auto mt-20 mb-12" id="asistente-ia">
           <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-xl backdrop-blur-sm">
             <div className="flex items-center justify-center mb-6">
               <Bot className="h-8 w-8 mr-3 text-blue-400" />

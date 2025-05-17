@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 
 // Componente de carga
@@ -22,15 +22,32 @@ const AIMessageBar = dynamic(
 // Componente contenedor que maneja el estado de montaje
 export default function AIMessageBarWrapper() {
   const [isMounted, setIsMounted] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // Efecto para manejar el montaje y prevenir scroll no deseado
   useEffect(() => {
-    setIsMounted(true);
+    // Guardar la posición de scroll actual
+    const scrollY = window.scrollY;
+    
+    // Forzar el montaje en el siguiente ciclo de renderizado
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+      
+      // Restaurar la posición de scroll después del montaje
+      window.scrollTo(0, scrollY);
+    }, 0);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   // No renderizar nada en el servidor
   if (!isMounted) {
-    return null;
+    return <div ref={wrapperRef} style={{ visibility: 'hidden' }} />;
   }
 
-  return <AIMessageBar />;
+  return (
+    <div ref={wrapperRef}>
+      <AIMessageBar />
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
 import LoadingScreen from "@/components/ui/loading-screen"
 import Navbar from "@/components/navbar"
@@ -28,6 +28,31 @@ const DynamicComponents = {
 export default function Home() {
   const [seccionActiva, setSeccionActiva] = useState("introduccion")
   const [isLoading, setIsLoading] = useState(true)
+  const hasScrolled = useRef(false);
+
+  // Efecto para manejar el scroll al inicio
+  useEffect(() => {
+    // Solo ejecutar esto una vez al montar el componente
+    if (hasScrolled.current) return;
+    
+    // Asegurarse de que la página esté en la parte superior al cargar
+    window.scrollTo(0, 0);
+    
+    // Deshabilitar el comportamiento de scroll automático del navegador
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    
+    // Marcar que ya se ha manejado el scroll inicial
+    hasScrolled.current = true;
+  }, []);
+  
+  // Efecto para manejar el cambio de sección
+  useEffect(() => {
+    if (seccionActiva && !isLoading) {
+      window.scrollTo(0, 0);
+    }
+  }, [seccionActiva, isLoading]);
 
   const handleEnterClick = () => {
     setIsLoading(false);
@@ -35,7 +60,6 @@ export default function Home() {
 
   const cambiarSeccion = (seccion: string) => {
     setSeccionActiva(seccion)
-    window.scrollTo(0, 0)
   }
 
   const renderSeccion = () => {
@@ -71,11 +95,8 @@ export default function Home() {
         {/* Este componente ya no se usa en la nueva versión con rutas */}
         <Navbar seccionActiva={seccionActiva} cambiarSeccion={cambiarSeccion} />
       </div>
-      <div className="flex-grow py-6">
-        {seccionActiva === "introduccion" ? 
-          <DynamicComponents.Introduccion /> : 
-          renderSeccion()
-        }
+      <div className="flex-grow">
+        {renderSeccion()}
       </div>
     </main>
   )

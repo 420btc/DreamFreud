@@ -161,14 +161,31 @@ export const AIMessageBar = () => {
   };
 
   // Efecto para hacer scroll al final de los mensajes
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const initialLoad = useRef(true);
+
   useEffect(() => {
-    // Usar un pequeño retraso para asegurar que el DOM se haya actualizado
-    const timer = setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, [messages, isTyping]); // También activar cuando cambie el estado de isTyping
+    // No hacer scroll en la carga inicial
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      return;
+    }
+
+    // Solo hacer scroll si el usuario ha interactuado o hay nuevos mensajes
+    if (hasUserInteracted || messages.length > 0) {
+      const timer = setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [messages, isTyping, hasUserInteracted]);
+
+  // Marcar que el usuario ha interactuado cuando escribe o envía un mensaje
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    setHasUserInteracted(true);
+  };
 
   // Función para formatear la hora
   const formatTime = (timestamp?: string | number) => {
@@ -267,7 +284,8 @@ export const AIMessageBar = () => {
           <input
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange}
+            onFocus={() => setHasUserInteracted(true)}
             placeholder="Escribe tu mensaje..."
             className="flex-1 px-4 py-2 bg-gray-900 text-white border border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
             disabled={isTyping}

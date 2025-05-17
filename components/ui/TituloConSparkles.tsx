@@ -22,23 +22,18 @@ export function TituloConSparkles({ children }: TituloConSparklesProps) {
         <div className="absolute inset-0 w-full h-full bg-black/50 [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
       </div>
       
-      {/* Imagen de fondo dreamer.png */}
-      <div className="absolute inset-0 w-full h-full flex items-center justify-center z-10">
-        <img 
-          src="/dreamer.png" 
-          alt="Dreamer" 
-          className="h-[115%] w-auto object-contain opacity-50"
-          style={{
-            filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))',
-          }}
-        />
-      </div>
+    
       
      
       
       {/* Espacio para el efecto de partículas */}
-      <div className="w-[40rem] h-40 relative">
-        {/* Este div mantiene el espacio para el efecto de partículas */}
+      <div className="w-full h-[20rem] relative flex items-center justify-center">
+        <div className="text-center z-10 px-4">
+          <p className="text-3xl md:text-5xl font-light text-white/90 italic mb-2">
+            "Los sueños son la vía regia hacia el inconsciente."
+          </p>
+          <p className="text-xl text-gray-300">Sigmund Freud</p>
+        </div>
       </div>
     </div>
   );
