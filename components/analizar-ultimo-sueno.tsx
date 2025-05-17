@@ -4,10 +4,17 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Brain, Clock, ExternalLink } from "lucide-react"
+import { Brain, Clock, ExternalLink, Layers, BookOpen } from "lucide-react"
 import type { Sueno } from "@/types/sueno"
 import { buscarSimbolos, type SimboloFreudiano } from "@/lib/simbolos-freudianos"
+import dynamic from "next/dynamic"
 import Link from "next/link"
+
+// Importación dinámica para el componente interactivo
+const TrabajoSuenoInteractivo = dynamic(
+  () => import("@/components/trabajo-sueno-interactivo"),
+  { ssr: false }
+)
 
 interface AnalizarUltimoSuenoProps {
   suenoId?: string
@@ -138,10 +145,23 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
       </Card>
 
       <Tabs defaultValue="simbolos" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="simbolos">Símbolos</TabsTrigger>
-          <TabsTrigger value="analisis">Análisis Freudiano</TabsTrigger>
-          <TabsTrigger value="guia">Guía de Reflexión</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="simbolos">
+            <Brain className="mr-2 h-4 w-4" />
+            Símbolos
+          </TabsTrigger>
+          <TabsTrigger value="analisis">
+            <Layers className="mr-2 h-4 w-4" />
+            Análisis
+          </TabsTrigger>
+          <TabsTrigger value="trabajo-sueno">
+            <BookOpen className="mr-2 h-4 w-4" />
+            Trabajo del Sueño
+          </TabsTrigger>
+          <TabsTrigger value="guia">
+            <BookOpen className="mr-2 h-4 w-4" />
+            Guía
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="simbolos" className="space-y-4 mt-4">
@@ -278,6 +298,24 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="trabajo-sueno" className="space-y-4 mt-4">
+          {sueno?.texto ? (
+            <TrabajoSuenoInteractivo 
+              suenoId={sueno.id} 
+              contenidoSueno={sueno.texto} 
+            />
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>No hay contenido para analizar</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>No se encontró el contenido del sueño para realizar el análisis del trabajo del sueño.</p>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>

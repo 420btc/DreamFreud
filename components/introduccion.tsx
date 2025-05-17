@@ -2,9 +2,13 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Book, Brain, History, Moon } from "lucide-react"
+import { Book, Brain, History, Moon, Bot } from "lucide-react"
+import dynamic from 'next/dynamic';
 import Link from "next/link"
 import { TituloConSparkles } from "@/components/ui/TituloConSparkles"
+
+// Importar el componente wrapper
+import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
 
 export default function Introduccion() {
   return (
@@ -102,8 +106,29 @@ export default function Introduccion() {
           </div>
         </div>
 
-        <div className="mt-8">
-          <p className="text-muted-foreground mb-4">
+        {/* Sección del Asistente de IA */}
+        <div className="w-full max-w-6xl mt-12 mb-12">
+          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-lg">
+            <div className="flex items-center mb-6">
+              <Bot className="h-8 w-8 mr-3 text-blue-400" />
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Asistente de Sueños Freudiano
+              </h3>
+            </div>
+            <p className="text-muted-foreground text-lg mb-6 max-w-3xl">
+              Explora el significado de tus sueños con la ayuda de nuestra IA entrenada en la teoría psicoanalítica de Freud. Haz preguntas sobre símbolos, interpretaciones o conceptos freudianos.
+            </p>
+            <div className="bg-background/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-border/50 min-h-[400px] flex flex-col">
+              <AIMessageBarWrapper />
+            </div>
+            <p className="text-sm text-muted-foreground mt-3 text-center">
+              La IA puede cometer errores. Usa tu criterio y consulta con un profesional para interpretaciones clínicas.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 text-center">
+          <p className="text-muted-foreground italic">
             "Los sueños son la vía regia hacia el inconsciente." - Sigmund Freud
           </p>
         </div>
