@@ -1,10 +1,11 @@
 // Configuración para OpenAI
 export const openAIConfig = {
-  // Esta clave ya no se usa directamente, se accede a través de la API de Next.js
-  apiKey: '',
-  model: 'gpt-4o-mini', // Modelo más rápido y económico
-  temperature: 0.7, // Mismo nivel de creatividad
-  maxTokens: 2000, // Mantenemos el mismo límite de tokens
+  // Esta clave se obtiene de las variables de entorno
+  apiKey: process.env.OPENAI_API_KEY || '',
+  model: 'gpt-4o-mini',
+  temperature: 0.7,
+  maxTokens: 2000,
   timeout: 30000, // 30 segundos de tiempo de espera
-  // Nota: gpt-4o-mini es más rápido y económico, ideal para respuestas rápidas
+  frequency_penalty: 0.5, // Reduce la repetición de frases
+  presence_penalty: 0.5, // Fomenta la variedad en las respuestas
 }

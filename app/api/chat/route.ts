@@ -44,6 +44,21 @@ function handleApiError(error: any) {
   };
 }
 
+interface ChatRequest {
+  messages: Array<{
+    role: 'user' | 'assistant' | 'system';
+    content: string;
+    name?: string;
+  }>;
+  model?: string;
+  temperature?: number;
+  max_tokens?: number;
+  frequency_penalty?: number;
+  presence_penalty?: number;
+  user?: string;
+  stream?: boolean;
+}
+
 export async function POST(request: Request) {
   try {
     // Verificar que tenemos la clave de API
@@ -55,32 +70,76 @@ export async function POST(request: Request) {
       );
     }
 
-    const { messages } = await request.json();
+    const requestData: ChatRequest = await request.json();
+    const { 
+      messages, 
+      model = openAIConfig.model, 
+      temperature = openAIConfig.temperature,
+      max_tokens = openAIConfig.maxTokens,
+      frequency_penalty = openAIConfig.frequency_penalty,
+      presence_penalty = openAIConfig.presence_penalty,
+      user = 'anonymous_user',
+      stream = false
+    } = requestData;
     
     console.log('Mensajes recibidos:', JSON.stringify(messages, null, 2));
-    console.log(`Iniciando solicitud a OpenAI con el modelo ${openAIConfig.model}...`);
+    console.log(`Iniciando solicitud a OpenAI con el modelo ${model}...`);
     
     const completion = await openai.chat.completions.create({
-      model: openAIConfig.model,
-      messages: messages,
-      temperature: openAIConfig.temperature,
-      max_tokens: openAIConfig.maxTokens,
+      model,
+      messages: messages.map(({ role, content, name }) => ({
+        role,
+        content,
+        ...(name && { name })
+      })),
+      temperature,
+      max_tokens,
+      frequency_penalty,
+      presence_penalty,
+      user, // Incluir el ID de usuario para seguimiento
+      stream // Usar streaming si está habilitado
     }, {
       timeout: openAIConfig.timeout
     });
 
     console.log('Respuesta de OpenAI recibida exitosamente');
+    
+    // Manejar tanto respuestas normales como en streaming
+    let responseContent = 'No se pudo generar una respuesta.';
+    
+    if (stream) {
+      // Si es streaming, devolver el stream directamente
+      const stream = completion as any;
+      return new Response(stream, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+        },
+      });
+    } else {
+      // Respuesta normal
+      const completionData = completion as any;
+      responseContent = completionData.choices?.[0]?.message?.content || responseContent;
+      
+      // Registrar la respuesta para depuración
+      console.log('Respuesta generada:', responseContent.substring(0, 100) + '...');
 
-    return NextResponse.json({ 
-      message: completion.choices[0]?.message?.content || 'No se pudo generar una respuesta.'
-    });
+      return NextResponse.json({ 
+        message: responseContent
+      });
+    }
     
   } catch (error: any) {
     // Manejo mejorado de errores
+    console.error('Error en el endpoint /api/chat:', error);
     const { error: errorMessage, status } = handleApiError(error);
     
     return NextResponse.json(
-      { error: errorMessage },
+      { 
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status }
     );
   }

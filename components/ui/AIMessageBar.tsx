@@ -35,7 +35,7 @@ export const AIMessageBar = () => {
     const userMessage = input;
     setInput("");
 
-    // Agregar el mensaje del usuario al chat
+    // Agregar el mensaje del usuario al chat con marca de tiempo
     addMessage({ 
       content: userMessage,
       role: 'user'
@@ -103,7 +103,7 @@ export const AIMessageBar = () => {
         content: "Analizando tu sueño...", 
         role: 'assistant',
         isLoading: true,
-        timestamp: Date.now()
+        timestamp: new Date().toISOString()
       };
       
       // Actualizamos los mensajes con el indicador de carga
@@ -123,7 +123,7 @@ export const AIMessageBar = () => {
       const responseMessage: ChatMessage = {
         content: aiResponse,
         role: 'assistant',
-        timestamp: Date.now()
+        timestamp: new Date().toISOString()
       };
       
       // Actualizamos los mensajes manteniendo los mensajes del usuario
@@ -170,6 +170,17 @@ export const AIMessageBar = () => {
     return () => clearTimeout(timer);
   }, [messages, isTyping]); // También activar cuando cambie el estado de isTyping
 
+  // Función para formatear la hora
+  const formatTime = (timestamp?: string | number) => {
+    if (!timestamp) return '';
+    try {
+      const date = new Date(timestamp);
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      return '';
+    }
+  };
+
   // Renderizar mensajes
   const renderMessage = (message: ChatMessage, index: number) => {
     const isUser = message.role === 'user';
@@ -180,7 +191,7 @@ export const AIMessageBar = () => {
         className={`flex w-full ${isUser ? 'justify-end' : 'justify-center'} mb-4 px-4`}
       >
         <div 
-          className={`w-full max-w-2xl px-6 py-3 rounded-lg ${
+          className={`relative w-full max-w-2xl px-6 py-3 rounded-lg ${
             isUser 
               ? 'bg-blue-600 text-white rounded-br-none max-w-md' 
               : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto'
@@ -192,7 +203,12 @@ export const AIMessageBar = () => {
               <span>{message.content}</span>
             </div>
           ) : (
-            <p>{message.content}</p>
+            <div className="relative">
+              <p className="pr-8 pb-4">{message.content}</p>
+              <span className="absolute bottom-0 right-2 text-xs opacity-70">
+                {formatTime(message.timestamp)}
+              </span>
+            </div>
           )}
         </div>
       </div>

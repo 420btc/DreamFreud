@@ -23,14 +23,14 @@ export function TituloConSparkles() {
         <img 
           src="/dreamer.png" 
           alt="Dreamer" 
-          className="h-[120%] w-auto object-contain opacity-50 mt-1"
+          className="h-[80%] w-auto object-contain opacity-20 mt-9"
           style={{
             filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))',
           }}
         />
       </div>
       
-      
+     
       
       {/* Espacio para el efecto de partículas */}
       <div className="w-[40rem] h-40 relative">

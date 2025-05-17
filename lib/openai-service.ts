@@ -7,12 +7,22 @@ const API_URL = '/api/chat';
 export interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
+  name?: string;
+  timestamp?: string; // Nueva propiedad para la marca de tiempo
+}
+
+// Interfaz para la respuesta de la API
+interface ApiResponse {
+  message: string;
+  error?: string;
 }
 
 // Función genérica para llamar a la API
-async function callChatAPI(messages: any[]): Promise<string> {
+async function callChatAPI(messages: Message[]): Promise<string> {
   try {
     console.log('Enviando mensajes a la API:', JSON.stringify(messages, null, 2));
+    
+    const userId = 'user_' + Math.random().toString(36).substr(2, 9); // Generar un ID de usuario único
     
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -22,23 +32,34 @@ async function callChatAPI(messages: any[]): Promise<string> {
       credentials: 'same-origin',
       body: JSON.stringify({ 
         messages,
-        model: 'gpt-4o-mini' // Asegurando que usamos el modelo correcto
+        model: openAIConfig.model,
+        temperature: openAIConfig.temperature,
+        max_tokens: openAIConfig.maxTokens,
+        frequency_penalty: openAIConfig.frequency_penalty,
+        presence_penalty: openAIConfig.presence_penalty,
+        user: userId, // Identificador único del usuario
+        stream: false // Habilitar si quieres usar streaming
       }),
     });
 
+    const responseData = await response.json();
+    
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('Error en la respuesta de la API:', errorData);
-      throw new Error(errorData.error || 'Error en la respuesta del servidor');
+      console.error('Error en la respuesta de la API:', responseData);
+      throw new Error(responseData.error || 'Error en la respuesta del servidor');
     }
 
-    const data = await response.json();
-    console.log('Respuesta recibida de la API:', data);
+    console.log('Respuesta recibida de la API:', responseData);
     
-    return data.message || data.choices?.[0]?.message?.content || 'No se pudo generar una respuesta.';
+    // Asegurarse de que tenemos un mensaje de respuesta
+    if (!responseData.message) {
+      throw new Error('La respuesta de la API no contiene un mensaje válido');
+    }
+    
+    return responseData.message;
   } catch (error: any) {
     console.error('Error al llamar a la API:', error);
-    return `Lo siento, hubo un error al procesar tu solicitud. Por favor, verifica tu conexión e inténtalo de nuevo.`;
+    return `Lo siento, hubo un error al procesar tu solicitud: ${error.message || 'Error desconocido'}. Por favor, verifica tu conexión e inténtalo de nuevo.`;
   }
 }
 

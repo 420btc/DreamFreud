@@ -32,8 +32,12 @@ export function useChatStorage(userId: string) {
     }
   }, [messages, userId, isLoading]);
 
-  const addMessage = (message: Omit<ChatMessage, 'timestamp'>) => {
-    setMessages(prev => [...prev, { ...message, timestamp: Date.now() }]);
+  const addMessage = (message: Omit<ChatMessage, 'timestamp'> & { timestamp?: string }) => {
+    const newMessage = {
+      ...message,
+      timestamp: message.timestamp || new Date().toISOString()
+    };
+    setMessages(prev => [...prev, newMessage]);
   };
 
   const clearMessages = () => {
