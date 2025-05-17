@@ -1,14 +1,10 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Book, Brain, History, Moon, Bot } from "lucide-react"
-import dynamic from 'next/dynamic';
 import Link from "next/link"
 import { TituloConSparkles } from "@/components/ui/TituloConSparkles"
-import { RainbowButton } from "@/components/ui/rainbow-button"
-
-// Importar el componente wrapper
+import { GradientCard } from "@/components/ui/gradient-card"
 import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
 
 export default function Introduccion() {
@@ -36,97 +32,99 @@ export default function Introduccion() {
           Sigmund Freud, el padre del psicoanálisis.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {/* Tarjeta 1 */}
-          <div className="p-[1.5px] rounded-2xl" style={{background: 'conic-gradient(at top left, #3b82f6 10%, transparent 40%, #3b82f6 90%, transparent 100%)'}}>
-            <Card className="bg-black rounded-2xl text-white shadow-none border-none">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-center">
-                  <Book className="mr-2 h-5 w-5" />
-                  Registra tus Sueños
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center mb-4">
+          <div className="h-64">
+            <GradientCard>
+              <div className="h-full flex flex-col p-6">
+                <div className="flex items-center justify-center mb-4">
+                  <Book className="mr-2 h-6 w-6 text-blue-400" />
+                  <h3 className="text-xl font-semibold text-white">
+                    Registra tus Sueños
+                  </h3>
+                </div>
+                <p className="text-gray-300 text-center mb-6 flex-grow">
                   Mantén un diario de tus sueños para descubrir patrones y significados ocultos.
-                </CardDescription>
+                </p>
                 <Link href="/registrar" className="w-full">
-                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                  <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white">
                     Registrar un Sueño
-                  </RainbowButton>
+                  </Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </GradientCard>
           </div>
+
           {/* Tarjeta 2 */}
-          <div className="p-[1.5px] rounded-2xl" style={{background: 'conic-gradient(at top left, #3b82f6 10%, transparent 40%, #3b82f6 90%, transparent 100%)'}}>
-            <Card className="bg-black rounded-2xl text-white shadow-none border-none">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-center">
-                  <Brain className="mr-2 h-5 w-5" />
-                  Analiza tus Sueños
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center mb-4">
-                  Descubre el significado de tus sueños según las teorías mas comunes, o incluso las mas raras.
-                </CardDescription>
+          <div className="h-64">
+            <GradientCard>
+              <div className="h-full flex flex-col p-6">
+                <div className="flex items-center justify-center mb-4">
+                  <Brain className="mr-2 h-6 w-6 text-purple-400" />
+                  <h3 className="text-xl font-semibold text-white">
+                    Analiza tus Sueños
+                  </h3>
+                </div>
+                <p className="text-gray-300 text-center mb-6 flex-grow">
+                  Descubre el significado de tus sueños según las teorías más comunes, o incluso las más raras.
+                </p>
                 <Link href="/analizar" className="w-full">
-                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white">
                     Analizar Último Sueño
-                  </RainbowButton>
+                  </Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </GradientCard>
           </div>
+
           {/* Tarjeta 3 */}
-          <div className="p-[1.5px] rounded-2xl" style={{background: 'conic-gradient(at top left, #3b82f6 10%, transparent 40%, #3b82f6 90%, transparent 100%)'}}>
-            <Card className="bg-black rounded-2xl text-white shadow-none border-none">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-center">
-                  <Moon className="mr-2 h-5 w-5" />
-                  Diccionario de Símbolos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center mb-4">
+          <div className="h-64">
+            <GradientCard>
+              <div className="h-full flex flex-col p-6">
+                <div className="flex items-center justify-center mb-4">
+                  <Moon className="mr-2 h-6 w-6 text-indigo-400" />
+                  <h3 className="text-xl font-semibold text-white -mt-2">
+                    Diccionario de Símbolos
+                  </h3>
+                </div>
+                <p className="text-gray-300 text-center mb-6 flex-grow -mt-4">
                   Explora el significado de los símbolos oníricos según Freud.
-                </CardDescription>
+                </p>
                 <Link href="/diccionario" className="w-full">
-                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                  <Button className="w-full bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white -mt-1">
                     Consultar Diccionario
-                  </RainbowButton>
+                  </Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </GradientCard>
           </div>
+
           {/* Tarjeta 4 */}
-          <div className="p-[1.5px] rounded-2xl" style={{background: 'conic-gradient(at top left, #3b82f6 10%, transparent 40%, #3b82f6 90%, transparent 100%)'}}>
-            <Card className="bg-black rounded-2xl text-white shadow-none border-none">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-center">
-                  <History className="mr-2 h-5 w-5" />
-                  Historial de Sueños
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center mb-4">
+          <div className="h-64">
+            <GradientCard>
+              <div className="h-full flex flex-col p-6">
+                <div className="flex items-center justify-center mb-4">
+                  <History className="mr-2 h-6 w-6 text-pink-400" />
+                  <h3 className="text-xl font-semibold text-white">
+                    Historial de Sueños
+                  </h3>
+                </div>
+                <p className="text-gray-300 text-center mb-6 flex-grow">
                   Revisa todos tus sueños anteriores y sus interpretaciones.
-                </CardDescription>
+                </p>
                 <Link href="/historial" className="w-full">
-                  <RainbowButton className="w-full bg-black text-white hover:bg-black/90">
+                  <Button className="w-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white">
                     Ver Historial
-                  </RainbowButton>
+                  </Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </GradientCard>
           </div>
         </div>
 
         {/* Sección del Asistente de IA */}
         <div className="w-full max-w-6xl mt-12 mb-12">
-          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-lg">
+          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-xl backdrop-blur-sm">
             <div className="flex items-center mb-6">
               <Bot className="h-8 w-8 mr-3 text-blue-400" />
               <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
