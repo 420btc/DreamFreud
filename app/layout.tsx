@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AppDock } from "@/components/app-dock"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,11 +24,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="min-h-screen flex flex-col">
-            <Navbar />
             <main className="flex-1">
               {children}
               <Analytics />
             </main>
+            <AppDock />
             <footer className="py-4 border-t">
               <div className="container mx-auto text-center">
                 <p className="text-sm text-muted-foreground">
