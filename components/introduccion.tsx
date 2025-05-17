@@ -21,9 +21,9 @@ export default function Introduccion() {
           <h1 className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-5xl font-bold">
             La interpretación de los Sueños
           </h1>
-          {/* Línea azul exactamente debajo del texto */}
-          <div className="mt-1 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent blur-sm" />
-          <div className="-mt-2 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+          {/* Línea blanca exactamente debajo del texto */}
+          <div className="mt-1 w-full h-[2px] bg-gradient-to-r from-transparent via-white to-transparent blur-sm" />
+          <div className="-mt-2 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent" />
         </div>
       </div>
         {/* Título con efecto sparkles */}
