@@ -1,6 +1,6 @@
 import React, { useState,useRef,useEffect } from 'react';
 import { motion,AnimatePresence } from 'framer-motion';
-
+import Link from "next/link";
 
 interface ElasticHueSliderProps {
   value: number;
@@ -408,14 +408,16 @@ export const HeroSection: React.FC = () => {
                 Bienvenido a esta aplicación interactiva para el registro y análisis de tus sueños basada en las teorías de Sigmund Freud, el padre del psicoanálisis.
               </motion.p>
 
-              <motion.button
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-24 px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors"
-              >
-                Registrar sueño
-              </motion.button>
+              <Link href="/registrar">
+                <motion.button
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="mt-24 px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors"
+                >
+                  Registrar sueño
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
         </div>

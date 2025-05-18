@@ -146,7 +146,7 @@ export default function HistorialSuenos() {
           <h3 className="text-lg font-medium mb-2">No hay sueños registrados</h3>
           <p className="text-muted-foreground mb-4">Comienza a registrar tus sueños para construir tu historial.</p>
           <Link href="/registrar">
-            <Button>Registrar mi primer sueño</Button>
+            <Button className="bg-white hover:bg-grey-600">Registrar mi primer sueño</Button> 
           </Link>
         </div>
       )}

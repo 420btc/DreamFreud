@@ -83,7 +83,7 @@ export default function MiPerfil() {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center mt-20">Mi Perfil</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
         <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle>Información Personal</CardTitle>
@@ -91,7 +91,7 @@ export default function MiPerfil() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-center mb-4">
-                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center mt-9">
                   <User className="h-12 w-12 text-primary" />
                 </div>
               </div>

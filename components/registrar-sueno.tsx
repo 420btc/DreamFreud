@@ -67,7 +67,7 @@ export default function RegistrarSueno() {
 
   return (
     <div className="container mx-auto p-4 mt-20">
-      <h1 className="text-3xl font-bold mb-6 text-center">Registrar un Sueño</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center">Registrar un Sueño</h1>
 
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
@@ -114,7 +114,7 @@ export default function RegistrarSueno() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={guardarSueno} disabled={guardando || !texto.trim()} className="w-full">
+          <Button onClick={guardarSueno} disabled={guardando || !texto.trim()} className="w-full bg-white hover:bg-grey-600">
             {guardando ? (
               <>Guardando...</>
             ) : (
