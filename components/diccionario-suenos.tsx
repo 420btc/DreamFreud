@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Search, BookOpen } from "lucide-react"
-import { simbolosFreudianos, obtenerCategorias, buscarPorTermino } from "@/lib/simbolos-freudianos"
+import { simbolosInterpretados, obtenerCategorias, buscarPorTermino, type SimboloFreudiano } from "@/lib/simbolos-freudianos"
 
 export default function DiccionarioSuenos() {
   const [terminoBusqueda, setTerminoBusqueda] = useState("")
@@ -14,8 +14,8 @@ export default function DiccionarioSuenos() {
   const categorias = ["Todas", ...obtenerCategorias()]
 
   // Filtrar símbolos por término de búsqueda y categoría
-  const simbolosFiltrados = () => {
-    let resultados = simbolosFreudianos
+  const simbolosFiltrados = (): SimboloFreudiano[] => {
+    let resultados: SimboloFreudiano[] = [...simbolosInterpretados]
 
     if (terminoBusqueda) {
       resultados = buscarPorTermino(terminoBusqueda)
@@ -88,7 +88,7 @@ export default function DiccionarioSuenos() {
 
         {resultados.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {resultados.map((simbolo, index) => (
+            {resultados.map((simbolo: SimboloFreudiano, index: number) => (
               <Card key={index}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">{simbolo.simbolo}</CardTitle>

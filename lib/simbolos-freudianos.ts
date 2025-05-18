@@ -6,202 +6,196 @@ export interface SimboloFreudiano {
   referencia?: string
 }
 
-// Lista de símbolos freudianos comunes
-export const simbolosFreudianos: SimboloFreudiano[] = [
+// Lista de símbolos interpretados de forma general
+export const simbolosInterpretados = [
   // Objetos
   {
     simbolo: "Armas (fusil, cuchillo, espada)",
-    interpretacion: "Símbolos fálicos por excelencia, representan la potencia sexual masculina, agresión o deseos reprimidos de dominación. En algunos casos, pueden simbolizar la castración si están rotas o inutilizables.",
+    interpretacion: "Representan la fuerza, agresión o deseos reprimidos de dominación. En algunos casos, pueden simbolizar la pérdida de poder si están rotas o inutilizables.",
     categoria: "Objetos",
     palabrasClave: ["arma", "fusil", "cuchillo", "espada", "arma de fuego", "arma blanca", "arma corta", "arma larga", "militar", "combate", "guerra"],
-    referencia: "Freud menciona armas como símbolos sexuales en su análisis de sueños masculinos, especialmente en contextos de rivalidad."
+    referencia: "Algunas teorías interpretan las armas en sueños en contextos de rivalidad o poder."
   },
   {
     simbolo: "Caja o baúl",
-    interpretacion: "Representa los genitales femeninos o el útero. También puede simbolizar secretos reprimidos o el inconsciente.",
+    interpretacion: "Representa lo contenido, lo interno o el refugio. También puede simbolizar secretos reprimidos o el inconsciente.",
     categoria: "Objetos",
     palabrasClave: ["caja", "baúl", "maletín", "cajón", "contenedor", "caja fuerte", "caja de seguridad", "caja de herramientas"],
-    referencia: "Freud asocia cajas y contenedores con el cuerpo femenino en varios ejemplos de sueños."
+    referencia: "Se asocian cajas y contenedores con lo interno o lo oculto en varios ejemplos de sueños."
   },
   {
     simbolo: "Sombrero",
-    interpretacion: "Puede representar la cabeza (como símbolo del yo) o, en hombres, un símbolo fálico. En mujeres, puede estar ligado a la sexualidad o la identidad.",
+    interpretacion: "Puede representar la cabeza (como símbolo del yo) o la identidad. En algunos contextos, puede estar ligado a la individualidad.",
     categoria: "Objetos",
     palabrasClave: ["sombrero", "gorra", "boina", "sombrero de copa", "sombrero de paja", "sombrero de fiesta", "sombrero de sol", "sombrero de lluvia"],
-    referencia: "Freud menciona sombreros en relación con simbolismos sexuales y de estatus."
+    referencia: "Se mencionan sombreros en relación con simbolismos de identidad y de estatus."
   },
   {
     simbolo: "Reloj",
-    interpretacion: "Simboliza el paso del tiempo, la ansiedad por el envejecimiento o la mortalidad. También puede estar relacionado con el ritmo del acto sexual.",
+    interpretacion: "Simboliza el paso del tiempo, la ansiedad por el envejecimiento o la mortalidad. También puede estar relacionado con ritmos vitales.",
     categoria: "Objetos",
     palabrasClave: ["reloj", "reloj de pared", "reloj de pulsera", "reloj despertador", "reloj de arena", "cronómetro", "hora", "tiempo"],
-    referencia: "Freud conecta relojes con la percepción temporal y ansiedades inconscientes."
+    referencia: "Se conectan relojes con la percepción temporal y ansiedades inconscientes."
   },
   
   // Lugares
   {
     simbolo: "Cueva",
-    interpretacion: "Similar al túnel, representa el útero o la vagina, asociado con el nacimiento o deseos sexuales. También puede simbolizar el inconsciente.",
+    interpretacion: "Representa un lugar de origen, refugio o el inconsciente. Puede asociarse con el nacimiento o deseos profundos.",
     categoria: "Lugares",
     palabrasClave: ["cueva", "caverna", "cueva subterránea", "cueva de montaña", "cueva oscura", "cueva húmeda", "cueva profunda"],
-    referencia: "Freud usa cuevas como símbolos de refugio materno o sexualidad en sus análisis."
+    referencia: "Se usan cuevas como símbolos de refugio o introspección en análisis de sueños."
   },
   {
     simbolo: "Iglesia o templo",
-    interpretacion: "Puede representar el cuerpo materno o el útero, pero también conflictos entre deseos sexuales y moralidad/restricciones religiosas.",
+    interpretacion: "Puede representar un espacio sagrado, el cuerpo o un lugar de protección, pero también conflictos entre deseos profundos y moralidad/restricciones religiosas.",
     categoria: "Lugares",
     palabrasClave: ["iglesia", "templo", "catedral", "basílica", "mezquita", "sinagoga", "iglesia antigua", "iglesia gótica"],
-    referencia: "Freud interpreta edificios religiosos como símbolos de la madre o de la represión."
+    referencia: "Se interpretan edificios religiosos como símbolos de figuras protectoras o de la represión."
   },
   {
     simbolo: "Jardín",
-    interpretacion: "Simboliza la fertilidad, la sexualidad femenina o un retorno al paraíso (infancia). También puede representar deseos reprimidos de placer.",
+    interpretacion: "Simboliza la abundancia, el crecimiento, la belleza o un retorno a un estado de inocencia (infancia). También puede representar deseos reprimidos de placer.",
     categoria: "Lugares",
     palabrasClave: ["jardín", "huerto", "jardín botánico", "jardín japonés", "jardín zen", "jardín de flores", "jardín de invierno"],
-    referencia: "Freud asocia jardines con imágenes de abundancia y sexualidad."
+    referencia: "Se asocian jardines con imágenes de abundancia y bienestar."
   },
   
   // Animales
   {
     simbolo: "Caballo",
-    interpretacion: "Representa la energía sexual, la pasión descontrolada o deseos instintivos. En hombres, puede simbolizar la virilidad; en mujeres, deseos sexuales reprimidos.",
+    interpretacion: "Representa la energía vital, la pasión descontrolada o deseos instintivos. Puede simbolizar la fuerza o deseos reprimidos.",
     categoria: "Animales",
     palabrasClave: ["caballo", "yegua", "potro", "caballo salvaje", "caballo de carreras", "caballo de guerra", "caballo de montar"],
-    referencia: "Freud analiza caballos como símbolos de fuerza y sexualidad, especialmente en sueños de movimiento."
+    referencia: "Se analizan caballos como símbolos de fuerza y energía, especialmente en sueños de movimiento."
   },
   {
     simbolo: "Pájaro",
-    interpretacion: "Similar a volar, representa deseos sexuales o libertad. También puede ser un símbolo fálico (por su forma) o de la sublimación de deseos.",
+    interpretacion: "Similar a volar, representa anhelos de libertad o la trascendencia. También puede ser un símbolo de la elevación de deseos.",
     categoria: "Animales",
     palabrasClave: ["pájaro", "ave", "pájaro pequeño", "pájaro grande", "pájaro exótico", "pájaro de presa", "pájaro cantor"],
-    referencia: "Freud menciona pájaros en relación con el simbolismo sexual y la liberación."
+    referencia: "Se mencionan pájaros en relación con el simbolismo de anhelos y la liberación."
   },
   {
     simbolo: "Rata o ratón",
-    interpretacion: "Simboliza ansiedades sexuales, culpa o deseos reprimidos. También puede representar temores de contaminación o degradación.",
+    interpretacion: "Simboliza ansiedades profundas, culpa o deseos reprimidos. También puede representar temores de contaminación o degradación.",
     categoria: "Animales",
     palabrasClave: ["rata", "ratón", "ratón de campo", "ratón de ciudad", "ratón blanco", "ratón negro", "ratón de laboratorio"],
-    referencia: "Freud asocia ratas con ansiedades neuróticas y simbolismos fálicos en casos como el 'Hombre de las ratas'."
+    referencia: "Se asocian ratas con ansiedades neuróticas en algunos análisis."
   },
   
   // Acciones
   {
     simbolo: "Bailar",
-    interpretacion: "Representa el acto sexual debido a su ritmo y movimiento. También puede simbolizar la armonía o el conflicto en relaciones.",
+    interpretacion: "Representa la expresión corporal, el ritmo y el movimiento. También puede simbolizar la armonía o el conflicto en relaciones.",
     categoria: "Acciones",
     palabrasClave: ["bailar", "danza", "baile", "bailarín", "bailarina", "bailar salsa", "bailar rock"],
-    referencia: "Freud interpreta el baile como una expresión sublimada de deseos sexuales."
+    referencia: "Se interpreta el baile como una expresión sublimada de deseos profundos."
   },
   {
     simbolo: "Nadar",
-    interpretacion: "Relacionado con el agua, simboliza el nacimiento, la vida intrauterina o deseos sexuales. También puede representar la lucha contra resistencias inconscientes.",
+    interpretacion: "Relacionado con el agua, simboliza el origen, la vida o deseos profundos. También puede representar la lucha contra resistencias inconscientes.",
     categoria: "Acciones",
     palabrasClave: ["nadar", "natación", "nadar en el mar", "nadar en la piscina", "nadar en río", "nadar de espaldas", "nadar estilo libre"],
-    referencia: "Freud conecta nadar con el líquido amniótico y la sexualidad."
+    referencia: "Se conecta nadar con el medio acuoso primordial y las emociones."
   },
   {
     simbolo: "Cortarse el cabello",
-    interpretacion: "Simboliza la castración, la pérdida de potencia o el sacrificio de deseos. También puede representar un cambio en la identidad.",
+    interpretacion: "Simboliza la pérdida de poder, el sacrificio de deseos o un cambio en la identidad.",
     categoria: "Acciones",
     palabrasClave: ["cortar cabello", "cortarse el pelo", "peluquería", "barbería", "corte de pelo", "cabello corto", "cabello largo"],
-    referencia: "Freud asocia cortes (especialmente de cabello) con ansiedades de castración."
+    referencia: "Se asocian cortes (especialmente de cabello) con ansiedades de pérdida o cambio."
   },
   
   // Cuerpo
   {
     simbolo: "Ojos",
-    interpretacion: "Simbolizan la percepción, pero también pueden representar la castración (si están dañados) o el deseo de ser visto. En algunos casos, tienen connotaciones sexuales.",
+    interpretacion: "Simbolizan la percepción, pero también pueden representar la vulnerabilidad (si están dañados) o el deseo de ser visto. En algunos casos, tienen connotaciones intensas.",
     categoria: "Cuerpo",
     palabrasClave: ["ojo", "ojos", "mirada", "vista", "ver", "observar", "mirar", "mirarse"],
-    referencia: "Freud analiza ojos en relación con la mirada y la ansiedad."
+    referencia: "Se analizan ojos en relación con la mirada y la ansiedad."
   },
   {
     simbolo: "Manos",
-    interpretacion: "Representan la acción, el poder o la masturbación. Manos sucias o cortadas pueden simbolizar culpa sexual.",
+    interpretacion: "Representan la acción, el poder o la autoexploración. Manos sucias o cortadas pueden simbolizar culpa o arrepentimiento.",
     categoria: "Cuerpo",
     palabrasClave: ["mano", "manos", "palma", "dedos", "puño", "mano derecha", "mano izquierda"],
-    referencia: "Freud conecta manos con actividades sexuales y conflictos de culpa."
+    referencia: "Se conectan manos con actividades y conflictos de culpa."
   },
   
   // Situaciones
   {
     simbolo: "Perderse",
-    interpretacion: "Simboliza la confusión en la vida, el miedo a perder el control o la desconexión con el inconsciente. También puede reflejar ansiedades sexuales.",
+    interpretacion: "Simboliza la confusión en la vida, el miedo a perder el control o la desconexión con el inconsciente. También puede reflejar ansiedades profundas.",
     categoria: "Situaciones",
     palabrasClave: ["perderse", "perdido", "desorientado", "confundido", "extraviado", "perdido en la ciudad", "perdido en el bosque"],
-    referencia: "Freud interpreta perderse como una metáfora de conflictos internos."
+    referencia: "Se interpreta perderse como una metáfora de conflictos internos."
   },
   {
     simbolo: "Embarazo",
-    interpretacion: "Representa el deseo de creación, la fertilidad o ansiedades sobre la responsabilidad. También puede simbolizar un retorno al estado intrauterino.",
+    interpretacion: "Representa el deseo de creación, la gestación de ideas o ansiedades sobre la responsabilidad. También puede simbolizar un retorno a un estado de protección.",
     categoria: "Situaciones",
     palabrasClave: ["embarazo", "embarazada", "embarazado", "gestación", "preñada", "preñado", "preñez"],
-    referencia: "Freud asocia el embarazo con deseos de maternidad/paternidad o regresión."
+    referencia: "Se asocia el embarazo con deseos de creación o regresión."
   },
   
   // Conceptos
   {
     simbolo: "Dinero",
-    interpretacion: "Simboliza el poder, la energía libidinal o la defecación (en un sentido infantil). También puede reflejar ansiedades sobre la seguridad.",
+    interpretacion: "Simboliza el poder, la energía vital o la retención/expulsión (en un sentido infantil). También puede reflejar ansiedades sobre la seguridad.",
     categoria: "Conceptos",
     palabrasClave: ["dinero", "moneda", "billete", "efectivo", "dinero en efectivo", "dinero en el banco", "dinero en el bolsillo"],
-    referencia: "Freud conecta dinero con el simbolismo anal y el control."
+    referencia: "Se conecta dinero con el simbolismo de control y valor."
   },
   {
     simbolo: "Comida",
-    interpretacion: "Representa el placer oral, la dependencia materna o deseos sexuales sublimados. También puede simbolizar carencias afectivas.",
+    interpretacion: "Representa el placer sensorial, la dependencia o deseos profundos sublimados. También puede simbolizar carencias afectivas.",
     categoria: "Conceptos",
     palabrasClave: ["comida", "alimento", "comer", "comida rápida", "comida casera", "comida gourmet", "comida basura"],
-    referencia: "Freud asocia comida con la fase oral y deseos infantiles."
+    referencia: "Se asocia comida con fases tempranas y deseos infantiles."
   },
   {
     simbolo: "Oscuridad",
     interpretacion: "Simboliza el inconsciente, el miedo a lo desconocido o la represión de deseos. También puede representar la muerte o el caos.",
     categoria: "Conceptos",
     palabrasClave: ["oscuridad", "oscuro", "tenebroso", "penumbra", "luz tenue", "luz apagada", "luz encendida"],
-    referencia: "Freud usa la oscuridad como metáfora del inconsciente en varios análisis."
+    referencia: "Se usa la oscuridad como metáfora del inconsciente en varios análisis."
   },
   
-  // Símbolos existentes...
+  // Símbolos existentes... (adaptados)
   {
     simbolo: "Agua",
-    interpretacion:
-      "Representa el nacimiento, la vida intrauterina o puede simbolizar el líquido amniótico. También puede relacionarse con deseos sexuales o la necesidad de purificación.",
+    interpretacion: "Representa el origen, la vida o puede simbolizar el medio primordial. También puede relacionarse con emociones profundas o la necesidad de purificación.",
     categoria: "Elementos naturales",
     palabrasClave: ["agua", "mar", "océano", "lago", "río", "lluvia", "nadar", "ahogarse", "mojado", "líquido"],
   },
   {
     simbolo: "Casa",
-    interpretacion:
-      "Simboliza el cuerpo humano y sus diferentes habitaciones pueden representar diferentes aspectos de la psique. También puede representar el útero materno o la seguridad.",
+    interpretacion: "Simboliza el cuerpo humano y sus diferentes habitaciones pueden representar diferentes aspectos de la psique. También puede representar un lugar de origen o la seguridad.",
     categoria: "Lugares",
     palabrasClave: ["casa", "hogar", "habitación", "edificio", "mansión", "apartamento", "vivienda", "morada"],
   },
   {
     simbolo: "Caída",
-    interpretacion:
-      "Puede representar la ansiedad, el miedo al fracaso, o ceder ante una tentación sexual. También puede simbolizar la pérdida de control o el abandono.",
+    interpretacion: "Puede representar la ansiedad, el miedo al fracaso, o ceder ante una tentación. También puede simbolizar la pérdida de control o el abandono.",
     categoria: "Acciones",
     palabrasClave: ["caer", "caída", "precipicio", "abismo", "desplomarse", "hundirse", "tropezar"],
   },
   {
     simbolo: "Volar",
-    interpretacion:
-      "Según Freud, volar en sueños suele estar relacionado con deseos sexuales, especialmente en hombres. También puede representar la libertad o el escape de limitaciones.",
+    interpretacion: "Suele estar relacionado con anhelos de superación. También puede representar la libertad o el escape de limitaciones.",
     categoria: "Acciones",
     palabrasClave: ["volar", "flotar", "elevarse", "aire", "cielo", "alas", "pájaro", "avión"],
   },
   {
     simbolo: "Dientes",
-    interpretacion:
-      "La caída de dientes puede simbolizar ansiedad por la castración, miedo a perder potencia sexual, o preocupaciones sobre la apariencia y el envejecimiento.",
+    interpretacion: "La caída de dientes puede simbolizar ansiedad por la pérdida de poder, o preocupaciones sobre la apariencia y el envejecimiento.",
     categoria: "Cuerpo",
     palabrasClave: ["dientes", "muela", "caerse los dientes", "perder dientes", "diente", "dentista", "masticar"],
   },
   {
     simbolo: "Escaleras",
-    interpretacion:
-      "Representan el acto sexual debido a su movimiento rítmico al subir y bajar. También pueden simbolizar la progresión o regresión en la vida.",
+    interpretacion: "Representan el ascenso o descenso, o un movimiento rítmico. También pueden simbolizar la progresión o regresión en la vida.",
     categoria: "Objetos",
     palabrasClave: ["escalera", "escaleras", "subir", "bajar", "escalones", "peldaños"],
   },
@@ -213,49 +207,44 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   },
   {
     simbolo: "Serpiente",
-    interpretacion:
-      "Símbolo fálico por excelencia en la teoría freudiana, representa deseos sexuales, tentación o amenaza sexual.",
+    interpretacion: "Símbolo de transformación, representa deseos profundos, tentación o una amenaza percibida.",
     categoria: "Animales",
     palabrasClave: ["serpiente", "víbora", "culebra", "reptil", "anaconda", "boa", "cobra"],
   },
   {
     simbolo: "Túnel",
-    interpretacion: "Representa el canal de nacimiento o la vagina, asociado con el nacimiento o el acto sexual.",
+    interpretacion: "Representa un pasaje, asociado con el origen o una transición importante.",
     categoria: "Lugares",
     palabrasClave: ["túnel", "pasadizo", "corredor", "pasillo", "caverna", "cueva", "agujero"],
   },
   {
     simbolo: "Fuego",
-    interpretacion:
-      "Simboliza la pasión sexual, el deseo ardiente o la transformación. También puede representar la destrucción o purificación.",
+    interpretacion: "Simboliza la pasión intensa, el deseo ardiente o la transformación. También puede representar la destrucción o purificación.",
     categoria: "Elementos naturales",
     palabrasClave: ["fuego", "llama", "incendio", "arder", "quemar", "fogata", "hoguera", "calor"],
   },
   {
     simbolo: "Viaje",
-    interpretacion:
-      "Puede simbolizar la muerte en la teoría freudiana, o representar un cambio importante en la vida o una transición.",
+    interpretacion: "Puede simbolizar la muerte en algunas teorías, o representar un cambio importante en la vida o una transición.",
     categoria: "Acciones",
     palabrasClave: ["viaje", "viajar", "camino", "trayecto", "partir", "destino", "ruta", "travesía"],
   },
   {
     simbolo: "Llave",
-    interpretacion:
-      "Símbolo fálico que representa la potencia sexual masculina o el acceso a secretos y conocimientos ocultos.",
+    interpretacion: "Símbolo que representa el poder de acceso o el acceso a secretos y conocimientos ocultos.",
     categoria: "Objetos",
     palabrasClave: ["llave", "cerradura", "abrir", "cerrar", "puerta", "acceso", "candado"],
   },
   {
     simbolo: "Puente",
-    interpretacion:
-      "Representa una transición o conexión entre dos estados o aspectos de la personalidad. También puede simbolizar el paso de la vida a la muerte.",
+    interpretacion: "Representa una transición o conexión entre dos estados o aspectos de la personalidad. También puede simbolizar el paso de la vida a la muerte.",
     categoria: "Lugares",
     palabrasClave: ["puente", "cruzar", "pasar", "conectar", "unir", "río", "abismo"],
   },
   {
     simbolo: "Desnudez",
     interpretacion: "Puede representar vulnerabilidad, vergüenza, exhibicionismo o deseo de ser visto y admirado.",
-    categoria: "Estados",
+    categoria: "Estados", // O Cuerpo
     palabrasClave: ["desnudo", "desnudez", "sin ropa", "expuesto", "vergüenza", "exhibición", "descubierto"],
   },
   {
@@ -266,19 +255,18 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   },
   {
     simbolo: "Examen",
-    interpretacion:
-      "Representa ansiedad por el rendimiento, miedo al fracaso o preocupación por ser juzgado por los demás.",
+    interpretacion: "Representa ansiedad por el rendimiento, miedo al fracaso o preocupación por ser juzgado por los demás.",
     categoria: "Situaciones",
     palabrasClave: ["examen", "prueba", "test", "evaluación", "estudiar", "suspender", "aprobar", "escuela"],
   },
   {
     simbolo: "Zapatos",
-    interpretacion: "Pueden simbolizar los genitales femeninos o representar actitudes hacia la sexualidad.",
+    interpretacion: "Pueden simbolizar el camino o la base sobre la que uno se sostiene, o representar actitudes hacia la propia intimidad o la forma de avanzar en la vida.",
     categoria: "Objetos",
     palabrasClave: ["zapato", "zapatos", "calzado", "bota", "zapatilla", "pie", "caminar"],
   },
   {
-    simbolo: "Rey/Reina",
+    simbolo: "Rey/Reina", // Repetido, se mantiene la primera interpretación más específica.
     interpretacion: "Figuras de autoridad, poder o aspectos idealizados de uno mismo o de personas influyentes en la vida, como padres o mentores.",
     categoria: "Figuras",
     palabrasClave: ["rey", "reina", "monarca", "gobernante", "autoridad", "poder", "corona"],
@@ -296,7 +284,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["viaje", "viajar", "traslado", "mudanza", "emigrar", "cambio", "transición"],
   },
   {
-    simbolo: "Desnudez",
+    simbolo: "Desnudez", // Repetido
     interpretacion: "Sentimientos de vulnerabilidad, exposición, veracidad, o ansiedad por ser juzgado o revelar el verdadero yo.",
     categoria: "Cuerpo",
     palabrasClave: ["desnudo", "desnudez", "desvestirse", "sin ropa", "desnudarse", "desnudo en público"],
@@ -314,7 +302,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["palo", "paraguas", "poste", "árbol", "vara", "bastón", "tronco"],
   },
   {
-    simbolo: "Cuchillos, Dagas, Lanzas, Espadas, Armas de Fuego",
+    simbolo: "Cuchillos, Dagas, Lanzas, Espadas, Armas de Fuego", // Similar a "Armas"
     interpretacion: "Pueden simbolizar agresión, conflicto, atravesar ilusiones, tomar decisiones, o sentimientos de amenaza o empoderamiento.",
     categoria: "Objetos",
     palabrasClave: ["cuchillo", "daga", "lanza", "espada", "arma de fuego", "arma blanca", "filo", "pistola"],
@@ -333,13 +321,13 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   },
   {
     simbolo: "Fosas, Cuevas, Botellas, Cajas, Baúles, Jarras, Maletas, Bolsillos, Barcos, Boca, Iglesias",
-    interpretacion: "Pueden simbolizar receptividad, contención, protección, aspectos ocultos, el inconsciente o un viaje/transición.",
+    interpretacion: "Pueden simbolizar receptividad, contención, protección, aspectos ocultos, el inconsciente o un viaje/transición. (Verificar interpretaciones individuales ya ajustadas).",
     categoria: "Objetos",
     palabrasClave: ["fosa", "cueva", "botella", "caja", "baúl", "jarra", "maleta", "bolsillo", "barco", "boca", "iglesia"],
   },
   {
     simbolo: "Manzanas, Melocotones, Frutas en general",
-    interpretacion: "Pueden representar nutrición, crecimiento, sensualidad, tentación o los frutos del propio trabajo.",
+    interpretacion: "Pueden representar nutrición, crecimiento, disfrute sensorial, tentación o los frutos del propio trabajo.",
     categoria: "Objetos",
     palabrasClave: ["manzana", "melocotón", "fruta", "manzana roja", "manzana verde", "melocotón maduro", "cesta de frutas"],
   },
@@ -362,7 +350,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["deslizarse", "resbalar", "resbalón", "caída", "rama", "árbol", "pérdida de control"],
   },
   {
-    simbolo: "Serpientes",
+    simbolo: "Serpientes", // Repetido, mantener la versión ajustada.
     interpretacion: "Pueden representar transformación, curación, amenazas ocultas, sabiduría o problemas vitales no resueltos.",
     categoria: "Animales",
     palabrasClave: ["serpiente", "culebra", "víbora", "reptil", "serpiente venenosa", "serpiente constrictora"],
@@ -380,7 +368,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["camino", "sendero", "ruta", "trayecto", "dirección", "cruce de caminos"],
   },
   {
-    simbolo: "Ser Perseguido",
+    simbolo: "Ser Perseguido", // Similar a Persecución
     interpretacion: "Sentirse amenazado, evitar una situación o emoción, ansiedad o presión de fuentes externas o internas.",
     categoria: "Situaciones",
     palabrasClave: ["perseguido", "persecución", "huir", "escapar", "acoso", "amenaza", "miedo"],
@@ -398,7 +386,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["perro", "perro blanco", "mascota", "can", "cachorro", "perro callejero"],
   },
   {
-    simbolo: "Subir una Escalera",
+    simbolo: "Subir una Escalera", // Similar a Escaleras
     interpretacion: "Simboliza ambición, esforzarse por alcanzar metas, progreso o ascenso social.",
     categoria: "Acciones",
     palabrasClave: ["escalera", "escalar", "subir", "escalones", "peldaños", "escalera de mano"],
@@ -525,12 +513,12 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   },
   {
     simbolo: "Árbol",
-    interpretacion: "Símbolo fálico que representa la vida, el crecimiento y la potencia sexual masculina. También simboliza conexión entre el cielo y la tierra, fuerza y conocimiento. Un árbol seco puede indicar falta de vitalidad.",
+    interpretacion: "Representa la vida, el crecimiento y la fuerza. También simboliza conexión entre el cielo y la tierra, y conocimiento. Un árbol seco puede indicar falta de vitalidad.",
     categoria: "Elementos naturales",
     palabrasClave: ["árbol", "tronco", "rama", "hoja", "bosque", "selva", "naturaleza", "crecimiento", "vida", "conocimiento"],
   },
   {
-    simbolo: "Alimentos/Comida",
+    simbolo: "Alimentos/Comida", // Similar a "Comida"
     interpretacion: "Nutrición (física, emocional o intelectual), consuelo, necesidades, deseos, o la forma en que se 'asimilan' las experiencias.",
     categoria: "Objetos",
     palabrasClave: ["comida", "alimento", "nutrición", "hambre", "comer", "banquete", "alimentarse"],
@@ -555,7 +543,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   },
   {
     simbolo: "Araña",
-    interpretacion: "Creatividad (tejer redes), sentirse atrapado, miedo, poder femenino, o una figura materna dominante/controladora.",
+    interpretacion: "Creatividad (tejer redes), sentirse atrapado, miedo, poder, o una figura materna/creadora dominante/controladora.",
     categoria: "Animales",
     palabrasClave: ["araña", "telaraña", "tejer", "red", "atrapado", "miedo", "control"],
   },
@@ -626,14 +614,14 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["bicicleta", "bici", "montar en bici", "ciclismo", "ruedas"]
   },
   {
-    simbolo: "Caja",
+    simbolo: "Caja", // Similar a Caja o Baúl
     interpretacion: "Secretos, potencial oculto, el inconsciente, o algo que necesita ser abierto o explorado.",
     categoria: "Objetos",
     palabrasClave: ["caja", "baúl", "cofre", "contenedor", "secreto", "oculto"]
   },
   {
     simbolo: "Cama",
-    interpretacion: "Descanso, intimidad, enfermedad, o el lugar donde se procesan los sueños y el inconsciente.",
+    interpretacion: "Descanso, intimidad (no necesariamente sexual), enfermedad, o el lugar donde se procesan los sueños y el inconsciente.",
     categoria: "Objetos",
     palabrasClave: ["cama", "dormir", "descansar", "intimidad", "enfermedad", "dormitorio"]
   },
@@ -644,7 +632,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["caminar en el sitio", "correr sin avanzar", "estancamiento", "esfuerzo inútil", "frustración"]
   },
   {
-    simbolo: "Caminos/Carreteras",
+    simbolo: "Caminos/Carreteras", // Similar a Caminos
     interpretacion: "El curso de la vida, elecciones, dirección, oportunidades o desafíos en el viaje personal.",
     categoria: "Lugares",
     palabrasClave: ["camino", "carretera", "sendero", "ruta", "viaje", "dirección", "elección"]
@@ -662,7 +650,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
     palabrasClave: ["cárcel", "prisión", "celda", "encerrado", "atrapado", "restricción", "castigo"]
   },
   {
-    simbolo: "Casa",
+    simbolo: "Casa", // Repetido, mantener la versión ajustada
     interpretacion: "El yo, la psique, seguridad, familia. Diferentes habitaciones representan aspectos del yo o áreas de la vida.",
     categoria: "Lugares",
     palabrasClave: ["casa", "hogar", "vivienda", "habitación", "hogar", "seguridad", "familia"]
@@ -670,7 +658,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Cascada",
     interpretacion: "Gran liberación de emociones, flujo de energía, o sentimientos abrumadores.",
-    categoria: "Naturaleza",
+    categoria: "Naturaleza", // O Elementos naturales
     palabrasClave: ["cascada", "caída de agua", "flujo", "emoción", "liberación", "energía"]
   },
   {
@@ -682,7 +670,7 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Celebridad/Famoso",
     interpretacion: "Cualidades que se admiran o se desean, aspiraciones, o la forma en que uno quiere ser percibido.",
-    categoria: "Personas",
+    categoria: "Personas", // O Figuras
     palabrasClave: ["celebridad", "famoso", "fama", "ídolo", "aspiración", "reconocimiento"]
   },
   {
@@ -693,288 +681,288 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   },
   {
     simbolo: "Cerdos",
-    interpretacion: "Indulgencia, suciedad, terquedad, o a veces prosperidad (hucha de cerdito).",
+    interpretacion: "Indulgencia, suciedad (en sentido figurado), terquedad, o a veces prosperidad (hucha de cerdito).",
     categoria: "Animales",
     palabrasClave: ["cerdo", "cerda", "cochinillo", "marrano", "puerco", "chancho", "hucha"]
   },
   {
     simbolo: "Faro",
     interpretacion: "Guía, esperanza, iluminación en tiempos de oscuridad o confusión.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["faro", "guía", "luz", "esperanza", "iluminación", "navegación"]
   },
   {
     simbolo: "Fiesta",
     interpretacion: "Celebración, vida social, alegría, o, a veces, superficialidad o exceso.",
-    categoria: "General",
+    categoria: "General", // O Situaciones
     palabrasClave: ["fiesta", "celebración", "alegría", "reunión", "festejo", "social"]
   },
   {
     simbolo: "Flores",
     interpretacion: "Belleza, crecimiento, amor, alegría, o el florecimiento del potencial. Diferentes flores pueden tener significados específicos.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["flor", "flores", "jardín", "belleza", "crecimiento", "amor", "alegría"]
   },
   {
     simbolo: "Fotografía",
     interpretacion: "Recuerdos, el pasado, una imagen fija de un momento o persona, o la necesidad de examinar algo más de cerca.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["foto", "fotografía", "recuerdo", "imagen", "momento", "pasado"]
   },
   {
-    simbolo: "Fuego",
+    simbolo: "Fuego", // Repetido, mantener versión ajustada
     interpretacion: "Pasión, ira, destrucción, transformación, purificación, o una advertencia. Estar en llamas: ansiedad.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["fuego", "llama", "ardor", "pasión", "ira", "destrucción", "transformación", "ansiedad"]
   },
   {
     simbolo: "Funeral",
     interpretacion: "Final de algo (una relación, una fase de la vida, un aspecto del yo), duelo, o la necesidad de dejar ir.",
-    categoria: "General",
+    categoria: "General", // O Situaciones
     palabrasClave: ["funeral", "entierro", "muerte", "duelo", "final", "despedida"]
   },
   {
     simbolo: "Gafas/Lentes",
     interpretacion: "Percepción, claridad de visión, o la necesidad de ver las cosas de manera diferente.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["gafas", "lentes", "anteojos", "visión", "percepción", "claridad"]
   },
   {
     simbolo: "Gato",
-    interpretacion: "Independencia, misterio, intuición, sensualidad, o el lado astuto y sigiloso de uno mismo.",
-    categoria: "General",
+    interpretacion: "Independencia, misterio, intuición, gracia, o el lado astuto y sigiloso de uno mismo.",
+    categoria: "General", // O Animales
     palabrasClave: ["gato", "gata", "felino", "independencia", "misterio", "intuición"]
   },
   {
     simbolo: "Gigante",
     interpretacion: "Poder abrumador (interno o externo), una figura de autoridad temida, o un gran desafío.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Figuras
     palabrasClave: ["gigante", "enorme", "poder", "autoridad", "desafío", "miedo"]
   },
   {
-    simbolo: "Globos",
+    simbolo: "Globos", // Similar a Globos, Aviones, Cohetes
     interpretacion: "Celebración, alegría, ligereza, aspiraciones, o algo frágil y efímero.",
-    categoria: "Freudiano, General",
+    categoria: "Freudiano, General", // O Objetos
     palabrasClave: ["globo", "globos", "celebración", "alegría", "ligereza", "aspiraciones"]
   },
   {
     simbolo: "Guerra",
     interpretacion: "Conflicto interno o externo, agresión, lucha por el poder, o una situación caótica.",
-    categoria: "General",
+    categoria: "General", // O Situaciones
     palabrasClave: ["guerra", "batalla", "conflicto", "lucha", "poder", "caos"]
   },
   {
     simbolo: "Hadas",
     interpretacion: "Magia, imaginación, deseos, o el lado lúdico e infantil de la psique.",
-    categoria: "General",
+    categoria: "General", // O Figuras
     palabrasClave: ["hada", "hadas", "magia", "imaginación", "deseo", "infantil"]
   },
   {
     simbolo: "Herida",
     interpretacion: "Dolor emocional o físico, vulnerabilidad, o un trauma pasado que necesita curación.",
-    categoria: "General",
+    categoria: "General", // O Cuerpo/Situaciones
     palabrasClave: ["herida", "dolor", "vulnerabilidad", "trauma", "curación", "cicatriz"]
   },
   {
     simbolo: "Hielo",
     interpretacion: "Emociones congeladas, frialdad, aislamiento, o una situación estancada.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["hielo", "frío", "congelado", "aislamiento", "estancamiento", "emoción"]
   },
   {
-    simbolo: "Hogar",
+    simbolo: "Hogar", // Similar a Casa
     interpretacion: "Seguridad, comodidad, el yo, la familia, o el centro de la vida personal.",
-    categoria: "General",
+    categoria: "General", // O Lugares
     palabrasClave: ["hogar", "casa", "seguridad", "comodidad", "familia", "refugio"]
   },
   {
     simbolo: "Humo",
     interpretacion: "Confusión, algo oculto o poco claro, o una advertencia de peligro (fuego).",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["humo", "confusión", "oculto", "peligro", "advertencia", "neblina"]
   },
   {
-    simbolo: "Iglesia",
+    simbolo: "Iglesia", // Repetido, mantener versión ajustada
     interpretacion: "Espiritualidad, moralidad, comunidad, refugio, o dogmatismo.",
-    categoria: "Freudiano, General",
+    categoria: "Freudiano, General", // O Lugares
     palabrasClave: ["iglesia", "templo", "religión", "espiritualidad", "moralidad", "comunidad"]
   },
   {
     simbolo: "Infierno",
     interpretacion: "Sufrimiento, culpa, miedos internos, o una situación de vida intolerable.",
-    categoria: "General",
+    categoria: "General", // O Lugares/Conceptos
     palabrasClave: ["infierno", "sufrimiento", "culpa", "miedo", "dolor", "castigo"]
   },
   {
-    simbolo: "Insectos",
+    simbolo: "Insectos", // Similar a Animales Pequeños/Alimañas
     interpretacion: "Pequeñas molestias, ansiedades, o cosas que 'fastidian'. El tipo de insecto puede dar más detalles.",
     categoria: "Animales",
     palabrasClave: ["insecto", "bicho", "molestia", "ansiedad", "pequeño", "fastidio"]
   },
   {
     simbolo: "Luna",
-    interpretacion: "Feminidad, intuición, emociones, ciclos, el inconsciente, misterio.",
-    categoria: "Junguiano, General",
+    interpretacion: "Aspectos femeninos, intuición, emociones, ciclos, el inconsciente, misterio.",
+    categoria: "Junguiano, General", // O Símbolos/Elementos naturales
     palabrasClave: ["luna", "fase lunar", "noche", "misterio", "intuición", "ciclo"]
   },
   {
     simbolo: "Luz",
     interpretacion: "Conciencia, claridad, comprensión, esperanza, guía espiritual.",
-    categoria: "General",
+    categoria: "General", // O Símbolos
     palabrasClave: ["luz", "iluminación", "claridad", "esperanza", "guía", "espiritual"]
   },
   {
-    simbolo: "Maestro/Profesor",
+    simbolo: "Maestro/Profesor", // Similar a Policía, Oficial, Maestro
     interpretacion: "Guía, conocimiento, autoridad, o la necesidad de aprender una lección importante.",
-    categoria: "Freudiano (padre), General",
+    categoria: "Freudiano (padre), General", // O Figuras
     palabrasClave: ["maestro", "profesor", "guía", "conocimiento", "autoridad", "aprendizaje"]
   },
   {
     simbolo: "Magia/Mago",
     interpretacion: "Poder de transformación, lo desconocido, creatividad, o el deseo de controlar situaciones.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Conceptos/Figuras
     palabrasClave: ["magia", "mago", "hechicero", "transformación", "creatividad", "control"]
   },
   {
-    simbolo: "Maleta",
+    simbolo: "Maleta", // Similar a Fosas, Cuevas, etc.
     interpretacion: "Viajes, cargas emocionales ('equipaje'), o preparación para un cambio.",
-    categoria: "Freudiano, General",
+    categoria: "Freudiano, General", // O Objetos
     palabrasClave: ["maleta", "equipaje", "viaje", "cambio", "preparación", "carga"]
   },
   {
-    simbolo: "Manos",
+    simbolo: "Manos", // Repetido, mantener versión ajustada
     interpretacion: "Acción, habilidad, creación, comunicación (lenguaje de señas), o ayuda.",
-    categoria: "General",
+    categoria: "General", // O Cuerpo
     palabrasClave: ["mano", "manos", "acción", "habilidad", "creación", "comunicación"]
   },
   {
     simbolo: "Mapa",
     interpretacion: "Dirección, guía, planificación, o la búsqueda del propio camino en la vida.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["mapa", "dirección", "guía", "planificación", "camino", "vida"]
   },
   {
     simbolo: "Máscara",
     interpretacion: "Ocultar el verdadero yo, la persona, engaño, o protección.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Objetos
     palabrasClave: ["máscara", "careta", "ocultar", "personalidad", "engaño", "protección"]
   },
   {
     simbolo: "Medicinas/Fármacos",
     interpretacion: "Curación, necesidad de ayuda, o evasión de problemas.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["medicina", "fármaco", "medicamento", "curación", "ayuda", "evasión"]
   },
   {
     simbolo: "Monstruos",
     interpretacion: "Miedos internos, aspectos reprimidos de la sombra, desafíos abrumadores, o traumas pasados.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Figuras
     palabrasClave: ["monstruo", "miedo", "sombra", "trauma", "desafío", "represión"]
   },
   {
     simbolo: "Montaña",
     interpretacion: "Obstáculos, metas elevadas, desafíos, o un lugar para la perspectiva y la introspección.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Lugares
     palabrasClave: ["montaña", "obstáculo", "meta", "desafío", "altura", "introspección"]
   },
   {
-    simbolo: "Muerte",
+    simbolo: "Muerte", // Similar a Muerte (de una persona)
     interpretacion: "Finales, transformación, cambio, dejar ir el pasado, o el miedo a lo desconocido (raramente muerte literal).",
-    categoria: "Freudiano, General",
+    categoria: "Freudiano, General", // O Conceptos
     palabrasClave: ["muerte", "fin", "transformación", "cambio", "miedo", "desconocido"]
   },
   {
     simbolo: "Multitud",
     interpretacion: "Conformidad, pérdida de individualidad, sentirse abrumado, o, por el contrario, conexión social.",
-    categoria: "General",
+    categoria: "General", // O Situaciones
     palabrasClave: ["multitud", "masa", "conformidad", "individualidad", "conexión", "social"]
   },
   {
     simbolo: "Música",
     interpretacion: "Emociones, armonía, autoexpresión, o el ritmo de la vida.",
-    categoria: "General",
+    categoria: "General", // O Conceptos
     palabrasClave: ["música", "canción", "melodía", "emoción", "armonía", "ritmo"]
   },
   {
-    simbolo: "Nadar",
+    simbolo: "Nadar", // Repetido, mantener versión ajustada
     interpretacion: "Navegar por las emociones, lidiar con el inconsciente, o la capacidad de mantenerse a flote en situaciones difíciles.",
-    categoria: "General",
+    categoria: "General", // O Acciones
     palabrasClave: ["nadar", "navegar", "emoción", "inconsciente", "flotar", "dificultad"]
   },
   {
     simbolo: "Nieve",
     interpretacion: "Pureza, frialdad emocional, aislamiento, o un nuevo comienzo (cubrir lo viejo).",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["nieve", "frío", "pureza", "aislamiento", "nuevo comienzo", "blanco"]
   },
   {
-    simbolo: "Niño/Niña",
+    simbolo: "Niño/Niña", // Similar a Bebé
     interpretacion: "Inocencia, vulnerabilidad, el niño interior, potencial, o aspectos inmaduros del yo.",
-    categoria: "Freudiano, Junguiano (Niño Divino)",
+    categoria: "Freudiano, Junguiano (Niño Divino)", // O Figuras
     palabrasClave: ["niño", "niña", "inocencia", "vulnerabilidad", "potencial", "inmadurez"]
   },
   {
-    simbolo: "Noche",
+    simbolo: "Noche", // Similar a Oscuridad
     interpretacion: "El inconsciente, misterio, miedo, descanso, o un tiempo para la introspección.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Conceptos/Situaciones
     palabrasClave: ["noche", "oscuridad", "inconsciente", "misterio", "miedo", "introspección"]
   },
   {
     simbolo: "Nubes",
     interpretacion: "Pensamientos, confusión, obstáculos a la claridad, o sueños y fantasías.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["nube", "nubes", "pensamiento", "confusión", "claridad", "sueño"]
   },
   {
     simbolo: "Nudo",
     interpretacion: "Problemas, tensión, sentirse atado o restringido, o una conexión compleja.",
-    categoria: "General",
+    categoria: "General", // O Objetos/Conceptos
     palabrasClave: ["nudo", "problema", "tensión", "atadura", "restricción", "conexión"]
   },
   {
-    simbolo: "Números",
+    simbolo: "Números", // Similar a Número Tres
     interpretacion: "Pueden tener significados personales, simbólicos (según la numerología), o representar orden/caos.",
-    categoria: "Freudiano (3), General",
+    categoria: "Freudiano (3), General", // O Símbolos
     palabrasClave: ["número", "números", "numerología", "orden", "caos", "significado"]
   },
   {
-    simbolo: "Océano",
+    simbolo: "Océano", // Similar a Agua
     interpretacion: "El inconsciente colectivo, la inmensidad de las emociones, lo desconocido, o el origen de la vida.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Elementos naturales/Lugares
     palabrasClave: ["océano", "mar", "inconsciente", "emoción", "inmensidad", "origen"]
   },
   {
     simbolo: "Oficina",
     interpretacion: "Trabajo, responsabilidades, estructura, o a veces, monotonía y estrés.",
-    categoria: "General",
+    categoria: "General", // O Lugares
     palabrasClave: ["oficina", "trabajo", "responsabilidad", "estructura", "monotonía", "estrés"]
   },
   {
-    simbolo: "Ojo(s)",
+    simbolo: "Ojo(s)", // Repetido, mantener versión ajustada
     interpretacion: "Visión, percepción, conciencia, alma ('las ventanas del alma'), o sentirse observado.",
-    categoria: "General",
+    categoria: "General", // O Cuerpo
     palabrasClave: ["ojo", "ojos", "visión", "percepción", "conciencia", "alma"]
   },
   {
     simbolo: "Ola",
     interpretacion: "Emociones poderosas, cambios repentinos, o fuerza abrumadora.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["ola", "olas", "emoción", "cambio", "fuerza", "mar"]
   },
   {
-    simbolo: "Oro",
+    simbolo: "Oro", // Similar a Chocolate/Oro
     interpretacion: "Valor, riqueza (material o espiritual), pureza, el yo superior.",
-    categoria: "Freudiano (contexto específico), Junguiano, General",
+    categoria: "Freudiano (contexto específico), Junguiano, General", // O Objetos/Símbolos
     palabrasClave: ["oro", "valor", "riqueza", "pureza", "yo superior", "tesoro"]
   },
   {
-    simbolo: "Oscuridad",
+    simbolo: "Oscuridad", // Repetido, mantener versión ajustada
     interpretacion: "El inconsciente, miedo, lo desconocido, potencial oculto, o un período de confusión.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Conceptos
     palabrasClave: ["oscuridad", "oscuridad", "inconsciente", "miedo", "desconocido", "potencial"]
   },
   {
-    simbolo: "Pájaro",
+    simbolo: "Pájaro", // Repetido, mantener versión ajustada
     interpretacion: "Libertad, trascendencia, mensajes, el alma, o aspiraciones. Diferentes pájaros tienen simbolismos específicos.",
     categoria: "Animales",
     palabrasClave: ["pájaro", "ave", "libertad", "trascendencia", "alma", "aspiración"]
@@ -982,199 +970,199 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Pan",
     interpretacion: "Nutrición básica, sustento (físico o espiritual), o compartir.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["pan", "alimento", "nutrición", "sustento", "compartir", "eucaristía"]
   },
   {
     simbolo: "Pantano",
     interpretacion: "Sentirse atascado, confusión, emociones negativas estancadas, o una situación difícil de la que salir.",
-    categoria: "General",
+    categoria: "General", // O Lugares
     palabrasClave: ["pantano", "atascado", "confusión", "emoción", "estancamiento", "dificultad"]
   },
   {
     simbolo: "Paquete/Regalo",
     interpretacion: "Sorpresas, talentos ocultos, oportunidades, o algo que se recibe o se da.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["paquete", "regalo", "sorpresa", "talento", "oportunidad", "obsequio"]
   },
   {
     simbolo: "Parálisis",
     interpretacion: "Incapacidad para actuar o tomar decisiones, sentirse atrapado o indefenso, a veces relacionado con la parálisis del sueño.",
-    categoria: "General, Adleriano",
+    categoria: "General, Adleriano", // O Estados/Situaciones
     palabrasClave: ["parálisis", "inmovilidad", "indecisión", "atrapado", "indefensión", "sueño"]
   },
   {
     simbolo: "Payaso",
     interpretacion: "Alegría fingida, ocultar verdaderos sentimientos, miedo (coulrofobia), o el arquetipo del bufón.",
-    categoria: "Junguiano (Trickster), General",
+    categoria: "Junguiano (Trickster), General", // O Figuras
     palabrasClave: ["payaso", "bufón", "alegría", "máscara", "miedo", "trickster"]
   },
   {
     simbolo: "Pelo (vello corporal)",
-    interpretacion: "Instintos, naturaleza animal, o virilidad/feminidad.",
-    categoria: "General",
+    interpretacion: "Instintos, naturaleza animal, o aspectos primarios.",
+    categoria: "General", // O Cuerpo
     palabrasClave: ["pelo", "vello", "instinto", "naturaleza", "virilidad", "feminidad"]
   },
   {
-    simbolo: "Perderse",
+    simbolo: "Perderse", // Repetido, mantener versión ajustada
     interpretacion: "Incertidumbre, falta de dirección, confusión, o la búsqueda de un nuevo camino.",
-    categoria: "General, Adleriano",
+    categoria: "General, Adleriano", // O Situaciones
     palabrasClave: ["perderse", "perdido", "incertidumbre", "dirección", "confusión", "camino"]
   },
   {
-    simbolo: "Perro",
+    simbolo: "Perro", // Similar a Perro (estrangular...)
     interpretacion: "Lealtad, amistad, protección, instintos. Un perro agresivo: traición o miedo.",
-    categoria: "Freudiano (contexto específico), General",
+    categoria: "Freudiano (contexto específico), General", // O Animales
     palabrasClave: ["perro", "can", "lealtad", "amistad", "protección", "instinto"]
   },
   {
-    simbolo: "Persecución (ser perseguido)",
+    simbolo: "Persecución (ser perseguido)", // Repetido, mantener versión ajustada
     interpretacion: "Ansiedad, evitación de un problema o emoción, sentirse amenazado por algo o alguien (interno o externo).",
-    categoria: "Freudiano, General",
+    categoria: "Freudiano, General", // O Acciones/Situaciones
     palabrasClave: ["persecución", "perseguir", "ansiedad", "amenaza", "huida", "miedo"]
   },
   {
     simbolo: "Persona (arquetipo)",
     interpretacion: "La máscara social que se presenta al mundo, que puede diferir del verdadero yo.",
-    categoria: "Junguiano",
+    categoria: "Junguiano", // O Figuras/Conceptos
     palabrasClave: ["persona", "máscara", "personalidad", "social", "yo", "arquetipo"]
   },
   {
-    simbolo: "Pez",
-    interpretacion: "El inconsciente, emociones, intuición, fertilidad, o conocimiento oculto.",
+    simbolo: "Pez", // Similar a Pez (retorciéndose)
+    interpretacion: "El inconsciente, emociones, intuición, abundancia, o conocimiento oculto.",
     categoria: "Animales",
     palabrasClave: ["pez", "peces", "inconsciente", "emoción", "intuición", "fertilidad"]
   },
   {
     simbolo: "Piedras/Rocas",
     interpretacion: "Obstáculos, fuerza, estabilidad, o cargas emocionales.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales
     palabrasClave: ["piedra", "roca", "obstáculo", "fuerza", "estabilidad", "carga"]
   },
   {
-    simbolo: "Policía",
+    simbolo: "Policía", // Similar a Policía, Oficial...
     interpretacion: "Autoridad, reglas, conciencia, orden, o sentirse controlado o culpable.",
-    categoria: "Freudiano (padre), General",
+    categoria: "Freudiano (padre), General", // O Figuras
     palabrasClave: ["policía", "autoridad", "regla", "conciencia", "orden", "culpa"]
   },
   {
     simbolo: "Príncipe/Princesa",
     interpretacion: "El yo idealizado, potencial, romance, o aspectos inmaduros de la personalidad.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Figuras
     palabrasClave: ["príncipe", "princesa", "ideal", "potencial", "romance", "inmadurez"]
   },
   {
-    simbolo: "Puente",
+    simbolo: "Puente", // Repetido, mantener versión ajustada
     interpretacion: "Transición, conexión entre dos estados o lugares, superar obstáculos, o tomar decisiones.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Lugares
     palabrasClave: ["puente", "transición", "conexión", "obstáculo", "decisión", "cruce"]
   },
   {
     simbolo: "Puerta",
     interpretacion: "Oportunidades, transiciones, acceso a algo nuevo, o barreras. Abierta o cerrada es significativo.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["puerta", "oportunidad", "transición", "acceso", "barrera", "umbral"]
   },
   {
-    simbolo: "Reloj",
+    simbolo: "Reloj", // Repetido, mantener versión ajustada
     interpretacion: "Tiempo, urgencia, plazos, el paso de la vida, o la necesidad de prestar atención al tiempo.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["reloj", "tiempo", "urgencia", "plazo", "vida", "atención"]
   },
   {
-    simbolo: "Rey/Reina",
+    simbolo: "Rey/Reina", // Repetido, mantener versión ajustada (la más general)
     interpretacion: "Autoridad, poder, control, o figuras parentales internalizadas.",
-    categoria: "Freudiano, Junguiano",
+    categoria: "Freudiano, Junguiano", // O Figuras
     palabrasClave: ["rey", "reina", "autoridad", "poder", "control", "padres"]
   },
   {
     simbolo: "Río",
     interpretacion: "El flujo de la vida, emociones, tiempo, o un viaje. Cruzar un río: una transición importante.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Elementos naturales/Lugares
     palabrasClave: ["río", "flujo", "vida", "emoción", "tiempo", "viaje"]
   },
   {
-    simbolo: "Ropa",
+    simbolo: "Ropa", // Similar a Uniformes/Ropa
     interpretacion: "La imagen que se proyecta, la persona, roles sociales. Ropa sucia: necesidad de cambio; ropa nueva: nueva identidad.",
-    categoria: "Freudiano, General",
+    categoria: "Freudiano, General", // O Objetos
     palabrasClave: ["ropa", "imagen", "persona", "rol", "identidad", "cambio"]
   },
   {
     simbolo: "Ruinas",
     interpretacion: "El pasado, decadencia, algo que ha terminado o necesita ser reconstruido.",
-    categoria: "General",
+    categoria: "General", // O Lugares
     palabrasClave: ["ruina", "pasado", "decadencia", "fin", "reconstrucción", "abandono"]
   },
   {
     simbolo: "Sangre",
     interpretacion: "Energía vital, pasión, vida, muerte, herida emocional o física, o lazos familiares.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales/Símbolos
     palabrasClave: ["sangre", "energía", "pasión", "vida", "muerte", "familia"]
   },
   {
     simbolo: "Sapo/Rana",
-    interpretacion: "Transformación (cuento del príncipe rana), repulsión, o fertilidad.",
+    interpretacion: "Transformación (cuento del príncipe rana), repulsión, o abundancia.",
     categoria: "Animales",
     palabrasClave: ["sapo", "rana", "transformación", "repulsión", "fertilidad", "cambio"]
   },
   {
     simbolo: "Semillas",
     interpretacion: "Potencial, nuevos comienzos, crecimiento, o ideas que necesitan ser cultivadas.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales/Objetos
     palabrasClave: ["semilla", "potencial", "comienzo", "crecimiento", "idea", "cultivo"]
   },
   {
-    simbolo: "Sexo",
-    interpretacion: "Unión, intimidad, creatividad, deseo, o la integración de opuestos. No siempre literal.",
-    categoria: "General (Freudiano: muy central)",
-    palabrasClave: ["sexo", "unión", "intimidad", "creatividad", "deseo", "integración"]
+    simbolo: "Conexión Íntima", // Anteriormente "Sexo"
+    interpretacion: "Unión, conexión profunda, creatividad, deseo intenso, o la integración de opuestos. No siempre literal.",
+    categoria: "General (Freudiano: muy central)", // O Acciones/Conceptos
+    palabrasClave: ["unión", "intimidad", "creatividad", "deseo", "integración", "conexión"]
   },
   {
     simbolo: "Sí Mismo (Self)",
     interpretacion: "El centro de la psique, totalidad, individuación, el objetivo del desarrollo psicológico.",
-    categoria: "Junguiano",
+    categoria: "Junguiano", // O Conceptos
     palabrasClave: ["sí mismo", "self", "totalidad", "individuación", "psique", "desarrollo"]
   },
   {
     simbolo: "Sombra (Shadow)",
     interpretacion: "Aspectos reprimidos o negados del yo, el 'lado oscuro', proyecciones.",
-    categoria: "Junguiano",
+    categoria: "Junguiano", // O Conceptos
     palabrasClave: ["sombra", "shadow", "reprimido", "negación", "oscuridad", "proyección"]
   },
   {
-    simbolo: "Sombrero",
+    simbolo: "Sombrero", // Repetido, mantener versión ajustada
     interpretacion: "Rol, identidad, pensamientos, o protección.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["sombrero", "rol", "identidad", "pensamiento", "protección", "cabeza"]
   },
   {
-    simbolo: "Subir/Escalar",
+    simbolo: "Subir/Escalar", // Similar a Subir una Escalera
     interpretacion: "Esfuerzo, ambición, superar obstáculos, o alcanzar metas.",
-    categoria: "Freudiano, General, Adleriano",
+    categoria: "Freudiano, General, Adleriano", // O Acciones
     palabrasClave: ["subir", "escalar", "esfuerzo", "ambición", "obstáculo", "meta"]
   },
   {
     simbolo: "Teatro",
     interpretacion: "La vida como un escenario, roles que se desempeñan, o la observación de las propias acciones y emociones.",
-    categoria: "General",
+    categoria: "General", // O Lugares/Situaciones
     palabrasClave: ["teatro", "escenario", "rol", "actuación", "observación", "emoción"]
   },
   {
-    simbolo: "Telaraña",
+    simbolo: "Telaraña", // Similar a Araña
     interpretacion: "Sentirse atrapado, situaciones complicadas, o redes de conexión.",
-    categoria: "General",
+    categoria: "General", // O Objetos/Estructuras
     palabrasClave: ["telaraña", "atrapado", "complicación", "red", "conexión", "trampa"]
   },
   {
-    simbolo: "Tesoro",
+    simbolo: "Tesoro", // Similar a Joyas, Tesoro
     interpretacion: "Algo de gran valor (interno o externo), el yo verdadero, talentos ocultos, o metas importantes.",
-    categoria: "Freudiano, Junguiano",
+    categoria: "Freudiano, Junguiano", // O Objetos
     palabrasClave: ["tesoro", "valor", "yo", "talento", "meta", "importante"]
   },
   {
     simbolo: "Tierra/Suelo",
     interpretacion: "Realidad, fundamentos, estabilidad, naturaleza, o la madre tierra.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Elementos naturales
     palabrasClave: ["tierra", "suelo", "realidad", "estabilidad", "naturaleza", "madre tierra"]
   },
   {
@@ -1186,19 +1174,19 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Tinta",
     interpretacion: "Comunicación, autoexpresión, o dejar una marca permanente.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["tinta", "comunicación", "expresión", "marca", "permanencia", "escritura"]
   },
   {
     simbolo: "Tormenta",
     interpretacion: "Conflicto emocional, caos, ira, o una crisis que puede llevar a la limpieza y claridad.",
-    categoria: "General",
+    categoria: "General", // O Elementos naturales/Situaciones
     palabrasClave: ["tormenta", "conflicto", "caos", "ira", "crisis", "claridad"]
   },
   {
     simbolo: "Toro",
-    interpretacion: "Fuerza, virilidad, terquedad, o agresión.",
-    categoria: "General",
+    interpretacion: "Fuerza, potencia, terquedad, o agresión.",
+    categoria: "General", // O Animales
     palabrasClave: ["toro", "fuerza", "virilidad", "terquedad", "agresión", "animal"]
   },
   {
@@ -1210,89 +1198,89 @@ export const simbolosFreudianos: SimboloFreudiano[] = [
   {
     simbolo: "Trabajo/Empleo",
     interpretacion: "Responsabilidades, identidad profesional, estrés, o la forma en que uno contribuye al mundo.",
-    categoria: "General, Adleriano",
+    categoria: "General, Adleriano", // O Situaciones
     palabrasClave: ["trabajo", "empleo", "responsabilidad", "identidad", "estrés", "contribución"]
   },
   {
     simbolo: "Tren",
     interpretacion: "Viaje en la vida, destino, conformidad (seguir las vías), o oportunidades. Perder el tren: oportunidades perdidas.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["tren", "viaje", "destino", "conformidad", "oportunidad", "vía"]
   },
   {
     simbolo: "Triángulo",
-    interpretacion: "Unidad de tres (mente-cuerpo-espíritu), conflicto (triángulo amoroso), o estabilidad.",
-    categoria: "General",
+    interpretacion: "Unidad de tres (mente-cuerpo-espíritu), conflicto (triángulo interpersonal), o estabilidad.",
+    categoria: "General", // O Símbolos
     palabrasClave: ["triángulo", "unidad", "mente", "cuerpo", "espíritu", "conflicto"]
   },
   {
-    simbolo: "Tumba/Sepulcro",
+    simbolo: "Tumba/Sepulcro", // Similar a Cementerio
     interpretacion: "Finales, el pasado enterrado, o la necesidad de dejar ir algo.",
-    categoria: "General",
+    categoria: "General", // O Lugares
     palabrasClave: ["tumba", "sepulcro", "final", "pasado", "enterrar", "dejar ir"]
   },
   {
-    simbolo: "Túnel",
+    simbolo: "Túnel", // Repetido, mantener versión ajustada
     interpretacion: "Transición, paso a lo desconocido, o un período de incertidumbre antes de alcanzar la 'luz al final del túnel'.",
-    categoria: "Junguiano, General",
+    categoria: "Junguiano, General", // O Lugares
     palabrasClave: ["túnel", "transición", "desconocido", "incertidumbre", "luz", "camino"]
   },
   {
     simbolo: "Universidad",
     interpretacion: "Aprendizaje superior, búsqueda de conocimiento, o un período de desarrollo y exploración.",
-    categoria: "General, Adleriano",
+    categoria: "General, Adleriano", // O Lugares
     palabrasClave: ["universidad", "aprendizaje", "conocimiento", "desarrollo", "exploración", "educación"]
   },
   {
     simbolo: "Uvas",
     interpretacion: "Abundancia, placer, o celebración (vino).",
-    categoria: "General",
+    categoria: "General", // O Objetos/Elementos naturales
     palabrasClave: ["uva", "uvas", "abundancia", "placer", "celebración", "vino"]
   },
   {
     simbolo: "Vampiro",
     interpretacion: "Algo o alguien que drena energía vital, miedo a la pérdida de vitalidad, o aspectos seductores y peligrosos.",
-    categoria: "General",
+    categoria: "General", // O Figuras
     palabrasClave: ["vampiro", "energía", "vitalidad", "miedo", "seducción", "peligro"]
   },
   {
     simbolo: "Vela",
     interpretacion: "Luz en la oscuridad, esperanza, espiritualidad, o el paso del tiempo (vela que se consume).",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["vela", "luz", "esperanza", "espiritualidad", "tiempo", "consumo"]
   },
   {
     simbolo: "Ventana",
     interpretacion: "Perspectiva, oportunidades, la forma en que se ve el mundo o se es visto por él.",
-    categoria: "General",
+    categoria: "General", // O Objetos
     palabrasClave: ["ventana", "perspectiva", "oportunidad", "visión", "mundo", "mirada"]
   },
   {
     simbolo: "Verano",
     interpretacion: "Plenitud, calidez, crecimiento, o un tiempo de ocio y disfrute.",
-    categoria: "General",
+    categoria: "General", // O Conceptos/Situaciones
     palabrasClave: ["verano", "plenitud", "calidez", "crecimiento", "ocio", "disfrute"]
   },
   {
-    simbolo: "Volar",
+    simbolo: "Volar", // Repetido, mantener versión ajustada
     interpretacion: "Libertad, trascendencia, ambición, escapar de problemas, o una nueva perspectiva.",
-    categoria: "Freudiano, General, Adleriano",
+    categoria: "Freudiano, General, Adleriano", // O Acciones
     palabrasClave: ["volar", "libertad", "trascendencia", "ambición", "escapar", "perspectiva"]
   },
   {
     simbolo: "Volcán",
     interpretacion: "Emociones reprimidas a punto de estallar, ira contenida, o un poder creativo inmenso.",
-    categoria: "Lugares",
+    categoria: "Lugares", // O Elementos naturales
     palabrasClave: ["volcán", "emoción", "ira", "represión", "poder", "creatividad"]
   },
   {
     simbolo: "Voz",
     interpretacion: "Comunicación, autoexpresión, la conciencia, o un mensaje importante (interno o externo).",
-    categoria: "General",
+    categoria: "General", // O Conceptos/Símbolos
     palabrasClave: ["voz", "comunicación", "expresión", "conciencia", "mensaje", "importante"]
   },
   {
-    simbolo: "Zapatos",
+    simbolo: "Zapatos", // Repetido, mantener versión ajustada
     interpretacion: "El camino en la vida, la postura ante el mundo, o la preparación para un viaje.",
     categoria: "Objetos",
     palabrasClave: ["zapato", "zapatos", "camino", "vida", "postura", "viaje"]
@@ -1521,7 +1509,7 @@ export function buscarSimbolos(texto: string): {simbolos: SimboloFreudiano[], an
   const simbolosConPuntuacion: {simbolo: SimboloFreudiano, puntuacion: number}[] = [];
 
   // Calcular puntuación para cada símbolo
-  simbolosFreudianos.forEach(simbolo => {
+  simbolosInterpretados.forEach((simbolo: SimboloFreudiano) => {
     const puntuacion = calcularRelevancia(simbolo, palabras);
     if (puntuacion > 0) {
       // Verificar si ya existe un símbolo similar (mismo nombre)
@@ -1554,26 +1542,19 @@ export function buscarSimbolos(texto: string): {simbolos: SimboloFreudiano[], an
   };
 }
 
-// Función para obtener todas las categorías disponibles
 export function obtenerCategorias(): string[] {
-  const categorias = new Set<string>();
-
-  simbolosFreudianos.forEach((simbolo: SimboloFreudiano) => {
-    if (simbolo.categoria) {
-      categorias.add(simbolo.categoria);
-    }
-  });
-
-  return Array.from(categorias).sort();
+  const simbolosUnicos = simbolosInterpretados.filter((simbolo: SimboloFreudiano, index: number, self: SimboloFreudiano[]) =>
+    index === self.findIndex(s => s.simbolo === simbolo.simbolo)
+  );
+  return simbolosUnicos.map((simbolo: SimboloFreudiano) => simbolo.categoria).filter(Boolean) as string[];
 }
 
-// Función para filtrar símbolos por categoría
 export function filtrarPorCategoria(categoria: string): SimboloFreudiano[] {
   if (categoria === "Todas") {
-    return [...simbolosFreudianos];
+    return [...simbolosInterpretados];
   }
 
-  return simbolosFreudianos.filter((simbolo: SimboloFreudiano) => 
+  return simbolosInterpretados.filter((simbolo: SimboloFreudiano) => 
     simbolo.categoria === categoria
   );
 }
@@ -1581,15 +1562,23 @@ export function filtrarPorCategoria(categoria: string): SimboloFreudiano[] {
 // Función para buscar símbolos por término
 export function buscarPorTermino(termino: string): SimboloFreudiano[] {
   if (!termino.trim()) {
-    return [...simbolosFreudianos];
+    return [...simbolosInterpretados];
   }
 
-  const terminoLower = termino.toLowerCase();
-
-  return simbolosFreudianos.filter(
-    (simbolo) =>
-      simbolo.simbolo.toLowerCase().includes(terminoLower) ||
-      simbolo.interpretacion.toLowerCase().includes(terminoLower) ||
-      simbolo.palabrasClave.some((palabra) => palabra.toLowerCase().includes(terminoLower)),
-  )
+  const terminoLimpio = termino.toLowerCase().trim();
+  return simbolosInterpretados.filter((simbolo: SimboloFreudiano) => {
+    // Buscar en el nombre del símbolo
+    if (simbolo.simbolo.toLowerCase().includes(terminoLimpio)) {
+      return true;
+    }
+    
+    // Buscar en las palabras clave
+    if (simbolo.palabrasClave.some((palabra: string) => 
+      palabra.toLowerCase().includes(terminoLimpio)
+    )) {
+      return true;
+    }
+    
+    return false;
+  });
 }
