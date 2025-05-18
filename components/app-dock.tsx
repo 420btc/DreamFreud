@@ -20,9 +20,9 @@ export function AppDock() {
   ]
 
   return (
-    <div className="fixed top-4 left-0 right-0 flex justify-center z-50">
+    <div className="fixed top-2 sm:top-4 left-0 right-0 flex justify-center z-50 px-2">
       <div 
-        className="flex items-center gap-2 bg-black/10 backdrop-blur-sm px-6 py-3 rounded-full"
+        className="flex items-center gap-0.5 sm:gap-2 bg-black/10 backdrop-blur-sm px-2 sm:px-6 py-1.5 sm:py-3 rounded-full max-w-[100vw] overflow-x-auto no-scrollbar"
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {navItems.map((item, index) => {
@@ -34,7 +34,7 @@ export function AppDock() {
             <Link 
               key={item.href} 
               href={item.href} 
-              className="relative flex flex-col items-center px-3 py-2"
+              className="relative flex flex-col items-center px-2 sm:px-3 py-1 sm:py-2"
               onMouseEnter={() => setHoveredIndex(index)}
             >
               <AnimatePresence>
@@ -62,9 +62,9 @@ export function AppDock() {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   <motion.span 
-                    className={`text-xs font-medium ${
+                    className={`text-[10px] sm:text-xs font-medium ${
                       isActive ? 'text-blue-400' : 'text-foreground/60'
                     }`}
                     initial={{ opacity: 0, y: -5 }}
