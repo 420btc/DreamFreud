@@ -31,11 +31,11 @@ export default function Introduccion() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-4">
           {/* Tarjeta 1 */}
-          <div className="h-80 md:h-96">
+          <div className="h-56 md:h-72">
             <GradientCard>
-              <div className="h-full flex flex-col p-6">
+              <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <Book className="mr-2 h-6 w-6 text-gray-400" />
                   <h3 className="text-xl font-semibold text-white">
@@ -57,9 +57,9 @@ export default function Introduccion() {
           </div>
 
           {/* Tarjeta 2 */}
-          <div className="h-80 md:h-96">
+          <div className="h-56 md:h-72">
             <GradientCard>
-              <div className="h-full flex flex-col p-6">
+              <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <Brain className="mr-2 h-6 w-6 text-purple-400" />
                   <h3 className="text-xl font-semibold text-white">
@@ -67,7 +67,7 @@ export default function Introduccion() {
                   </h3>
                 </div>
                 <p className="text-gray-300 text-center mb-6 mt-2">
-                  Descubre el significado de tus sueños según las teorías más comunes, o incluso las más raras.
+                  Descubre el significado de tus sueños según las teorías freudianas y comúnes.
                 </p>
                 <div className="mt-auto">
                   <Link href="/analizar" className="w-full block">
@@ -81,9 +81,9 @@ export default function Introduccion() {
           </div>
 
           {/* Tarjeta 3 */}
-          <div className="h-80 md:h-96">
+          <div className="h-56 md:h-72">
             <GradientCard>
-              <div className="h-full flex flex-col p-6">
+              <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <Moon className="mr-2 h-6 w-6 text-blue-400" />
                   <h3 className="text-xl font-semibold text-white">
@@ -105,9 +105,9 @@ export default function Introduccion() {
           </div>
 
           {/* Tarjeta 4 */}
-          <div className="h-80 md:h-96">
+          <div className="h-56 md:h-72">
             <GradientCard>
-              <div className="h-full flex flex-col p-6">
+              <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <History className="mr-2 h-6 w-6 text-green-400" />
                   <h3 className="text-xl font-semibold text-white">
