@@ -30,14 +30,10 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   const handleMouseDown = () => setIsDragging(true);
   const handleMouseUp = () => setIsDragging(false);
 
-  // We use the native input for actual dragging and value updates
-  // and overlay custom elements for styling and animation.
-
   return (
     <div className={`relative w-full ${className}`}>
       {label && <label className="block text-xs text-gray-400 mb-1">{label}</label>}
       
-      {/* Hidden input for actual functionality */}
       <input
         type="range"
         min={min}
@@ -55,12 +51,8 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
         }}
       />
       
-      {/* Custom track */}
       <div className="relative h-1.5 w-full bg-gray-600 rounded-full overflow-hidden">
-        {/* Background track */}
         <div className="absolute inset-0 bg-gray-600 rounded-full"></div>
-        
-        {/* Progress track */}
         <motion.div
           className="absolute left-0 top-0 bottom-0 bg-white rounded-full"
           style={{
@@ -68,11 +60,9 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
             transition: isDragging ? 'none' : 'width 0.15s ease-out',
           }}
         >
-           
         </motion.div>
       </div>
 
-      {/* Thumb */}
       <motion.div
         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-300 rounded-full shadow-md z-10"
         style={{
@@ -81,15 +71,14 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
         }}
       />
 
-       {/* Optional: Display current value below */}
        <AnimatePresence mode="wait">
          <motion.div
-           key={value} // Key changes when value changes, triggering exit/enter
+           key={value}
            initial={{ opacity: 0, y: -5 }}
            animate={{ opacity: 1, y: 0 }}
            exit={{ opacity: 0, y: 5 }}
            transition={{ duration: 0.2 }}
-           className="text-xs text-gray-300 mt-2" // Changed to lighter gray for better visibility
+           className="text-xs text-gray-300 mt-2"
          >
            {value}°
          </motion.div>
@@ -97,16 +86,6 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
     </div>
   );
 };
-
-
-
-
-
-interface FeatureItemProps {
-  name: string;
-  value: string;
-  position: string;
-}
 
 interface LightningProps {
   hue?: number;
@@ -119,7 +98,7 @@ interface LightningProps {
 const Lightning: React.FC<LightningProps> = ({
   hue = 230,
   xOffset = 0,
-  speed = 0.2,
+  speed = 0.2, // Manteniendo tu valor de speed
   intensity = 1,
   size = 1,
 }) => {
@@ -129,67 +108,41 @@ const Lightning: React.FC<LightningProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Función para verificar soporte de WebGL
+    const resizeCanvas = () => {
+      // Lógica de redimensionamiento simplificada, similar al original
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    };
+    
+    // Llama a resizeCanvas inicialmente y en cada redimensionamiento de ventana
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Función para verificar soporte de WebGL (puedes mantenerla si quieres)
     const isWebGLAvailable = () => {
       try {
-        const canvas = document.createElement('canvas');
+        const testCanvas = document.createElement('canvas');
         return !!(window.WebGLRenderingContext && 
-                 (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+                 (testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl')));
       } catch (e) {
         return false;
       }
     };
 
-    // Verificar si es un dispositivo móvil
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    const resizeCanvas = () => {
-      // Asegurar que el canvas tenga un tamaño mínimo en móviles
-      const width = Math.max(canvas.clientWidth, 300);
-      const height = Math.max(canvas.clientHeight, 300);
-      
-      // Solo actualizar si hay un cambio significativo
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-        return true;
-      }
-      return false;
-    };
-    
-    // Inicializar con un tamaño mínimo
-    canvas.width = 300;
-    canvas.height = 300;
-    
-    // Redimensionar después de que el DOM esté completamente cargado
-    const handleLoad = () => {
-      resizeCanvas();
-      window.removeEventListener('load', handleLoad);
-    };
-    
-    if (document.readyState === 'complete') {
-      resizeCanvas();
-    } else {
-      window.addEventListener('load', handleLoad);
-    }
-    
-    window.addEventListener("resize", resizeCanvas);
-    
-    // Verificar soporte de WebGL
     if (!isWebGLAvailable()) {
-      console.error("WebGL no está soportado en este dispositivo");
+      console.error("WebGL no está soportado en este dispositivo.");
       return;
     }
     
-    // Obtener el contexto WebGL con opciones para mejor rendimiento en móviles
     const gl = canvas.getContext("webgl", {
-      alpha: false,
-      antialias: false,
-      powerPreference: 'high-performance'
-    }) as WebGLRenderingContext | null;
-    
+        // Opciones que tenías, puedes ajustarlas si es necesario
+        alpha: false, 
+        antialias: false, 
+        powerPreference: 'high-performance' 
+    });
+
     if (!gl) {
-      console.error("No se pudo obtener el contexto WebGL");
+      console.error("No se pudo obtener el contexto WebGL.");
       return;
     }
 
@@ -212,21 +165,20 @@ const Lightning: React.FC<LightningProps> = ({
       
       #define OCTAVE_COUNT 10
 
-      // Convert HSV to RGB.
       vec3 hsv2rgb(vec3 c) {
           vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0,4.0,2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
           return c.z * mix(vec3(1.0), rgb, c.y);
       }
 
       float hash11(float p) {
-          p = fract(p * .1031);
+          p = fract(p * .1031); // Usando el valor del original .1031
           p *= p + 33.33;
           p *= p + p;
           return fract(p);
       }
 
       float hash12(vec2 p) {
-          vec3 p3 = fract(vec3(p.xyx) * .1038);
+          vec3 p3 = fract(vec3(p.xyx) * .1031); // Usando el valor del original .1031
           p3 += dot(p3, p3.yzx + 33.33);
           return fract((p3.x + p3.y) * p3.z);
       }
@@ -244,7 +196,6 @@ const Lightning: React.FC<LightningProps> = ({
           float b = hash12(ip + vec2(1.0, 0.0));
           float c = hash12(ip + vec2(0.0, 1.0));
           float d = hash12(ip + vec2(1.0, 1.0));
-          
           vec2 t = smoothstep(0.0, 1.0, fp);
           return mix(mix(a, b, t.x), mix(c, d, t.x), t.y);
       }
@@ -262,20 +213,13 @@ const Lightning: React.FC<LightningProps> = ({
       }
 
       void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
-          // Normalized pixel coordinates.
           vec2 uv = fragCoord / iResolution.xy;
           uv = 2.0 * uv - 1.0;
           uv.x *= iResolution.x / iResolution.y;
-          // Apply horizontal offset.
           uv.x += uXOffset;
-          
-          // Adjust uv based on size and animate with speed.
           uv += 2.0 * fbm(uv * uSize + 0.8 * iTime * uSpeed) - 1.0;
-          
           float dist = abs(uv.x);
-          // Compute base color using hue.
           vec3 baseColor = hsv2rgb(vec3(uHue / 360.0, 0.7, 0.8));
-          // Compute color with intensity and speed affecting time.
           vec3 col = baseColor * pow(mix(0.0, 0.07, hash11(iTime * uSpeed)) / dist, 1.0) * uIntensity;
           col = pow(col, vec3(1.0));
           fragColor = vec4(col, 1.0);
@@ -286,10 +230,7 @@ const Lightning: React.FC<LightningProps> = ({
       }
     `;
 
-    const compileShader = (
-      source: string,
-      type: number
-    ): WebGLShader | null => {
+    const compileShader = (source: string, type: number): WebGLShader | null => {
       const shader = gl.createShader(type);
       if (!shader) return null;
       gl.shaderSource(shader, source);
@@ -303,10 +244,7 @@ const Lightning: React.FC<LightningProps> = ({
     };
 
     const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(
-      fragmentShaderSource,
-      gl.FRAGMENT_SHADER
-    );
+    const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
     if (!vertexShader || !fragmentShader) return;
 
     const program = gl.createProgram();
@@ -340,70 +278,51 @@ const Lightning: React.FC<LightningProps> = ({
     const uSizeLocation = gl.getUniformLocation(program, "uSize");
 
     const startTime = performance.now();
+    let animationFrameId: number;
     const render = () => {
-      resizeCanvas();
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
-      const currentTime = performance.now();
-      gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
-      gl.uniform1f(uHueLocation, hue);
-      gl.uniform1f(uXOffsetLocation, xOffset);
-      gl.uniform1f(uSpeedLocation, speed);
-      gl.uniform1f(uIntensityLocation, intensity);
-      gl.uniform1f(uSizeLocation, size);
-      gl.drawArrays(gl.TRIANGLES, 0, 9);
-      requestAnimationFrame(render);
+      // Asegurarse de que el canvas tenga dimensiones antes de dibujar
+      if (canvas.width === 0 || canvas.height === 0) {
+        resizeCanvas(); // Intenta redimensionar si es cero
+      }
+      // Solo renderizar si el canvas tiene un tamaño visible
+      if (canvas.width > 0 && canvas.height > 0) {
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+          const currentTime = performance.now();
+          gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
+          gl.uniform1f(uHueLocation, hue);
+          gl.uniform1f(uXOffsetLocation, xOffset);
+          gl.uniform1f(uSpeedLocation, speed);
+          gl.uniform1f(uIntensityLocation, intensity);
+          gl.uniform1f(uSizeLocation, size);
+          // Corregido: dibujar 6 vértices para dos triángulos
+          gl.drawArrays(gl.TRIANGLES, 0, 6); 
+      }
+      animationFrameId = requestAnimationFrame(render);
     };
-    requestAnimationFrame(render);
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+      // Limpieza de WebGL (opcional pero buena práctica)
+      if (gl) {
+        gl.deleteProgram(program);
+        gl.deleteShader(vertexShader);
+        gl.deleteShader(fragmentShader);
+        gl.deleteBuffer(vertexBuffer);
+      }
     };
   }, [hue, xOffset, speed, intensity, size]);
 
-  return (
-    <div className="w-full h-full relative">
-      <canvas 
-        ref={canvasRef} 
-        className="w-full h-full"
-        style={{
-          display: 'block',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none' // Mejora el rendimiento táctil
-        }}
-      />
-    </div>
-  );
+  // Revertir a la estructura del canvas como en el original para simplicidad
+  return <canvas ref={canvasRef} className="w-full h-full absolute top-0 left-0 pointer-events-none" />;
 };
 
 
-const FeatureItem: React.FC<FeatureItemProps> = ({ name, value, position }) => {
-  return (
-    <div className={`absolute ${position} z-10 group transition-all duration-300 hover:scale-110`}>
-      <div className="flex items-center gap-2 relative">
-        {/* Dot with constant glow */}
-        <div className="relative">
-          <div className="w-2 h-2 bg-white rounded-full group-hover:animate-pulse"></div>
-          <div className="absolute -inset-1 bg-white/20 rounded-full blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </div>
-        <div className=" text-white relative">
-          <div className="font-medium group-hover:text-white transition-colors duration-300">{name}</div>
-          <div className="text-white/70 text-sm group-hover:text-white/70 transition-colors duration-300">{value}</div>
-          {/* Constant white glow that intensifies on hover */}
-          <div className="absolute -inset-2 bg-white/10 rounded-lg blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
+// El resto de tu componente HeroSection se mantiene igual
 export const HeroSection: React.FC = () => {
-  // State for the lightning hue
-  const [lightningHue, setLightningHue] = useState(220); // Default hue
+  const [lightningHue, setLightningHue] = useState(220);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -415,7 +334,6 @@ export const HeroSection: React.FC = () => {
       }
     }
   };
-
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -427,20 +345,18 @@ export const HeroSection: React.FC = () => {
       }
     }
   };
-
   return (
     <div className="relative w-full bg-black text-white overflow-hidden h-screen">
-      {/* Hue Slider in bottom right corner */}
       <div className="absolute bottom-4 right-4 z-40">
         <ElasticHueSlider
           value={lightningHue}
           onChange={setLightningHue}
           label="Ajustar Tono"
+          className="w-32" // Ajusta el ancho según sea necesario
         />
       </div>
       
-      {/* Main container with space for content */}
-      <div className="relative z-30 h-full w-full flex items-center justify-center pt-50">
+      <div className="relative z-30 h-full w-full flex items-center justify-center pt-50"> {/* pt-50 parecía un typo, quizás quisiste decir pt-something o padding top */}
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col items-center justify-center text-center">
           <motion.div
             variants={containerVariants}
@@ -448,11 +364,7 @@ export const HeroSection: React.FC = () => {
             animate="visible"
             className="w-full"
           >
-            
-
-            {/* Main hero content */}
             <div className="mt-12">
-
               <motion.h1
                 variants={itemVariants}
                 className="text-5xl md:text-9xl font-light mb-4"
@@ -467,7 +379,6 @@ export const HeroSection: React.FC = () => {
                 Analiza y registra tus sueños
               </motion.h2>
 
-              {/* Description */}
               <motion.p
                 variants={itemVariants}
                 className="text-gray-400 mb-9 max-w-2xl mx-auto"
@@ -490,31 +401,23 @@ export const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Background elements */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="absolute inset-0 z-0 -top-1"
+        className="absolute inset-0 z-0" // Eliminado -top-1 que podría causar desajustes
       >
-        {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/80"></div>
-
-        {/* Glowing circle */}
         <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] aspect-square rounded-full bg-gradient-to-b from-blue-500/20 to-purple-600/10 blur-3xl"></div>
-
-        {/* Central light beam - now using the state variable for hue */}
-        <div className="absolute top-0 w-full left-1/2 transform -translate-x-1/2 h-full">
-          <div className="relative w-full h-full">
-            <Lightning
-              hue={lightningHue}
-              xOffset={0}
-              speed={1.6}
-              intensity={0.6}
-              size={2}
-            />
-          </div>
-        </div>
+        
+        {/* El componente Lightning ahora se renderiza directamente aquí como canvas */}
+        <Lightning
+            hue={lightningHue}
+            xOffset={0}
+            speed={1.6} // Manteniendo tus valores
+            intensity={0.6} // Manteniendo tus valores
+            size={2} // Manteniendo tus valores
+        />
       </motion.div>
     </div>
   );
