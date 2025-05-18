@@ -129,16 +129,67 @@ const Lightning: React.FC<LightningProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const resizeCanvas = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
+    // Función para verificar soporte de WebGL
+    const isWebGLAvailable = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && 
+                 (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+      } catch (e) {
+        return false;
+      }
     };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
 
-    const gl = canvas.getContext("webgl");
+    // Verificar si es un dispositivo móvil
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    const resizeCanvas = () => {
+      // Asegurar que el canvas tenga un tamaño mínimo en móviles
+      const width = Math.max(canvas.clientWidth, 300);
+      const height = Math.max(canvas.clientHeight, 300);
+      
+      // Solo actualizar si hay un cambio significativo
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+        return true;
+      }
+      return false;
+    };
+    
+    // Inicializar con un tamaño mínimo
+    canvas.width = 300;
+    canvas.height = 300;
+    
+    // Redimensionar después de que el DOM esté completamente cargado
+    const handleLoad = () => {
+      resizeCanvas();
+      window.removeEventListener('load', handleLoad);
+    };
+    
+    if (document.readyState === 'complete') {
+      resizeCanvas();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+    
+    window.addEventListener("resize", resizeCanvas);
+    
+    // Verificar soporte de WebGL
+    if (!isWebGLAvailable()) {
+      console.error("WebGL no está soportado en este dispositivo");
+      return;
+    }
+    
+    // Obtener el contexto WebGL con opciones para mejor rendimiento en móviles
+    const gl = canvas.getContext("webgl", {
+      alpha: false,
+      antialias: false,
+      powerPreference: 'high-performance'
+    }) as WebGLRenderingContext | null;
+    
     if (!gl) {
-      console.error("WebGL not supported");
+      console.error("No se pudo obtener el contexto WebGL");
       return;
     }
 
@@ -310,7 +361,23 @@ const Lightning: React.FC<LightningProps> = ({
     };
   }, [hue, xOffset, speed, intensity, size]);
 
-  return <canvas ref={canvasRef} className="w-full h-full relative" />;
+  return (
+    <div className="w-full h-full relative">
+      <canvas 
+        ref={canvasRef} 
+        className="w-full h-full"
+        style={{
+          display: 'block',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none' // Mejora el rendimiento táctil
+        }}
+      />
+    </div>
+  );
 };
 
 
@@ -434,19 +501,20 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-black/80"></div>
 
         {/* Glowing circle */}
-        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-b from-blue-500/20 to-purple-600/10 blur-3xl"></div>
+        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] aspect-square rounded-full bg-gradient-to-b from-blue-500/20 to-purple-600/10 blur-3xl"></div>
 
         {/* Central light beam - now using the state variable for hue */}
-        <div className="absolute top-0 w-[100%] left-1/2 transform -translate-x-1/2 h-full">
-          <Lightning
-            hue={lightningHue} // Use the state variable here
-            xOffset={0}
-            speed={1.6}
-            intensity={0.6}
-            size={2}
-          />
+        <div className="absolute top-0 w-full left-1/2 transform -translate-x-1/2 h-full">
+          <div className="relative w-full h-full">
+            <Lightning
+              hue={lightningHue}
+              xOffset={0}
+              speed={1.6}
+              intensity={0.6}
+              size={2}
+            />
+          </div>
         </div>
-
       </motion.div>
     </div>
   );
