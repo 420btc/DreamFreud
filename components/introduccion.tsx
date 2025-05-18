@@ -38,7 +38,7 @@ export default function Introduccion() {
               <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <Book className="mr-2 h-6 w-6 text-gray-400" />
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-4xl font-semibold text-white">
                     Registra tus Sueños
                   </h3>
                 </div>
@@ -62,7 +62,7 @@ export default function Introduccion() {
               <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <Brain className="mr-2 h-6 w-6 text-purple-400" />
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-4xl font-semibold text-white">
                     Analiza tus Sueños
                   </h3>
                 </div>
@@ -86,7 +86,7 @@ export default function Introduccion() {
               <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <Moon className="mr-2 h-6 w-6 text-blue-400" />
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-4xl font-semibold text-white">
                     Diccionario de Símbolos
                   </h3>
                 </div>
@@ -110,7 +110,7 @@ export default function Introduccion() {
               <div className="h-full flex flex-col p-3 md:p-4">
                 <div className="flex items-center justify-center mb-4">
                   <History className="mr-2 h-6 w-6 text-green-400" />
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-4xl font-semibold text-white">
                     Historial de Sueños
                   </h3>
                 </div>
