@@ -200,8 +200,12 @@ export const AIMessageBar = () => {
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const initialLoad = useRef(true);
   const prevMessagesLength = useRef(messages.length);
+  const isOnIntroPage = typeof window !== 'undefined' && window.location.pathname === '/';
 
   useEffect(() => {
+    // No hacer scroll en la página de introducción
+    if (isOnIntroPage) return;
+
     // No hacer scroll en la carga inicial si no hay mensajes
     if (initialLoad.current) {
       if (messages.length === 0) {
@@ -223,7 +227,7 @@ export const AIMessageBar = () => {
     }
     
     prevMessagesLength.current = messages.length;
-  }, [messages, isTyping, hasUserInteracted]);
+  }, [messages, isTyping, hasUserInteracted, isOnIntroPage]);
 
   // Marcar que el usuario ha interactuado cuando escribe o envía un mensaje
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

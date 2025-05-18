@@ -67,7 +67,7 @@ export default function Introduccion() {
                   </h3>
                 </div>
                 <p className="text-gray-300 text-center mb-6 mt-2">
-                  Descubre el significado de tus sueños según las teorías freudianas y comúnes.
+                  Descubre el significado de tus sueños según las teorías más comunes, o incluso las más raras.
                 </p>
                 <div className="mt-auto">
                   <Link href="/analizar" className="w-full block">
