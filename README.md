@@ -17,7 +17,7 @@
 - [Licencia](#licencia)
 
 ## Descripción
-"Aplicación Registro Sueños Freud" es una plataforma web diseñada para que los usuarios registren, analicen y exploren sus sueños desde una perspectiva inspirada en las teorías psicoanalíticas de Sigmund Freud. La aplicación ofrece herramientas interactivas para el trabajo con los sueños, un diccionario de símbolos oníricos y la capacidad de llevar un historial detallado de las experiencias nocturnas.
+"Ai Dreamer" es una plataforma web diseñada para que los usuarios registren, analicen y exploren sus sueños desde una perspectiva inspirada en las teorías psicoanalíticas de Sigmund Freud. La aplicación ofrece herramientas interactivas para el trabajo con los sueños, un diccionario de símbolos oníricos y la capacidad de llevar un historial detallado de las experiencias nocturnas.
 
 ## Características Principales
 *   **Registro de Sueños:** Permite a los usuarios documentar sus sueños de forma detallada.
@@ -161,4 +161,4 @@ Las contribuciones son bienvenidas. Si deseas contribuir, por favor:
 5.  Abre un Pull Request.
 
 ## Licencia
-Este proyecto está bajo la Licencia MIT (o la licencia que prefieras). Ver el archivo `LICENSE` para más detalles. (Nota: Deberás añadir un archivo `LICENSE` si aún no existe).
+Este proyecto fue creado por Carlos Freire, está bajo la Licencia MIT (o la licencia que prefieras). Ver el archivo `LICENSE` para más detalles. (Nota: Deberás añadir un archivo `LICENSE` si aún no existe).
