@@ -2,6 +2,7 @@ import React, { useState,useRef,useEffect } from 'react';
 import { motion,AnimatePresence } from 'framer-motion';
 import Link from "next/link";
 
+// ... (ElasticHueSliderProps y ElasticHueSlider se mantienen igual que en la versión anterior) ...
 interface ElasticHueSliderProps {
   value: number;
   onChange: (value: number) => void;
@@ -22,7 +23,7 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   className = ''
 }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const sliderRef = useRef<HTMLDivElement>(null);
+  // const sliderRef = useRef<HTMLDivElement>(null); // No se usa, se puede quitar si no es necesario para ElasticHueSlider
 
   const progress = ((value - min) / (max - min));
   const thumbPosition = progress * 100; // Percentage
@@ -87,20 +88,21 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   );
 };
 
+
 interface LightningProps {
   hue?: number;
-  xOffset?: number;
+  xOffset?: number; // Prop para ajuste manual si fuera necesario
   speed?: number;
   intensity?: number;
-  size?: number;
+  size?: number;    // Este 'size' es el que viene de HeroSection
 }
 
 const Lightning: React.FC<LightningProps> = ({
   hue = 230,
-  xOffset = 0,
-  speed = 0.2, // Manteniendo tu valor de speed
+  xOffset = 0, // Mantenemos xOffset por si se quiere usar para ajustes finos
+  speed = 0.2,
   intensity = 1,
-  size = 1,
+  size = 1,    // Valor base de 'size'
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -109,16 +111,13 @@ const Lightning: React.FC<LightningProps> = ({
     if (!canvas) return;
 
     const resizeCanvas = () => {
-      // Lógica de redimensionamiento simplificada, similar al original
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
     };
     
-    // Llama a resizeCanvas inicialmente y en cada redimensionamiento de ventana
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Función para verificar soporte de WebGL (puedes mantenerla si quieres)
     const isWebGLAvailable = () => {
       try {
         const testCanvas = document.createElement('canvas');
@@ -135,7 +134,6 @@ const Lightning: React.FC<LightningProps> = ({
     }
     
     const gl = canvas.getContext("webgl", {
-        // Opciones que tenías, puedes ajustarlas si es necesario
         alpha: false, 
         antialias: false, 
         powerPreference: 'high-performance' 
@@ -161,7 +159,7 @@ const Lightning: React.FC<LightningProps> = ({
       uniform float uXOffset;
       uniform float uSpeed;
       uniform float uIntensity;
-      uniform float uSize;
+      uniform float uSize; // Este es el 'size' que ajustaremos
       
       #define OCTAVE_COUNT 10
 
@@ -171,14 +169,14 @@ const Lightning: React.FC<LightningProps> = ({
       }
 
       float hash11(float p) {
-          p = fract(p * .1031); // Usando el valor del original .1031
+          p = fract(p * .1031);
           p *= p + 33.33;
           p *= p + p;
           return fract(p);
       }
 
       float hash12(vec2 p) {
-          vec3 p3 = fract(vec3(p.xyx) * .1031); // Usando el valor del original .1031
+          vec3 p3 = fract(vec3(p.xyx) * .1031);
           p3 += dot(p3, p3.yzx + 33.33);
           return fract((p3.x + p3.y) * p3.z);
       }
@@ -216,8 +214,8 @@ const Lightning: React.FC<LightningProps> = ({
           vec2 uv = fragCoord / iResolution.xy;
           uv = 2.0 * uv - 1.0;
           uv.x *= iResolution.x / iResolution.y;
-          uv.x += uXOffset;
-          uv += 2.0 * fbm(uv * uSize + 0.8 * iTime * uSpeed) - 1.0;
+          uv.x += uXOffset; // uXOffset se mantiene por si se necesita un ajuste manual fino
+          uv += 2.0 * fbm(uv * uSize + 0.8 * iTime * uSpeed) - 1.0; // uSize aquí
           float dist = abs(uv.x);
           vec3 baseColor = hsv2rgb(vec3(uHue / 360.0, 0.7, 0.8));
           vec3 col = baseColor * pow(mix(0.0, 0.07, hash11(iTime * uSpeed)) / dist, 1.0) * uIntensity;
@@ -279,23 +277,49 @@ const Lightning: React.FC<LightningProps> = ({
 
     const startTime = performance.now();
     let animationFrameId: number;
+
     const render = () => {
-      // Asegurarse de que el canvas tenga dimensiones antes de dibujar
-      if (canvas.width === 0 || canvas.height === 0) {
-        resizeCanvas(); // Intenta redimensionar si es cero
+      if (!canvasRef.current) { // Asegurarse que el canvas sigue montado
+        cancelAnimationFrame(animationFrameId);
+        return;
       }
-      // Solo renderizar si el canvas tiene un tamaño visible
+      
+      // Es importante llamar a resizeCanvas dentro del bucle de render
+      // o al menos asegurar que las dimensiones del canvas sean correctas
+      // antes de obtenerlas para iResolution y aspectRatio.
+      // La llamada a resizeCanvas() ya está fuera y se actualiza en el evento 'resize'.
+      // Pero para la primera renderización o cambios de layout que no sean 'resize',
+      // es bueno tenerlo aquí o asegurar que clientWidth/Height están actualizados.
+      // Si resizeCanvas ya se encarga de actualizar canvas.width y canvas.height, está bien.
+
+      if (canvas.width === 0 || canvas.height === 0) {
+        // Si el canvas no tiene dimensiones, se intenta redimensionar.
+        // Esto puede pasar si el layout no está listo en el primer frame.
+        resizeCanvas(); 
+      }
+
       if (canvas.width > 0 && canvas.height > 0) {
           gl.viewport(0, 0, canvas.width, canvas.height);
           gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
           const currentTime = performance.now();
           gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
           gl.uniform1f(uHueLocation, hue);
-          gl.uniform1f(uXOffsetLocation, xOffset);
+          gl.uniform1f(uXOffsetLocation, xOffset); // Se pasa el prop xOffset
           gl.uniform1f(uSpeedLocation, speed);
           gl.uniform1f(uIntensityLocation, intensity);
-          gl.uniform1f(uSizeLocation, size);
-          // Corregido: dibujar 6 vértices para dos triángulos
+
+          // --- LÓGICA PARA AJUSTAR 'size' EN MÓVILES ---
+          const aspectRatio = canvas.width / canvas.height;
+          let adjustedSize = size; // Usa el 'size' de los props por defecto (viene de HeroSection)
+
+          if (aspectRatio < 1.0) { // Pantalla vertical (más alta que ancha) o cuadrada
+            // Reduce el 'size' para que el efecto se vea más "alejado" o completo
+            // El factor 0.65 es experimental. Puedes ajustarlo (e.g., 0.5, 0.75)
+            adjustedSize = size * 0.65; 
+          }
+          gl.uniform1f(uSizeLocation, adjustedSize);
+          // --- FIN DE LA LÓGICA DE AJUSTE ---
+
           gl.drawArrays(gl.TRIANGLES, 0, 6); 
       }
       animationFrameId = requestAnimationFrame(render);
@@ -305,22 +329,20 @@ const Lightning: React.FC<LightningProps> = ({
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       cancelAnimationFrame(animationFrameId);
-      // Limpieza de WebGL (opcional pero buena práctica)
       if (gl) {
         gl.deleteProgram(program);
-        gl.deleteShader(vertexShader);
-        gl.deleteShader(fragmentShader);
-        gl.deleteBuffer(vertexBuffer);
+        if (vertexShader) gl.deleteShader(vertexShader);
+        if (fragmentShader) gl.deleteShader(fragmentShader);
+        if (vertexBuffer) gl.deleteBuffer(vertexBuffer);
       }
     };
-  }, [hue, xOffset, speed, intensity, size]);
+  }, [hue, xOffset, speed, intensity, size]); // Dependencias del useEffect
 
-  // Revertir a la estructura del canvas como en el original para simplicidad
   return <canvas ref={canvasRef} className="w-full h-full absolute top-0 left-0 pointer-events-none" />;
 };
 
-
-// El resto de tu componente HeroSection se mantiene igual
+// El componente HeroSection se mantiene igual que en la versión anterior.
+// Solo necesitas reemplazar el componente Lightning con esta nueva versión.
 export const HeroSection: React.FC = () => {
   const [lightningHue, setLightningHue] = useState(220);
 
@@ -352,11 +374,11 @@ export const HeroSection: React.FC = () => {
           value={lightningHue}
           onChange={setLightningHue}
           label="Ajustar Tono"
-          className="w-32" // Ajusta el ancho según sea necesario
+          className="w-32" 
         />
       </div>
       
-      <div className="relative z-30 h-full w-full flex items-center justify-center pt-50"> {/* pt-50 parecía un typo, quizás quisiste decir pt-something o padding top */}
+      <div className="relative z-30 h-full w-full flex items-center justify-center">
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col items-center justify-center text-center">
           <motion.div
             variants={containerVariants}
@@ -405,18 +427,17 @@ export const HeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="absolute inset-0 z-0" // Eliminado -top-1 que podría causar desajustes
+        className="absolute inset-0 z-0" 
       >
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] aspect-square rounded-full bg-gradient-to-b from-blue-500/20 to-purple-600/10 blur-3xl"></div>
         
-        {/* El componente Lightning ahora se renderiza directamente aquí como canvas */}
         <Lightning
             hue={lightningHue}
-            xOffset={0}
-            speed={1.6} // Manteniendo tus valores
-            intensity={0.6} // Manteniendo tus valores
-            size={2} // Manteniendo tus valores
+            xOffset={0} // Pasamos el xOffset base (0 por defecto)
+            speed={1.6} 
+            intensity={0.6} 
+            size={2}    // Este es el 'size' base que se ajustará internamente en Lightning
         />
       </motion.div>
     </div>
