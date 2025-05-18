@@ -9,9 +9,9 @@ import { AppDock } from "@/components/app-dock"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Aplicación de Sueños Freudianos",
+  title: "Ai Dreamer",
   description: "Aplicación para registrar y analizar sueños basada en la teoría de Sigmund Freud",
-  generator: 'v0.dev'
+  generator: 'Carlosfreire'
 }
 
 export default function RootLayout({

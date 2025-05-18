@@ -199,22 +199,30 @@ export const AIMessageBar = () => {
   // Efecto para hacer scroll al final de los mensajes
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const initialLoad = useRef(true);
+  const prevMessagesLength = useRef(messages.length);
 
   useEffect(() => {
-    // No hacer scroll en la carga inicial
+    // No hacer scroll en la carga inicial si no hay mensajes
     if (initialLoad.current) {
-      initialLoad.current = false;
-      return;
+      if (messages.length === 0) {
+        initialLoad.current = false;
+        return;
+      }
     }
 
-    // Solo hacer scroll si el usuario ha interactuado o hay nuevos mensajes
-    if (hasUserInteracted || messages.length > 0) {
+    // Solo hacer scroll si hay mensajes y es una nueva respuesta de la IA o el usuario ha interactuado
+    const isNewMessage = messages.length > prevMessagesLength.current;
+    const isAIReply = isNewMessage && messages[messages.length - 1]?.role === 'assistant';
+    
+    if ((hasUserInteracted || isAIReply) && messages.length > 0) {
       const timer = setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
       
       return () => clearTimeout(timer);
     }
+    
+    prevMessagesLength.current = messages.length;
   }, [messages, isTyping, hasUserInteracted]);
 
   // Marcar que el usuario ha interactuado cuando escribe o envía un mensaje
@@ -265,7 +273,7 @@ export const AIMessageBar = () => {
           {message.isLoading ? (
             <div className="flex items-center">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              <span className="text-sm">Pensando...</span>
+              <span className="text-sm">Analizando tu sueño...</span>
             </div>
           ) : (
             <div className="relative">

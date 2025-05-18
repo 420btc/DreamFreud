@@ -34,49 +34,52 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   // and overlay custom elements for styling and animation.
 
   return (
-    <div className={`relative w-full max-w-xs flex flex-col items-center ${className || ''}`} ref={sliderRef}>
-      {label && <label htmlFor="hue-slider-native" className="text-gray-300 text-sm mb-1">{label}</label>}
-      <div className="relative w-full h-5 flex items-center"> {/* Wrapper for track and thumb */}
-        {/* Native input: Handles interaction, but visually hidden */}
-        <input
-          id="hue-slider-native"
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-          onTouchStart={handleMouseDown}
-          onTouchEnd={handleMouseUp}
-          // Style to make it cover the custom track but be transparent
-          className="absolute inset-0 w-full h-full appearance-none bg-transparent cursor-pointer z-20"
-          style={{ WebkitAppearance: 'none' /* For Safari */ }}
-        />
-
-        {/* Custom Track */}
-        <div className="absolute left-0 w-full h-1 bg-gray-700 rounded-full z-0"></div>
-
-        {/* Custom Fill (Optional but nice visual) */}
-        <div
-            className="absolute left-0 h-1 bg-blue-500 rounded-full z-10"
-            style={{ width: `${thumbPosition}%` }}
-        ></div>
-
-
-        {/* Custom Thumb (Animated) */}
-        {/* Position the thumb wrapper based on progress, then center the thumb inside */}
+    <div className={`relative w-full ${className}`}>
+      {label && <label className="block text-xs text-gray-400 mb-1">{label}</label>}
+      
+      {/* Hidden input for actual functionality */}
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        className="absolute w-full h-full opacity-0 cursor-pointer z-10"
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        style={{
+          WebkitAppearance: 'none',
+          appearance: 'none',
+        }}
+      />
+      
+      {/* Custom track */}
+      <div className="relative h-1.5 w-full bg-gray-600 rounded-full overflow-hidden">
+        {/* Background track */}
+        <div className="absolute inset-0 bg-gray-600 rounded-full"></div>
+        
+        {/* Progress track */}
         <motion.div
-          className="absolute top-1/2 transform -translate-y-1/2 z-30"
-          style={{ left: `${thumbPosition}%` }}
-          // Animate scale based on dragging state
-          animate={{ scale: isDragging ? 1.2 : 1 }}
-          transition={{ type: "spring", stiffness: 500, damping: isDragging ? 20 : 30 }} // Springy animation
+          className="absolute left-0 top-0 bottom-0 bg-white rounded-full"
+          style={{
+            width: `${thumbPosition}%`,
+            transition: isDragging ? 'none' : 'width 0.15s ease-out',
+          }}
         >
            
         </motion.div>
       </div>
+
+      {/* Thumb */}
+      <motion.div
+        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-300 rounded-full shadow-md z-10"
+        style={{
+          left: `calc(${thumbPosition}% - 8px)`,
+          transition: isDragging ? 'none' : 'left 0.15s ease-out',
+        }}
+      />
 
        {/* Optional: Display current value below */}
        <AnimatePresence mode="wait">
@@ -86,7 +89,7 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
            animate={{ opacity: 1, y: 0 }}
            exit={{ opacity: 0, y: 5 }}
            transition={{ duration: 0.2 }}
-           className="text-xs text-gray-500 mt-2" // Increased margin top for spacing
+           className="text-xs text-gray-300 mt-2" // Changed to lighter gray for better visibility
          >
            {value}°
          </motion.div>
@@ -361,7 +364,7 @@ export const HeroSection: React.FC = () => {
   return (
     <div className="relative w-full bg-black text-white overflow-hidden h-screen">
       {/* Hue Slider in bottom right corner */}
-      <div className="absolute bottom-4 right-4 z-50">
+      <div className="absolute bottom-4 right-4 z-40">
         <ElasticHueSlider
           value={lightningHue}
           onChange={setLightningHue}
@@ -370,7 +373,7 @@ export const HeroSection: React.FC = () => {
       </div>
       
       {/* Main container with space for content */}
-      <div className="relative z-20 h-full w-full flex items-center justify-center pt-50">
+      <div className="relative z-30 h-full w-full flex items-center justify-center pt-50">
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col items-center justify-center text-center">
           <motion.div
             variants={containerVariants}
@@ -381,19 +384,7 @@ export const HeroSection: React.FC = () => {
             
 
             {/* Main hero content */}
-            <div className="mt-8">
-              {/* Button: "Log in" */}
-              <motion.button
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-full text-sm mb-6 transition-all duration-300 group mx-auto"
-              >
-                <span>Log in</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transform group-hover:translate-x-1 transition-transform duration-300">
-                  <path d="M8 3L13 8L8 13M13 8H3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </motion.button>
+            <div className="mt-12">
 
               <motion.h1
                 variants={itemVariants}
@@ -421,7 +412,7 @@ export const HeroSection: React.FC = () => {
                 variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-8 px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors"
+                className="mt-24 px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors"
               >
                 Registrar sueño
               </motion.button>
@@ -435,7 +426,7 @@ export const HeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="absolute inset-0 z-0 -top-5"
+        className="absolute inset-0 z-0 -top-1"
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/80"></div>
