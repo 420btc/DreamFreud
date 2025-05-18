@@ -77,7 +77,7 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-300 rounded-full shadow-md z-10"
         style={{
           left: `calc(${thumbPosition}% - 8px)`,
-          transition: isDragging ? 'none' : 'left 0.15s ease-out',
+          transition: isDragging ? 'none' : 'left 0.30s ease-out',
         }}
       />
 
@@ -119,7 +119,7 @@ interface LightningProps {
 const Lightning: React.FC<LightningProps> = ({
   hue = 230,
   xOffset = 0,
-  speed = 1,
+  speed = 0.2,
   intensity = 1,
   size = 1,
 }) => {
@@ -175,7 +175,7 @@ const Lightning: React.FC<LightningProps> = ({
       }
 
       float hash12(vec2 p) {
-          vec3 p3 = fract(vec3(p.xyx) * .1031);
+          vec3 p3 = fract(vec3(p.xyx) * .1038);
           p3 += dot(p3, p3.yzx + 33.33);
           return fract((p3.x + p3.y) * p3.z);
       }
@@ -300,7 +300,7 @@ const Lightning: React.FC<LightningProps> = ({
       gl.uniform1f(uSpeedLocation, speed);
       gl.uniform1f(uIntensityLocation, intensity);
       gl.uniform1f(uSizeLocation, size);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      gl.drawArrays(gl.TRIANGLES, 0, 9);
       requestAnimationFrame(render);
     };
     requestAnimationFrame(render);

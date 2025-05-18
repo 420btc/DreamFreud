@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Moon, Brain, Calendar } from "lucide-react"
+import { Moon, Brain, Calendar, User } from "lucide-react"
 import type { Sueno } from "@/types/sueno"
+import { Button } from "@/components/ui/button"
+import SignInCard2 from "@/components/ui/sign-in-card-2"
 
 export default function MiPerfil() {
   const [suenos, setSuenos] = useState<Sueno[]>([])
   const [nombreUsuario, setNombreUsuario] = useState("Usuario")
   const [cargando, setCargando] = useState(true)
-
   useEffect(() => {
     // Cargar datos del localStorage
     try {
@@ -96,19 +97,25 @@ export default function MiPerfil() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="nombre" className="text-sm font-medium">
-                  Nombre
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    id="nombre"
-                    type="text"
-                    value={nombreUsuario}
-                    onChange={(e) => setNombreUsuario(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                  />
-                  <Button onClick={guardarNombre}>Guardar</Button>
+<div className="space-y-4">
+                <div className="w-full max-w-[400px] mx-auto mt-4">
+                  <SignInCard2 />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="nombre" className="text-sm font-medium">
+                    Nombre
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      id="nombre"
+                      type="text"
+                      value={nombreUsuario}
+                      onChange={(e) => setNombreUsuario(e.target.value)}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    />
+                    <Button onClick={guardarNombre}>Guardar</Button>
+                  </div>
                 </div>
               </div>
 
@@ -216,10 +223,10 @@ export default function MiPerfil() {
           </CardContent>
         </Card>
       </div>
+
+
     </div>
   )
 }
 
-import { Button } from "@/components/ui/button"
-import { User } from "lucide-react"
 import Link from "next/link"
