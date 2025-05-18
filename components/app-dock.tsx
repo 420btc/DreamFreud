@@ -50,7 +50,7 @@ export function AppDock() {
               </AnimatePresence>
               <motion.div
                 className={`relative z-10 flex flex-col items-center ${
-                  isActive ? 'text-blue-400' : 'text-foreground/70'
+                  isActive ? 'text-blue-300' : 'text-foreground/70'
                 }`}
                 animate={{
                   scale: isHovered ? 1.1 : 1,
