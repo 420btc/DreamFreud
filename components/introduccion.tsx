@@ -10,14 +10,14 @@ import { HeroSection } from "@/components/hero-odyssey";
 
 export default function Introduccion() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Hero Section */}
-      <div className="relative -mt-6">
+      <div className="relative flex-shrink-0">
         <HeroSection />
       </div>
       
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 relative z-10">
+      <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 flex-grow">
         <div className="text-center mb-12">
           <p className="text-2xl md:text-3xl font-light text-gray-300 italic mb-8 max-w-3xl mx-auto">
             
