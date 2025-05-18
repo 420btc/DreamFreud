@@ -292,7 +292,7 @@ export function SignInCard2() {
                   >
                     {/* Logo placeholder - would be an SVG in practice */}
                     {/* <!-- SVG_LOGO --> */}
-                    <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">S</span>
+                    <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">D</span>
                     
                     {/* Inner lighting effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50" />
@@ -304,7 +304,7 @@ export function SignInCard2() {
                     transition={{ delay: 0.2 }}
                     className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80"
                   >
-                    Welcome Back
+                    Bienvenido!
                   </motion.h1>
                   
                   <motion.p
@@ -313,7 +313,7 @@ export function SignInCard2() {
                     transition={{ delay: 0.3 }}
                     className="text-white/60 text-xs"
                   >
-                    Sign in to continue to StyleMe
+                    Inicia sesión en Ai Dreamer
                   </motion.p>
                 </div>
 
@@ -336,7 +336,7 @@ export function SignInCard2() {
                         
                         <Input
                           type="email"
-                          placeholder="Email address"
+                          placeholder="Dirección email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           onFocus={() => setFocusedInput("email" as any)}
@@ -374,7 +374,7 @@ export function SignInCard2() {
                         
                         <Input
                           type={showPassword ? "text" : "password"}
-                          placeholder="Password"
+                          placeholder="Contraseña"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           onFocus={() => setFocusedInput("password" as any)}
@@ -414,8 +414,8 @@ export function SignInCard2() {
                     <div className="flex items-center space-x-2">
                       <div className="relative">
                         <input
-                          id="remember-me"
-                          name="remember-me"
+                          id="Recordar"
+                          name="Recordar"
                           type="checkbox"
                           checked={rememberMe}
                           onChange={() => setRememberMe(!rememberMe)}
@@ -434,14 +434,14 @@ export function SignInCard2() {
                           </motion.div>
                         )}
                       </div>
-                      <label htmlFor="remember-me" className="text-xs text-white/60 hover:text-white/80 transition-colors duration-200">
-                        Remember me
+                      <label htmlFor="Recordar" className="text-xs text-white/60 hover:text-white/80 transition-colors duration-200">
+                        Recordar
                       </label>
                     </div>
                     
                     <div className="text-xs relative group/link">
                       <Link href="/forgot-password" className="text-white/60 hover:text-white transition-colors duration-200">
-                        Forgot password?
+                        ¿Olvidaste tu contraseña?
                       </Link>
                     </div>
                   </div>
@@ -495,7 +495,7 @@ export function SignInCard2() {
                             exit={{ opacity: 0 }}
                             className="flex items-center justify-center gap-1 text-sm font-medium"
                           >
-                            Sign In
+                            Iniciar Sesión
                             <ArrowRight className="w-3 h-3 group-hover/button:translate-x-1 transition-transform duration-300" />
                           </motion.span>
                         )}
@@ -528,10 +528,10 @@ export function SignInCard2() {
                     
                     <div className="relative overflow-hidden bg-white/5 text-white font-medium h-10 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2">
                       {/* <!-- SVG_GOOGLE_LOGO --> */}
-                      <div className="w-4 h-4 flex items-center justify-center text-white/80 group-hover/google:text-white transition-colors duration-300">G</div>
+                      <div className="w-4 h-4 flex items-center justify-center text-red-500 group-hover/google:text-white transition-colors duration-300">G</div>
                       
                       <span className="text-white/80 group-hover/google:text-white transition-colors text-xs">
-                        Sign in with Google
+                        Iniciar Sesión con Google
                       </span>
                       
                       {/* Button hover effect */}
@@ -554,13 +554,13 @@ export function SignInCard2() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
-                  Don't have an account?{' '}
+                  ¿No tienes una cuenta?{' '}
                   <Link 
                     href="/signup" 
                     className="relative inline-block group/signup"
                   >
                     <span className="relative z-10 text-white group-hover/signup:text-white/70 transition-colors duration-300 font-medium">
-                      Sign up
+                      Registrate
                     </span>
                     <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white group-hover/signup:w-full transition-all duration-300" />
                   </Link>
