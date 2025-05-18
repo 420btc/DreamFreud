@@ -11,7 +11,13 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Ai Dreamer",
   description: "Aplicación para registrar y analizar sueños basada en la teoría de Sigmund Freud",
-  generator: 'Carlosfreire'
+  generator: 'Carlosfreire',
+  icons: {
+    icon: '/aidream.png',
+    apple: '/aidream.png',
+    shortcut: '/aidream.png',
+  },
+  manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({

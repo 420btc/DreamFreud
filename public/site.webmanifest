@@ -1,0 +1,17 @@
+{
+  "name": "Ai Dreamer",
+  "short_name": "Ai Dreamer",
+  "description": "Aplicación para registrar y analizar sueños basada en la teoría de Sigmund Freud",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/aidream.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
