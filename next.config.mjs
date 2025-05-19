@@ -11,6 +11,14 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    domains: ['lh3.googleusercontent.com'],
+  },
+  env: {
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || 'tu-clave-secreta-aqui',
+    // Las credenciales deben estar en variables de entorno, no hardcodeadas
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
   webpack: (config, { isServer }) => {
     // Añadir el plugin solo en el cliente
