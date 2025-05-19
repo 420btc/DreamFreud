@@ -59,7 +59,16 @@ export default async function RootLayout({
               <footer className="py-4 border-t">
                 <div className="container mx-auto text-center">
                   <p className="text-sm text-muted-foreground">
-                    <span className="font-bold">By Carlos Freire</span>
+                    By{' '}
+                    <a 
+                      href="https://x.com/CarlosFreire0" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                    >
+                      Carlos Freire
+                    </a>
+                    {' '}in May 2025
                   </p>
                 </div>
               </footer>

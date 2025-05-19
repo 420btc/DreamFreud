@@ -151,7 +151,6 @@ export default function Introduccion() {
             </div>
             <p className="text-sm text-gray-500 mt-4 text-center">
               No se guarda ningún mensaje en la base de datos. La IA puede cometer errores. 
-              Usa tu criterio y consulta con un profesional para interpretaciones clínicas.
             </p>
           </div>
         </div>
