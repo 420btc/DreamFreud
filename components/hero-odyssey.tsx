@@ -23,67 +23,100 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   className = ''
 }) => {
   const [isDragging, setIsDragging] = useState(false);
-  // const sliderRef = useRef<HTMLDivElement>(null); // No se usa, se puede quitar si no es necesario para ElasticHueSlider
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const thumbRef = useRef<HTMLDivElement>(null);
 
-  const progress = ((value - min) / (max - min));
-  const thumbPosition = progress * 100; // Percentage
-
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
+  const progress = ((value - min) / (max - min)) * 100;
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(Number(e.target.value));
+  };
+  
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+    
+    // Initial position update on click
+    if (sliderRef.current) {
+      const rect = sliderRef.current.getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      x = Math.max(0, Math.min(x, rect.width));
+      const percent = x / rect.width;
+      const newValue = min + percent * (max - min);
+      onChange(Math.round(newValue / step) * step);
+    }
+  };
+  
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !sliderRef.current) return;
+    
+    const slider = sliderRef.current;
+    const rect = slider.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    x = Math.max(0, Math.min(x, rect.width));
+    
+    const percent = x / rect.width;
+    const newValue = min + percent * (max - min);
+    onChange(Math.round(newValue / step) * step);
+  };
 
   return (
     <div className={`relative w-full ${className}`}>
-      {label && <label className="block text-xs text-gray-400 mb-1">{label}</label>}
-      
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="absolute w-full h-full opacity-0 cursor-pointer z-10"
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        style={{
-          WebkitAppearance: 'none',
-          appearance: 'none',
-        }}
-      />
-      
-      <div className="relative h-1.5 w-full bg-gray-600 rounded-full overflow-hidden">
-        <div className="absolute inset-0 bg-gray-600 rounded-full"></div>
-        <motion.div
-          className="absolute left-0 top-0 bottom-0 bg-white rounded-full"
-          style={{
-            width: `${thumbPosition}%`,
-            transition: isDragging ? 'none' : 'width 0.15s ease-out',
-          }}
+      <div className="flex justify-between items-center mb-1.5">
+        {label && <span className="text-xs font-medium text-white/80">{label}</span>}
+        <motion.span
+          key={value}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-xs font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/90"
         >
-        </motion.div>
+          {value}°
+        </motion.span>
       </div>
-
-      <motion.div
-        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gray-300 rounded-full shadow-md z-10"
-        style={{
-          left: `calc(${thumbPosition}% - 8px)`,
-          transition: isDragging ? 'none' : 'left 0.30s ease-out',
-        }}
-      />
-
-       <AnimatePresence mode="wait">
-         <motion.div
-           key={value}
-           initial={{ opacity: 0, y: -5 }}
-           animate={{ opacity: 1, y: 0 }}
-           exit={{ opacity: 0, y: 5 }}
-           transition={{ duration: 0.2 }}
-           className="text-xs text-gray-300 mt-2"
-         >
-           {value}°
-         </motion.div>
-       </AnimatePresence>
+      <div className="relative w-full">
+        <div 
+          ref={sliderRef}
+          className="relative h-4 w-full flex items-center group"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          <div className="absolute w-full h-1.5 bg-gray-700/80 rounded-full">
+            <div 
+              className="h-full rounded-full bg-gradient-to-r from-blue-400 to-purple-500"
+              style={{
+                width: `${progress}%`,
+                transition: 'width 0.2s ease-out',
+              }}
+            />
+          </div>
+          
+          <div
+            className="absolute w-3 h-3 bg-white rounded-full shadow-lg z-20 border-2 border-white/80 cursor-pointer"
+            style={{
+              left: `calc(${progress}% - 6px)`,
+              transform: isDragging ? 'scale(1.3, 1.3)' : 'scale(1, 1)',
+              transition: 'transform 0.1s ease-out',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+            }}
+          />
+          
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={handleChange}
+            className="absolute w-full h-full opacity-0 cursor-pointer"
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -369,12 +402,12 @@ export const HeroSection: React.FC = () => {
   };
   return (
     <div className="relative w-full bg-black text-white overflow-hidden h-screen">
-      <div className="absolute bottom-4 right-4 z-40">
+      <div className="absolute bottom-6 right-6 z-40 w-72 bg-black/70 backdrop-blur-sm p-4 rounded-xl border border-white/10 shadow-xl">
         <ElasticHueSlider
           value={lightningHue}
           onChange={setLightningHue}
-          label="Ajustar Tono"
-          className="w-32" 
+          label="Ajustar Color"
+          className="w-full text-sm" 
         />
       </div>
       
