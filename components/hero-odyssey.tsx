@@ -402,13 +402,19 @@ export const HeroSection: React.FC = () => {
   };
   return (
     <div className="relative w-full bg-black text-white overflow-hidden h-screen">
-      <div className="absolute bottom-6 right-6 z-40 w-72 bg-black/70 backdrop-blur-sm p-4 rounded-xl border border-white/10 shadow-xl">
-        <ElasticHueSlider
-          value={lightningHue}
-          onChange={setLightningHue}
-          label="Ajustar Color"
-          className="w-full text-sm" 
-        />
+      <div className="absolute bottom-6 right-6 z-40 w-72 transition-all duration-500 ease-out group">
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-xl rounded-xl border border-white/5 shadow-xl transition-all duration-500 ease-out group-hover:bg-black/70 group-hover:backdrop-blur-none" />
+        <div className="relative z-10 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <ElasticHueSlider
+            value={lightningHue}
+            onChange={setLightningHue}
+            label="Ajustar Color"
+            className="w-full text-sm" 
+          />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center text-white/60 text-sm pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
+          <span>Pasa el ratón para ajustar</span>
+        </div>
       </div>
       
       <div className="relative z-30 h-full w-full flex items-center justify-center">
