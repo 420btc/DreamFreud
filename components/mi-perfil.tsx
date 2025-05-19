@@ -57,19 +57,41 @@ export default function MiPerfil() {
     }
 
     try {
-      setCargando(true)
       console.log('Loading dreams for user:', session.user.email)
       
-      // Simular carga de datos
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Primero intentamos cargar desde localStorage
+      try {
+        const suenosGuardados = localStorage.getItem("suenos");
+        console.log('Sueños en localStorage:', suenosGuardados ? 'encontrados' : 'no encontrados');
+        
+        if (suenosGuardados) {
+          const suenosParseados = JSON.parse(suenosGuardados);
+          if (Array.isArray(suenosParseados) && suenosParseados.length > 0) {
+            setSuenos(suenosParseados);
+            return; // Salir si ya cargamos los sueños
+          }
+        }
+      } catch (storageError) {
+        console.error("Error al leer del localStorage:", storageError);
+      }
       
-      // Aquí iría la lógica real para cargar los sueños
-      // Por ahora usamos datos de ejemplo
+      // Si no hay datos en localStorage, usar datos de ejemplo
       const datosEjemplo: Sueno[] = [
-        // ... tus datos de ejemplo ...
-      ]
+        {
+          id: '1',
+          titulo: 'Sueño de prueba',
+          texto: 'Este es un sueño de ejemplo para mostrar cómo se vería en tu perfil.',
+          fecha: new Date().toISOString(),
+          emocion: 'feliz',
+          etiquetas: ['ejemplo', 'prueba'],
+          createdAt: Date.now()
+        }
+      ];
       
-      setSuenos(datosEjemplo)
+      setSuenos(datosEjemplo);
+      // Guardar en localStorage para futuras cargas
+      localStorage.setItem("suenos", JSON.stringify(datosEjemplo));
+      
     } catch (error) {
       console.error('Error al cargar los sueños:', error)
     } finally {
@@ -96,69 +118,38 @@ export default function MiPerfil() {
   
   const user = session?.user ?? null;
 
-  // Debug logs
+  // Efecto principal para manejar la autenticación y carga de datos
   useEffect(() => {
     console.log('MiPerfil - Session state changed:', { 
       status, 
       hasSession: !!session,
       user: session?.user 
-    })
+    });
     
-    if (status === 'authenticated' && session?.user) {
-      console.log('User authenticated:', session.user)
-      setNombreUsuario(session.user.name || '')
-      cargarSuenos()
-    } else if (status === 'unauthenticated') {
-      console.log('User not authenticated')
-      setCargando(false)
-    }
-  }, [status, session, cargarSuenos, router])
-  
-  // Cargar datos del usuario
-  useEffect(() => {
-    const cargarDatosUsuario = async () => {
-      console.log('Iniciando carga de datos...');
-      setCargando(true);
-      
-      try {
-        if (status === 'authenticated' && session?.user) {
-          console.log('Usuario autenticado:', session.user.email);
-          
-          // Establecer el nombre de usuario desde Google
-          if (session.user.name) {
-            setNombreUsuario(session.user.name);
-            // Guardar el nombre en localStorage para persistencia
-            localStorage.setItem('nombreUsuario', session.user.name);
-          }
-          
-          // Cargar sueños guardados
-          try {
-            const suenosGuardados = localStorage.getItem("suenos");
-            console.log('Sueños en localStorage:', suenosGuardados ? 'encontrados' : 'no encontrados');
-            if (suenosGuardados) {
-              const suenosParseados = JSON.parse(suenosGuardados);
-              setSuenos(Array.isArray(suenosParseados) ? suenosParseados : []);
-            } else {
-              setSuenos([]);
-            }
-          } catch (storageError) {
-            console.error("Error al leer del localStorage:", storageError);
-            setSuenos([]);
-          }
-        } else {
-          console.log('Usuario no autenticado o sesión no disponible');
-          setSuenos([]);
+    const loadUserData = async () => {
+      if (status === 'authenticated' && session?.user) {
+        console.log('User authenticated:', session.user);
+        // Actualizar el nombre del usuario
+        if (session.user.name) {
+          setNombreUsuario(session.user.name);
         }
-      } catch (error) {
-        console.error("Error al cargar datos:", error);
-        setSuenos([]);
-      } finally {
+        // Cargar los sueños
+        await cargarSuenos();
+      } else if (status === 'unauthenticated') {
+        console.log('User not authenticated');
         setCargando(false);
       }
     };
     
-    cargarDatosUsuario();
-  }, [status, session]) // Se ejecuta cuando cambia el estado de autenticación
+    loadUserData();
+  }, [status, session, router]); // Removemos cargarSuenos de las dependencias
+  
+  // Efecto para sincronizar el nombre del usuario con localStorage
+  useEffect(() => {
+    if (nombreUsuario && status === 'authenticated' && session?.user) {
+      localStorage.setItem('nombreUsuario', nombreUsuario);
+    }
+  }, [nombreUsuario, status, session?.user]);
   
   // Calcular estadísticas
   const totalSuenos = suenos?.length || 0;
