@@ -1,0 +1,319 @@
+"use client"
+
+import { useState, useEffect, useMemo } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Moon, Brain, Calendar, User, LogOut } from "lucide-react"
+import type { Sueno } from "@/types/sueno"
+import { Button } from "@/components/ui/button"
+import SignInCard2 from "@/components/ui/sign-in-card-2"
+import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+
+// Extender el tipo de next-auth
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    } | null;
+  }
+}
+
+// Tipo para el usuario de la sesión
+type SessionUser = {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+} | null;
+
+export default function MiPerfil() {
+  const { data: session, status } = useSession()
+  const [suenos, setSuenos] = useState<Sueno[]>([])
+  const [cargando, setCargando] = useState(true)
+  const [nombreUsuario, setNombreUsuario] = useState<string>('')
+  const [suenosPorMes, setSuenosPorMes] = useState<Record<string, number>>({})
+  
+  const router = useRouter()
+  const user = session?.user ?? null;
+  
+  // Cargar datos del usuario
+  useEffect(() => {
+    if (status === 'authenticated') {
+      const cargarDatosUsuario = async () => {
+        try {
+          setCargando(true);
+          
+          if (session?.user?.name) {
+            setNombreUsuario(session.user.name);
+          }
+          
+          const suenosGuardados = localStorage.getItem("suenos");
+          if (suenosGuardados) {
+            setSuenos(JSON.parse(suenosGuardados) || []);
+          }
+        } catch (error) {
+          console.error("Error al cargar datos:", error);
+        } finally {
+          setCargando(false);
+        }
+      };
+      
+      cargarDatosUsuario();
+    }
+  }, [status, session])
+  
+  // Calcular estadísticas
+  const totalSuenos = suenos?.length || 0;
+  const promedioCaracteres = useMemo(() => {
+    if (!suenos || suenos.length === 0) return 0;
+    const totalCaracteres = suenos.reduce((sum, sueno) => sum + (sueno.texto?.length || 0), 0);
+    return Math.round(totalCaracteres / suenos.length);
+  }, [suenos]);
+
+  // Calcular sueños por mes
+  useEffect(() => {
+    if (!suenos || suenos.length === 0) {
+      setSuenosPorMes({});
+      return;
+    }
+    
+    const meses: Record<string, number> = {};
+    
+    suenos.forEach(sueno => {
+      if (sueno.fecha) {
+        const fecha = new Date(sueno.fecha);
+        const mes = fecha.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+        meses[mes] = (meses[mes] || 0) + 1;
+      }
+    });
+    
+    setSuenosPorMes(meses);
+  }, [suenos]);
+
+  // Actualizar el nombre del usuario si está disponible
+  useEffect(() => {
+    if (user?.name && !nombreUsuario) {
+      setNombreUsuario(user.name);
+    }
+  }, [user, nombreUsuario]);
+
+  // Manejadores
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/perfil' });
+  }
+
+  const guardarNombre = () => {
+    try {
+      localStorage.setItem("nombreUsuario", nombreUsuario);
+      alert("Nombre guardado correctamente");
+    } catch (error) {
+      console.error("Error al guardar nombre:", error);
+      alert("Error al guardar el nombre");
+    }
+  }
+
+  // Estados de carga
+  if (status === 'loading' || cargando) {
+    return (
+      <div className="container mx-auto p-4">
+        <div className="flex justify-center items-center h-64">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+            <p>Cargando tu perfil...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Usuario no autenticado
+  if (status !== 'authenticated' || !user) {
+    return (
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-6 text-center mt-20">Mi Perfil</h1>
+        <div className="flex justify-center">
+          <SignInCard2 />
+        </div>
+      </div>
+    );
+  }
+
+  // Renderizado principal
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6 text-center mt-20">Mi Perfil</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
+        {/* Columna izquierda - Información personal */}
+        <Card className="md:col-span-1">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Información Personal</CardTitle>
+              <Button 
+                onClick={handleSignOut}
+                variant="outline" 
+                className="flex items-center gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Cerrar sesión
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col items-center space-y-4">
+              {user?.image ? (
+                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={user.image} 
+                    alt={user.name || 'Usuario'}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="h-12 w-12 text-primary" />
+                </div>
+              )}
+              <div className="text-center">
+                <h2 className="text-xl font-semibold">{user?.name || 'Usuario'}</h2>
+                <p className="text-sm text-muted-foreground">{user?.email || ''}</p>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label htmlFor="nombre" className="text-sm font-medium">
+                Nombre
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="nombre"
+                  type="text"
+                  value={nombreUsuario}
+                  onChange={(e) => setNombreUsuario(e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                />
+                <Button onClick={guardarNombre}>Guardar</Button>
+              </div>
+            </div>
+            
+            <div className="mt-6">
+              <p className="text-xs text-muted-foreground text-center">
+                Has iniciado sesión con Google
+              </p>
+            </div>
+            
+            <div className="mt-4">
+              <p className="text-sm text-muted-foreground">
+                Fecha de registro: {new Date().toLocaleDateString("es-ES")}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Columna derecha - Estadísticas */}
+        <Card className="md:col-span-2">
+          <CardHeader>
+            <CardTitle>Estadísticas de Sueños</CardTitle>
+            <CardDescription>Resumen de tu actividad de registro de sueños</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {totalSuenos > 0 ? (
+              <Tabs defaultValue="general">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="general">General</TabsTrigger>
+                  <TabsTrigger value="tiempo">Tiempo</TabsTrigger>
+                  <TabsTrigger value="contenido">Contenido</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="general" className="space-y-4 mt-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-medium flex items-center">
+                          <Moon className="h-4 w-4 mr-2" />
+                          Total de Sueños
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">{totalSuenos}</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-medium flex items-center">
+                          <Brain className="h-4 w-4 mr-2" />
+                          Promedio de Caracteres
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-2xl font-bold">{promedioCaracteres}</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="tiempo" className="mt-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm font-medium flex items-center">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Sueños por Mes
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {Object.keys(suenosPorMes).length > 0 ? (
+                        <ul className="space-y-2">
+                          {Object.entries(suenosPorMes).map(([mes, cantidad]) => (
+                            <li key={mes} className="flex justify-between">
+                              <span className="capitalize">{mes}</span>
+                              <span className="font-medium">{cantidad} sueños</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-muted-foreground">No hay datos suficientes</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="contenido" className="mt-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm font-medium">Análisis de Contenido</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        El análisis detallado de contenido estará disponible cuando tengas más sueños registrados.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            ) : (
+              <div className="text-center py-8">
+                <Moon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">No hay sueños registrados</h3>
+                <p className="text-muted-foreground mb-4">
+                  Comienza a registrar tus sueños para ver estadísticas y análisis.
+                </p>
+                <Link href="/registrar">
+                  <Button>Registrar mi primer sueño</Button>
+                </Link>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
