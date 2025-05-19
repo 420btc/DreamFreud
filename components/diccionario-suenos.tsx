@@ -97,7 +97,70 @@ export default function DiccionarioSuenos() {
                   )}
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm">{simbolo.interpretacion}</p>
+                  <p className="text-sm mb-3">{simbolo.interpretacion}</p>
+                  {simbolo.simbolo.includes('Sombrero') && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/hat.png" 
+                        alt="Ícono de sombrero" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
+                  {simbolo.simbolo.includes('Reloj') && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/clock.png" 
+                        alt="Ícono de reloj" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
+                  {simbolo.simbolo.includes('Cueva') && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/cave.png" 
+                        alt="Ícono de cueva" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
+                  {(simbolo.simbolo.includes('templo') || simbolo.simbolo.includes('Templo') || simbolo.simbolo.includes('iglesia') || simbolo.simbolo.includes('Iglesia')) && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/temple.png" 
+                        alt="Ícono de templo" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
+                  {(simbolo.simbolo.includes('jardín') || simbolo.simbolo.includes('Jardín') || simbolo.simbolo.includes('jardin') || simbolo.simbolo.includes('Jardin')) && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/jardin.png" 
+                        alt="Ícono de jardín" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
+                  {(simbolo.simbolo.includes('caballo') || simbolo.simbolo.includes('Caballo') || simbolo.simbolo.includes('yegua') || simbolo.simbolo.includes('Yegua')) && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/horse.png" 
+                        alt="Ícono de caballo" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
+                  {(simbolo.simbolo.includes('pájaro') || simbolo.simbolo.includes('Pájaro') || simbolo.simbolo.includes('pajaro') || simbolo.simbolo.includes('Pajaro')) && (
+                    <div className="flex justify-center mt-2">
+                      <img 
+                        src="/iconos/bird.png" 
+                        alt="Ícono de pájaro" 
+                        className="h-16 w-16 object-contain"
+                      />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}

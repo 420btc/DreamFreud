@@ -320,7 +320,7 @@ export const simbolosInterpretados = [
     palabrasClave: ["globo", "avión", "cohete", "volar", "elevarse", "despegar", "espacio"],
   },
   {
-    simbolo: "Fosas, Cuevas, Botellas, Cajas, Baúles, Jarras, Maletas, Bolsillos, Barcos, Boca, Iglesias",
+    simbolo: "Fosas",
     interpretacion: "Pueden simbolizar receptividad, contención, protección, aspectos ocultos, el inconsciente o un viaje/transición. (Verificar interpretaciones individuales ya ajustadas).",
     categoria: "Objetos",
     palabrasClave: ["fosa", "cueva", "botella", "caja", "baúl", "jarra", "maleta", "bolsillo", "barco", "boca", "iglesia"],
@@ -587,7 +587,7 @@ export const simbolosInterpretados = [
     simbolo: "Barco/Nave",
     interpretacion: "El viaje de la vida, la forma en que se navegan las emociones o situaciones, exploración del inconsciente.",
     categoria: "Objetos",
-    palabrasClave: ["barco", "nave", "velero", "viaje", "navegar", "océano", "mar"],
+    palabrasClave: ["barco", "velero", "viaje", "navegar", "océano", "mar"],
   },
   {
     simbolo: "Basura",
@@ -612,12 +612,6 @@ export const simbolosInterpretados = [
     interpretacion: "Equilibrio, esfuerzo personal para avanzar, independencia, o un viaje más simple y personal.",
     categoria: "Objetos",
     palabrasClave: ["bicicleta", "bici", "montar en bici", "ciclismo", "ruedas"]
-  },
-  {
-    simbolo: "Caja", // Similar a Caja o Baúl
-    interpretacion: "Secretos, potencial oculto, el inconsciente, o algo que necesita ser abierto o explorado.",
-    categoria: "Objetos",
-    palabrasClave: ["caja", "baúl", "cofre", "contenedor", "secreto", "oculto"]
   },
   {
     simbolo: "Cama",
@@ -962,12 +956,6 @@ export const simbolosInterpretados = [
     palabrasClave: ["oscuridad", "oscuridad", "inconsciente", "miedo", "desconocido", "potencial"]
   },
   {
-    simbolo: "Pájaro", // Repetido, mantener versión ajustada
-    interpretacion: "Libertad, trascendencia, mensajes, el alma, o aspiraciones. Diferentes pájaros tienen simbolismos específicos.",
-    categoria: "Animales",
-    palabrasClave: ["pájaro", "ave", "libertad", "trascendencia", "alma", "aspiración"]
-  },
-  {
     simbolo: "Pan",
     interpretacion: "Nutrición básica, sustento (físico o espiritual), o compartir.",
     categoria: "General", // O Objetos
@@ -1064,12 +1052,6 @@ export const simbolosInterpretados = [
     palabrasClave: ["puerta", "oportunidad", "transición", "acceso", "barrera", "umbral"]
   },
   {
-    simbolo: "Reloj", // Repetido, mantener versión ajustada
-    interpretacion: "Tiempo, urgencia, plazos, el paso de la vida, o la necesidad de prestar atención al tiempo.",
-    categoria: "General", // O Objetos
-    palabrasClave: ["reloj", "tiempo", "urgencia", "plazo", "vida", "atención"]
-  },
-  {
     simbolo: "Rey/Reina", // Repetido, mantener versión ajustada (la más general)
     interpretacion: "Autoridad, poder, control, o figuras parentales internalizadas.",
     categoria: "Freudiano, Junguiano", // O Figuras
@@ -1128,12 +1110,6 @@ export const simbolosInterpretados = [
     interpretacion: "Aspectos reprimidos o negados del yo, el 'lado oscuro', proyecciones.",
     categoria: "Junguiano", // O Conceptos
     palabrasClave: ["sombra", "shadow", "reprimido", "negación", "oscuridad", "proyección"]
-  },
-  {
-    simbolo: "Sombrero", // Repetido, mantener versión ajustada
-    interpretacion: "Rol, identidad, pensamientos, o protección.",
-    categoria: "General", // O Objetos
-    palabrasClave: ["sombrero", "rol", "identidad", "pensamiento", "protección", "cabeza"]
   },
   {
     simbolo: "Subir/Escalar", // Similar a Subir una Escalera
