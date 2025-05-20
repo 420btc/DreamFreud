@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import dynamic from "next/dynamic"
 import LoadingScreen from "@/components/ui/loading-screen"
 import Navbar from "@/components/navbar"
 import Introduccion from "@/components/introduccion"
@@ -12,16 +11,22 @@ import HistorialSuenos from "@/components/historial-suenos"
 import MiPerfil from "@/components/mi-perfil"
 import LibroFreud from "@/components/libro-freud"
 
-// Cargar componentes dinámicamente para mejor rendimiento
-const DynamicComponents = {
-  Introduccion: dynamic(() => import("@/components/introduccion"), { loading: () => <div>Cargando...</div> }),
-  RegistrarSueno: dynamic(() => import("@/components/registrar-sueno"), { loading: () => <div>Cargando...</div> }),
-  AnalizarUltimoSueno: dynamic(() => import("@/components/analizar-ultimo-sueno"), { loading: () => <div>Cargando...</div> }),
-  DiccionarioSuenos: dynamic(() => import("@/components/diccionario-suenos"), { loading: () => <div>Cargando...</div> }),
-  HistorialSuenos: dynamic(() => import("@/components/historial-suenos"), { loading: () => <div>Cargando...</div> }),
-  MiPerfil: dynamic(() => import("@/components/mi-perfil"), { loading: () => <div>Cargando...</div> }),
-  LibroFreud: dynamic(() => import("@/components/libro-freud"), { loading: () => <div>Cargando...</div> }),
+// Preload components for better mobile performance
+const preloadComponents = () => {
+  // This forces Next.js to include these components in the initial bundle
+  return {
+    Introduccion,
+    RegistrarSueno,
+    AnalizarUltimoSueno,
+    DiccionarioSuenos,
+    HistorialSuenos,
+    MiPerfil,
+    LibroFreud,
+  }
 }
+
+// Preload components immediately
+const Components = preloadComponents()
 
 export default function Home() {
   const [seccionActiva, setSeccionActiva] = useState("introduccion")
@@ -63,21 +68,21 @@ export default function Home() {
   const renderSeccion = () => {
     switch (seccionActiva) {
       case "introduccion":
-        return <DynamicComponents.Introduccion />
+        return <Components.Introduccion />
       case "registrarSueno":
-        return <DynamicComponents.RegistrarSueno />
+        return <Components.RegistrarSueno />
       case "analizarUltimoSueno":
-        return <DynamicComponents.AnalizarUltimoSueno />
+        return <Components.AnalizarUltimoSueno />
       case "diccionarioSuenos":
-        return <DynamicComponents.DiccionarioSuenos />
+        return <Components.DiccionarioSuenos />
       case "historialSuenos":
-        return <DynamicComponents.HistorialSuenos />
+        return <Components.HistorialSuenos />
       case "miPerfil":
-        return <DynamicComponents.MiPerfil />
+        return <Components.MiPerfil />
       case "libroFreud":
-        return <DynamicComponents.LibroFreud />
+        return <Components.LibroFreud />
       default:
-        return <DynamicComponents.Introduccion />
+        return <Components.Introduccion />
     }
   }
 
