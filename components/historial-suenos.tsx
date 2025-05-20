@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, Search, Trash2 } from "lucide-react"
@@ -12,22 +12,51 @@ export default function HistorialSuenos() {
   const [suenos, setSuenos] = useState<Sueno[]>([])
   const [busqueda, setBusqueda] = useState("")
   const [cargando, setCargando] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
 
-  useEffect(() => {
+  const cargarSuenos = useCallback(() => {
     try {
       const suenosGuardados = localStorage.getItem("suenos")
       if (suenosGuardados) {
-        setSuenos(JSON.parse(suenosGuardados) || [])
-      } else {
-        setSuenos([])
+        const datos = JSON.parse(suenosGuardados)
+        return Array.isArray(datos) ? datos : []
       }
+      return []
     } catch (error) {
       console.error("Error al cargar sueños:", error)
-      setSuenos([])
-    } finally {
-      setCargando(false)
+      return []
     }
   }, [])
+
+  useEffect(() => {
+    setIsMounted(true)
+    return () => setIsMounted(false)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+    
+    const cargarDatos = async () => {
+      setCargando(true)
+      try {
+        const datos = cargarSuenos()
+        // Usar requestAnimationFrame para evitar bloqueos de la UI
+        requestAnimationFrame(() => {
+          if (isMounted) {
+            setSuenos(datos)
+          }
+        })
+      } catch (error) {
+        console.error("Error al cargar sueños:", error)
+      } finally {
+        if (isMounted) {
+          setCargando(false)
+        }
+      }
+    }
+
+    cargarDatos()
+  }, [isMounted, cargarSuenos])
 
   const eliminarSueno = (id: string) => {
     if (confirm("¿Estás seguro de que deseas eliminar este sueño?")) {
@@ -42,18 +71,23 @@ export default function HistorialSuenos() {
     }
   }
 
-  const suenosFiltrados = suenos.filter(
-    (sueno) =>
-      sueno.texto?.toLowerCase().includes(busqueda.toLowerCase()) ||
-      sueno.notas?.toLowerCase().includes(busqueda.toLowerCase()),
-  )
+  const suenosFiltrados = useMemo(() => {
+    const busquedaLower = busqueda.toLowerCase()
+    return suenos.filter(
+      (sueno) =>
+        sueno.texto?.toLowerCase().includes(busquedaLower) ||
+        sueno.notas?.toLowerCase().includes(busquedaLower)
+    )
+  }, [suenos, busqueda])
 
-  // Ordenar sueños por fecha (más recientes primero)
-  const suenosOrdenados = [...suenosFiltrados].sort((a, b) => {
-    if (!a.fecha) return 1
-    if (!b.fecha) return -1
-    return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-  })
+  // Ordenar sueños por fecha (más recientes primero) con useMemo
+  const suenosOrdenados = useMemo(() => {
+    return [...suenosFiltrados].sort((a, b) => {
+      if (!a.fecha) return 1
+      if (!b.fecha) return -1
+      return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+    })
+  }, [suenosFiltrados])
 
   if (cargando) {
     return (
