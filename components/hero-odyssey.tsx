@@ -401,8 +401,25 @@ export const HeroSection: React.FC = () => {
     }
   };
   return (
-    <div className="relative w-full bg-black text-white overflow-hidden h-screen">
-      <div className="absolute bottom-6 right-6 z-40 w-72 transition-all duration-500 ease-out group">
+    <div className="relative w-full bg-black text-white overflow-hidden md:h-screen h-[100dvh] min-h-[600px]">
+      {/* Mobile Color Picker */}
+      <div className="md:hidden absolute bottom-4 right-4 z-40 w-[calc(100%-2rem)] transition-all duration-500 ease-out group">
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-xl rounded-xl border border-white/5 shadow-xl transition-all duration-500 ease-out group-hover:bg-black/70 group-hover:backdrop-blur-none" />
+        <div className="relative z-10 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <ElasticHueSlider
+            value={lightningHue}
+            onChange={setLightningHue}
+            label="Ajustar Color"
+            className="w-full text-xs" 
+          />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center text-white/60 text-xs pointer-events-none group-hover:opacity-0 transition-opacity duration-300 px-2 text-center">
+          <span>Toca para ajustar el color</span>
+        </div>
+      </div>
+      
+      {/* Desktop Color Picker */}
+      <div className="hidden md:block absolute bottom-6 right-6 z-40 w-72 transition-all duration-500 ease-out group">
         <div className="absolute inset-0 bg-black/20 backdrop-blur-xl rounded-xl border border-white/5 shadow-xl transition-all duration-500 ease-out group-hover:bg-black/70 group-hover:backdrop-blur-none" />
         <div className="relative z-10 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <ElasticHueSlider
@@ -417,7 +434,7 @@ export const HeroSection: React.FC = () => {
         </div>
       </div>
       
-      <div className="relative z-30 h-full w-full flex items-center justify-center">
+      <div className="relative z-30 h-full w-full flex items-center justify-center overflow-y-auto py-4 md:py-0">
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col items-center justify-center text-center">
           <motion.div
             variants={containerVariants}
@@ -425,34 +442,34 @@ export const HeroSection: React.FC = () => {
             animate="visible"
             className="w-full"
           >
-            <div className="mt-12">
+            <div className="mt-8 md:mt-12">
               <motion.h1
                 variants={itemVariants}
-                className="text-5xl md:text-9xl font-light mb-4"
+                className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-light mb-2 md:mb-4"
               >
                 Ai Dreamer
               </motion.h1>
 
               <motion.h2
                 variants={itemVariants}
-                className="text-3xl md:text-5xl pb-3 font-light bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 bg-clip-text text-transparent"
+                className="text-2xl sm:text-3xl md:text-5xl pb-2 md:pb-3 font-light bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 bg-clip-text text-transparent px-2"
               >
                 Analiza y registra tus sueños
               </motion.h2>
 
               <motion.p
                 variants={itemVariants}
-                className="text-gray-400 mb-9 max-w-2xl mx-auto"
+                className="text-gray-400 mb-6 md:mb-9 max-w-2xl mx-auto px-2 text-sm md:text-base"
               >
                 Bienvenido a esta aplicación interactiva para el registro y análisis de tus sueños basada en las teorías de Sigmund Freud, el padre del psicoanálisis.
               </motion.p>
 
-              <Link href="/registrar">
+              <Link href="/registrar" className="block">
                 <motion.button
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="mt-24 px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors"
+                  className="mt-12 md:mt-24 px-6 md:px-8 py-2.5 md:py-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors text-sm md:text-base"
                 >
                   Registrar sueño
                 </motion.button>
@@ -469,15 +486,26 @@ export const HeroSection: React.FC = () => {
         className="absolute inset-0 z-0" 
       >
         <div className="absolute inset-0 bg-black/80"></div>
-        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] aspect-square rounded-full bg-gradient-to-b from-blue-500/20 to-purple-600/10 blur-3xl"></div>
+        <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:max-w-[800px] aspect-square rounded-full bg-gradient-to-b from-blue-500/20 to-purple-600/10 blur-3xl"></div>
         
-        <Lightning
-            hue={lightningHue}
-            xOffset={0} // Pasamos el xOffset base (0 por defecto)
-            speed={1.6} 
-            intensity={0.6} 
-            size={2}    // Este es el 'size' base que se ajustará internamente en Lightning
-        />
+        <div className="md:hidden">
+          <Lightning
+              hue={lightningHue}
+              xOffset={0}
+              speed={1.6} 
+              intensity={0.6} 
+              size={1.5}
+          />
+        </div>
+        <div className="hidden md:block">
+          <Lightning
+              hue={lightningHue}
+              xOffset={0}
+              speed={1.6} 
+              intensity={0.6} 
+              size={2}
+          />
+        </div>
       </motion.div>
     </div>
   );
