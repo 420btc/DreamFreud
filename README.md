@@ -31,6 +31,10 @@
     *   Navegación intuitiva con `Navbar` y `AppDock`.
     *   Secciones visualmente atractivas como `HeroOdyssey` y `FeatureSectionWithBentoGrid`.
     *   Soporte para temas (claro/oscuro) mediante `ThemeProvider` y `ThemeToggle`.
+*   **Autenticación con Google:**
+    *   Inicio de sesión rápido y seguro utilizando cuentas de Google.
+    *   Manejo de sesiones y perfiles de usuario integrado.
+    *   Protección de rutas para contenido exclusivo de usuarios autenticados.
 *   **Integración con IA (Potencial):** El uso de la librería `openai` sugiere la posibilidad de análisis o sugerencias generadas por inteligencia artificial.
 
 ## Tech Stack
@@ -125,13 +129,28 @@ En el archivo `package.json`, puedes encontrar los siguientes scripts:
 *   `pnpm lint`: Ejecuta el linter (ESLint) para revisar el código.
 
 ## Variables de Entorno
-La aplicación puede requerir ciertas variables de entorno para su correcto funcionamiento, especialmente para la integración con servicios externos como OpenAI.
+
+El proyecto utiliza las siguientes variables de entorno:
+
+### Autenticación con Google
+- `GOOGLE_CLIENT_ID`: Tu ID de cliente de Google OAuth
+- `GOOGLE_CLIENT_SECRET`: Tu secreto de cliente de Google OAuth
+- `NEXTAUTH_URL`: URL base de tu aplicación (ej: http://localhost:3000)
+- `NEXTAUTH_SECRET`: Secreto para firmar cookies de sesión (puedes generar uno con `openssl rand -base64 32`)
+
+### OpenAI (Opcional)
+- `OPENAI_API_KEY`: Tu clave de API de OpenAI para funciones de IA
+
 Crea un archivo `.env.local` en la raíz del proyecto y añade las claves necesarias. Un ejemplo:
 ```
 # Para la integración con OpenAI (si se utiliza)
 OPENAI_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# Otras variables que la aplicación pueda necesitar
+# Para la autenticación con Google
+GOOGLE_CLIENT_ID="tu_id_de_cliente_de_google"
+GOOGLE_CLIENT_SECRET="tu_secreto_de_cliente_de_google"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="tu_secreto_para_firmar_cookies_de_sesion"
 # NEXT_PUBLIC_API_URL="https://api.example.com"
 ```
 Asegúrate de no subir el archivo `.env.local` a tu repositorio Git. Ya está incluido en `.gitignore`.
