@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { generarTituloAutomatico } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Clock, ExternalLink, Layers, BookOpen } from "lucide-react"
 import type { Sueno } from "@/types/sueno"
@@ -166,7 +167,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                     }`}
                   >
                     <div className="font-medium line-clamp-1">
-                      {s.titulo || 'Sueño sin título'}
+                      {s.titulo || generarTituloAutomatico(s.texto || '')}
                     </div>
                     <div className="text-xs text-muted-foreground">
                       {s.fecha ? new Date(s.fecha).toLocaleDateString("es-ES", {
@@ -195,7 +196,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle>
-                      {suenoActual.titulo || 'Sueño sin título'}
+                      {suenoActual.titulo || generarTituloAutomatico(suenoActual.texto || '')}
                     </CardTitle>
                     <CardDescription className="flex items-center mt-1">
                       <Clock className="h-3 w-3 mr-1" />
