@@ -1,4 +1,5 @@
 export interface ChatMessage {
+  id?: string; // ID opcional para identificar mensajes únicos
   content: string;
   role: 'user' | 'assistant' | 'system';
   isLoading?: boolean;

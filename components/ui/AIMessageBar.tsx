@@ -127,11 +127,15 @@ export const AIMessageBar = () => {
     const userMessage = input;
     setInput("");
 
-    // Agregar el mensaje del usuario al chat con marca de tiempo
-    addMessage({ 
+    // Crear el objeto del mensaje del usuario
+    const userMessageObj = { 
       content: userMessage,
-      role: 'user'
-    });
+      role: 'user' as const,
+      timestamp: new Date().toISOString()
+    };
+
+    // Agregar el mensaje del usuario al chat
+    addMessage(userMessageObj);
     
     // Actualizar el historial de la conversación
     const newHistory = [
@@ -139,6 +143,9 @@ export const AIMessageBar = () => {
       { role: 'user' as const, content: userMessage }
     ];
     setConversationHistory(newHistory);
+
+    // Pequeña pausa para asegurar que el mensaje del usuario se muestre
+    await new Promise(resolve => setTimeout(resolve, 50));
 
     // Manejar la respuesta de la IA
     await handleAIResponse(userMessage);
@@ -190,17 +197,26 @@ export const AIMessageBar = () => {
       // Primero, obtenemos los mensajes actuales
       const currentMessages = [...messages];
       
+      // Creamos un ID único para este ciclo de mensaje
+      const loadingId = `loading-${Date.now()}`;
+      
       // Agregamos un mensaje de carga mientras se procesa
       const loadingMessage: ChatMessage = { 
         content: "Analizando tu sueño...", 
         role: 'assistant',
         isLoading: true,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        id: loadingId
       };
       
-      // Actualizamos los mensajes con el indicador de carga
-      const messagesWithLoading = [...currentMessages, loadingMessage];
-      setMessages(messagesWithLoading);
+      // Actualizamos los mensajes manteniendo todos los mensajes existentes
+      // y añadiendo el mensaje de carga al final
+      setMessages(prev => {
+        // Filtramos cualquier mensaje de carga existente con el mismo ID
+        const filtered = prev.filter(msg => !msg.isLoading || msg.id !== loadingId);
+        // Mantenemos todos los mensajes existentes y añadimos el de carga
+        return [...filtered, loadingMessage];
+      });
       
       // Obtenemos la respuesta de la IA
       const aiResponse = await conversarConAsistente(userMessage, conversationHistory);
@@ -218,17 +234,18 @@ export const AIMessageBar = () => {
         timestamp: new Date().toISOString()
       };
       
-      // Actualizamos los mensajes manteniendo los mensajes del usuario
-      // y reemplazando el mensaje de carga por la respuesta real
-      const finalMessages = [
-        ...currentMessages, // Mantenemos los mensajes anteriores (incluyendo el del usuario)
-        responseMessage    // Añadimos la respuesta de la IA
-      ];
-      
-      setMessages(finalMessages);
+      // Reemplazamos el mensaje de carga por la respuesta real
+      // manteniendo todos los mensajes existentes
+      setMessages(prev => {
+        // Filtramos el mensaje de carga actual
+        const filtered = prev.filter(msg => !msg.isLoading || msg.id !== loadingId);
+        // Añadimos la respuesta de la IA
+        return [...filtered, responseMessage];
+      });
       
       // Guardamos la conversación en el historial
-      guardarEnHistorial(finalMessages);
+      // Usamos el estado actual de mensajes para guardar
+      guardarEnHistorial([...messages, responseMessage]);
       
       return aiResponse;
     } catch (error) {
@@ -367,9 +384,22 @@ export const AIMessageBar = () => {
           />
         );
       }
-      return <span className="text-white">{message.content}</span>;
+      return message.content;
     };
-    
+
+    if (message.isLoading) {
+      return (
+        <div className="flex w-full justify-center mb-4 px-2 sm:px-4">
+          <div className="relative w-full px-4 py-3 sm:px-6 sm:py-3 bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl">
+            <div className="flex items-center">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              <span className="text-sm">Analizando tu sueño...</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div 
         key={`${message.role}-${index}-${message.timestamp}`} 
@@ -378,44 +408,38 @@ export const AIMessageBar = () => {
         <div 
           className={`relative w-full px-4 py-3 sm:px-6 sm:py-3 rounded-lg ${
             isUser 
-              ? 'bg-black/80 rounded-br-lg max-w-full sm:max-w-4xl' 
-              : 'bg-black/80 rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl'
+              ? 'bg-black/80 text-white border border-gray-700 rounded-br-lg max-w-full sm:max-w-4xl' 
+              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl'
           }`}
         >
-          {!isUser && !message.isLoading && (
+          {!isUser ? (
             <div className="text-xs font-medium text-gray-300 mb-1">
               Ai Dreamer
             </div>
-          )}
-          {isUser && !message.isLoading && (
-            <div className="text-xs font-medium text-blue-400 mb-1">
+          ) : (
+            <div className="text-xs font-medium text-blue-200 mb-1">
               Tú
             </div>
           )}
-          {message.isLoading ? (
-            <div className="flex items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              <span className="text-sm text-white">Analizando tu sueño...</span>
-            </div>
-          ) : (
-            <div className="relative">
-              <div className="pr-8 pb-4">
-                <div className="whitespace-pre-wrap">
-                  {getMessageContent()}
-                </div>
+          <div className="relative">
+            <div className="pr-8 pb-4">
+              <div className="whitespace-pre-wrap break-words">
+                {getMessageContent()}
               </div>
-              <span className="absolute bottom-0 right-2 text-xs opacity-70 text-white">
-                {formatTime(message.timestamp)}
-              </span>
             </div>
-          )}
+            <span className="absolute bottom-0 right-2 text-xs opacity-70">
+              {formatTime(message.timestamp)}
+            </span>
+          </div>
         </div>
       </div>
     );
   };
 
   const clearChat = () => {
+    // Use the addMessage function from useChatStorage to clear messages
     setMessages([]);
+    // Reset conversation history
     setConversationHistory([]);
   };
 
