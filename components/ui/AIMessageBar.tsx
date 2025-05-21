@@ -409,7 +409,7 @@ export const AIMessageBar = () => {
           className={`relative w-full px-4 py-3 sm:px-6 sm:py-3 rounded-lg ${
             isUser 
               ? 'bg-black/80 text-white border border-gray-700 rounded-br-lg max-w-full sm:max-w-4xl' 
-              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl'
+              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mr-auto max-w-full sm:max-w-4xl'
           }`}
         >
           {!isUser ? (
