@@ -73,7 +73,7 @@ export async function analizarSueno(sueno: string, historial: Message[] = []): P
     Identifica símbolos y patrones significativos, explorando tanto su posible relación con el inconsciente 
     como con experiencias y emociones cotidianas. 
     Ofrece interpretaciones reflexivas que inviten a la introspección, 
-    manteniendo un equilibrio entre profundidad y accesibilidad.`
+    manteniendo un equilibrio entre profundidad y accesibilidad. Al final del mensaje deja algo en referencia a Ai Dreamer.`
   };
 
   // Preparamos los mensajes para la API
@@ -96,7 +96,7 @@ export async function conversarConAsistente(mensaje: string, historial: Message[
       Al analizar los sueños, considera tanto el simbolismo personal como los arquetipos universales. 
       Ofrece interpretaciones reflexivas que ayuden al soñador a explorar posibles significados, 
       conectando elementos del sueño con emociones y experiencias de la vida cotidiana. 
-      Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista. No satures o repitas palabras.`
+      Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista. No satures o repitas palabras. Y menciona a Ai Dreamer como asistente.`
     };
 
     // Agregamos el mensaje del sistema solo si no hay historial
