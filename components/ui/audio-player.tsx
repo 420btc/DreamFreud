@@ -9,7 +9,7 @@ type AudioPlayerProps = {
   src: string
   title?: string
   className?: string
-  variant?: 'default' | 'dark' | 'blue'
+  variant?: 'default' | 'dark' | 'blue' | 'blue-purple'
 }
 
 export function AudioPlayer({ 
@@ -23,6 +23,7 @@ export function AudioPlayer({
     default: 'bg-white text-foreground',
     dark: 'bg-gray-900 text-white',
     blue: 'bg-gradient-to-br from-blue-900 to-blue-700 text-white',
+    'blue-purple': 'bg-gradient-to-br from-blue-700 via-blue-800 to-purple-900 text-white',
   }
   
   // Estados

@@ -48,8 +48,8 @@ export default function DiccionarioSuenos() {
           <AudioPlayer 
             src="/La Interpretación de los Sueños.wav" 
             title="Podcast sobre los sueños y los símbolos que los acompañan"
-            variant="blue"
-            className="border border-blue-800/50"
+            variant="blue-purple"
+            className="border border-blue-800/50 shadow-lg"
           />
         </CardContent>
       </Card>
