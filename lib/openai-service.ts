@@ -68,12 +68,14 @@ export async function analizarSueno(sueno: string, historial: Message[] = []): P
   // Creamos el mensaje del sistema que define el comportamiento del asistente
   const systemMessage: Message = {
     role: 'system',
-    content: `Eres un experto profesional en interpretación de sueños con conocimientos en diversas corrientes psicológicas. 
+    content: `Eres un experto profesional en interpretación de sueños con conocimientos en diversas corrientes psicológicas incluida la psicoanálisis. 
     Analiza el sueño proporcionado considerando múltiples perspectivas interpretativas. 
     Identifica símbolos y patrones significativos, explorando tanto su posible relación con el inconsciente 
     como con experiencias y emociones cotidianas. 
-    Ofrece interpretaciones reflexivas que inviten a la introspección, 
-    manteniendo un equilibrio entre profundidad y accesibilidad. Al final del mensaje deja algo en referencia a Ai Dreamer para continuar su uso.`
+    Ofrece interpretaciones reflexivas que inviten a la introspección, análisis y reflexión, 
+    manteniendo un equilibrio entre profundidad y accesibilidad. Al final del mensaje deja algo en referencia a Ai Dreamer para continuar su uso. El mensaje debe de ser como minimo de 200 caracteres y un maximo de 3000 caracteres.
+    Mantén el contexto de la conversación y haz referencia al sueño original cuando sea relevante.
+    Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista.`
   };
 
   // Preparamos los mensajes para la API
@@ -86,23 +88,46 @@ export async function analizarSueno(sueno: string, historial: Message[] = []): P
   return callChatAPI(messages);
 }
 
+// Mensaje del sistema para guiar el comportamiento del asistente
+const SYSTEM_MESSAGE: Message = {
+  role: 'system',
+  content: `Eres un experto en interpretación de sueños que combina perspectivas psicológicas modernas con elementos del psicoanálisis. 
+  Al analizar los sueños, considera tanto el simbolismo personal como los arquetipos universales. 
+  Ofrece interpretaciones reflexivas que ayuden al soñador a explorar posibles significados, 
+  conectando elementos del sueño con emociones y experiencias de la vida cotidiana. 
+  Mantén el contexto de la conversación y haz referencia al sueño original cuando sea relevante.
+  Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista. 
+  No satures o repitas palabras. Y menciona a Ai Dreamer como asistente.`
+};
+
 // Función para mantener una conversación con el asistente
 export async function conversarConAsistente(mensaje: string, historial: Message[] = []): Promise<string> {
   try {
-    // Mensaje del sistema para guiar el comportamiento del asistente
-    const systemMessage: Message = {
-      role: 'system',
-      content: `Eres un experto en interpretación de sueños que combina perspectivas psicológicas modernas con elementos del psicoanálisis. 
-      Al analizar los sueños, considera tanto el simbolismo personal como los arquetipos universales. 
-      Ofrece interpretaciones reflexivas que ayuden al soñador a explorar posibles significados, 
-      conectando elementos del sueño con emociones y experiencias de la vida cotidiana. 
-      Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista. No satures o repitas palabras. Y menciona a Ai Dreamer como asistente.`
-    };
-
-    // Agregamos el mensaje del sistema solo si no hay historial
-    const mensajes: Message[] = historial.length > 0 
-      ? [...historial, { role: 'user', content: mensaje }]
-      : [systemMessage, { role: 'user', content: mensaje }];
+    // Preparamos los mensajes para la API
+    let mensajes: Message[] = [];
+    
+    // Si es el primer mensaje, añadimos el mensaje del sistema
+    if (historial.length === 0) {
+      mensajes = [SYSTEM_MESSAGE];
+    } 
+    // Si ya hay historial, nos aseguramos de que el primer mensaje sea el del sistema
+    else if (historial[0].role !== 'system') {
+      mensajes = [SYSTEM_MESSAGE, ...historial];
+    } else {
+      mensajes = [...historial];
+    }
+    
+    // Añadimos el nuevo mensaje del usuario
+    mensajes.push({ role: 'user', content: mensaje });
+    
+    // Limitar el historial para no exceder el límite de tokens
+    // Mantenemos el mensaje del sistema y los últimos 10 mensajes
+    if (mensajes.length > 11) { // 1 (sistema) + 10 mensajes (5 interacciones)
+      mensajes = [
+        mensajes[0], // Mantener el mensaje del sistema
+        ...mensajes.slice(-10) // Mantener los últimos 10 mensajes
+      ];
+    }
 
     console.log('Mensajes a enviar a la API:', JSON.stringify(mensajes, null, 2));
     

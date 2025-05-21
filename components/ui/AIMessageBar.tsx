@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import { Send, X, Loader2, Bot, Sparkles } from "lucide-react";
 import { conversarConAsistente } from "@/lib/openai-service";
 import { useChatStorage } from "@/hooks/useChatStorage";
 import { ChatMessage, APIMessage } from "@/types/chat";
+import HighlightedText from "@/components/HighlightedText";
 
 // Componente Typewriter para el efecto de escritura
 type TypewriterProps = {
@@ -16,30 +17,85 @@ type TypewriterProps = {
 
 const Typewriter = ({ text, speed = 20, onComplete, className = '' }: TypewriterProps) => {
   const [displayText, setDisplayText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
   const words = text.split(' ');
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const lastUserMessage = useRef('');
+
+  // Obtener el último mensaje del usuario
+  useEffect(() => {
+    const messages = document.querySelectorAll('.message-container');
+    if (messages.length > 0) {
+      const lastUserMsg = Array.from(messages)
+        .reverse()
+        .find((el: Element) => el.querySelector('.bg-black\\/80.text-white.rounded-br-lg'));
+      
+      if (lastUserMsg) {
+        lastUserMessage.current = lastUserMsg.textContent || '';
+      }
+    }
+  }, []);
+
+  // Función auxiliar para resaltar palabras
+  const highlightInputWords = (text: string, input: string): string => {
+    if (!input?.trim()) return text;
+    
+    const inputWords = Array.from(
+      new Set(
+        input
+          .toLowerCase()
+          .split(/\s+/)
+          .map(word => word.replace(/[.,!?;:()\[\]{\}"']/g, ''))
+          .filter(word => word.length > 3)
+      )
+    );
+
+    if (inputWords.length === 0) return text;
+
+    const regex = new RegExp(
+      `\\b(${inputWords.map(word => 
+        word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      ).join('|')})\\b`,
+      'gi'
+    );
+
+    return text.replace(regex, (match) => {
+      const hash = match.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const colorClass = hash % 2 === 0 ? 'text-blue-400' : 'text-purple-400';
+      return `<span class="font-semibold ${colorClass}">${match}</span>`;
+    });
+  };
 
   useEffect(() => {
     if (currentWordIndex >= words.length) {
-      onComplete?.();
+      if (!isComplete) {
+        setIsComplete(true);
+        onComplete?.();
+      }
       return;
     }
 
-    const wordsPerChunk = 2; // Número de palabras a mostrar cada vez
+    const wordsPerChunk = 2;
     const nextIndex = Math.min(currentWordIndex + wordsPerChunk, words.length);
-    const wordsToAdd = words.slice(currentWordIndex, nextIndex).join(' ');
-
+    const currentText = words.slice(0, nextIndex).join(' ');
+    
+    // Aplicar el resaltado al texto actual
+    const highlighted = highlightInputWords(currentText, lastUserMessage.current);
+    
     const timeout = setTimeout(() => {
-      setDisplayText(prev => 
-        prev ? `${prev} ${wordsToAdd}` : wordsToAdd
-      );
+      setDisplayText(highlighted);
       setCurrentWordIndex(nextIndex);
     }, speed);
 
     return () => clearTimeout(timeout);
-  }, [words, currentWordIndex, speed, onComplete]);
+  }, [words, currentWordIndex, speed, onComplete, isComplete]);
 
-  return <span className={className}>{displayText}</span>;
+  return (
+    <span 
+      className={`whitespace-pre-wrap ${className}`}
+      dangerouslySetInnerHTML={{ __html: displayText || '&nbsp;' }}
+    />
+  );
 };
 
 // Componente de carga
@@ -246,11 +302,73 @@ export const AIMessageBar = () => {
     }
   };
 
+  // Obtener el último mensaje del usuario para el resaltado
+  const getLastUserMessage = (currentIndex: number): string => {
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') {
+        return messages[i].content;
+      }
+    }
+    return '';
+  };
+
+  // Estado para controlar cuando termina la escritura del último mensaje
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const lastMessageIndex = messages.length - 1;
+  const lastAIReplyIndex = messages.findLastIndex(msg => msg.role === 'assistant');
+
+  // Resetear el estado de escritura cuando cambia el último mensaje
+  useEffect(() => {
+    setIsTypingComplete(false);
+  }, [lastMessageIndex]);
+
   // Renderizar mensajes
   const renderMessage = (message: ChatMessage, index: number) => {
     const isUser = message.role === 'user';
-    const isLastMessage = index === messages.length - 1;
+    const isLastMessage = index === lastMessageIndex;
     const isLastAIReply = !isUser && isLastMessage;
+    const userMessageContent = isUser ? '' : getLastUserMessage(index);
+    
+    // Obtener el contenido del mensaje con resaltado si es necesario
+    const getMessageContent = () => {
+      if (isLastAIReply) {
+        return isTypingComplete ? (
+          <HighlightedText 
+            text={message.content}
+            input={userMessageContent}
+            onHighlightComplete={() => {
+              setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
+          />
+        ) : (
+          <Typewriter 
+            text={message.content}
+            speed={1}
+            onComplete={() => {
+              setIsTypingComplete(true);
+              setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }, 50);
+            }}
+          />
+        );
+      } else if (!isUser) {
+        return (
+          <HighlightedText 
+            text={message.content}
+            input={userMessageContent}
+            onHighlightComplete={() => {
+              setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
+          />
+        );
+      }
+      return <span className="text-white">{message.content}</span>;
+    };
     
     return (
       <div 
@@ -260,8 +378,8 @@ export const AIMessageBar = () => {
         <div 
           className={`relative w-full px-4 py-3 sm:px-6 sm:py-3 rounded-lg ${
             isUser 
-              ? 'bg-black/80 text-white rounded-br-lg max-w-full sm:max-w-4xl' 
-              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl'
+              ? 'bg-black/80 rounded-br-lg max-w-full sm:max-w-4xl' 
+              : 'bg-black/80 rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl'
           }`}
         >
           {!isUser && !message.isLoading && (
@@ -277,27 +395,16 @@ export const AIMessageBar = () => {
           {message.isLoading ? (
             <div className="flex items-center">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              <span className="text-sm">Analizando tu sueño...</span>
+              <span className="text-sm text-white">Analizando tu sueño...</span>
             </div>
           ) : (
             <div className="relative">
-              <p className="pr-8 pb-4 whitespace-pre-wrap">
-                {isLastAIReply ? (
-                  <Typewriter 
-                    text={message.content} 
-                    speed={1} 
-                    onComplete={() => {
-                      // Scroll al finalizar la escritura
-                      setTimeout(() => {
-                        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-                      }, 50);
-                    }}
-                  />
-                ) : (
-                  message.content
-                )}
-              </p>
-              <span className="absolute bottom-0 right-2 text-xs opacity-70">
+              <div className="pr-8 pb-4">
+                <div className="whitespace-pre-wrap">
+                  {getMessageContent()}
+                </div>
+              </div>
+              <span className="absolute bottom-0 right-2 text-xs opacity-70 text-white">
                 {formatTime(message.timestamp)}
               </span>
             </div>
