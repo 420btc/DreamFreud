@@ -40,14 +40,14 @@ export default function DiccionarioSuenos() {
         <CardHeader>
           <CardTitle className="flex items-center">
             <Headphones className="mr-2 h-5 w-5" />
-            Conversación sobre los sueños y los símbolos que los acompañan
+            Podcast sobre los sueños y los símbolos que los acompañan
           </CardTitle>
           <CardDescription>8 minutos de conversación sobre los sueños y los símbolos que los acompañan</CardDescription>
         </CardHeader>
         <CardContent>
           <AudioPlayer 
             src="/La Interpretación de los Sueños.wav" 
-            title="La Interpretación de los Sueños - Sigmund Freud"
+            title="Podcast sobre los sueños y los símbolos que los acompañan"
             variant="blue"
             className="border border-blue-800/50"
           />

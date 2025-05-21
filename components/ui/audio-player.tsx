@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Play, Pause, Volume2, VolumeX, RotateCcw, RotateCw } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
@@ -24,17 +24,57 @@ export function AudioPlayer({
     dark: 'bg-gray-900 text-white',
     blue: 'bg-gradient-to-br from-blue-900 to-blue-700 text-white',
   }
+  
+  // Estados
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
+  const [duration, setDuration] = useState(480) // 8 minutos por defecto
   const [volume, setVolume] = useState(0.8)
   const [isMuted, setIsMuted] = useState(false)
   const [playbackRate, setPlaybackRate] = useState(1)
   
+  // Referencias
   const audioRef = useRef<HTMLAudioElement>(null)
-  const progressBarRef = useRef<HTMLDivElement>(null)
 
-  // Manejar la reproducción/pausa
+  // Efecto para configurar el reproductor
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    // Configurar eventos
+    const handleTimeUpdate = () => {
+      const currentTime = audio.currentTime
+      setCurrentTime(currentTime)
+      
+      // Detener al llegar a los 8 minutos (480 segundos)
+      if (currentTime >= 480) {
+        audio.pause()
+        setIsPlaying(false)
+        setCurrentTime(480)
+      }
+    }
+
+    const handleEnded = () => {
+      setIsPlaying(false)
+      setCurrentTime(0)
+    }
+
+    // Configurar volumen inicial
+    audio.volume = volume
+    audio.muted = isMuted
+    audio.playbackRate = playbackRate
+
+    // Agregar event listeners
+    audio.addEventListener('timeupdate', handleTimeUpdate)
+    audio.addEventListener('ended', handleEnded)
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate)
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [volume, isMuted, playbackRate])
+
+  // Manejar reproducción/pausa
   const togglePlay = () => {
     if (!audioRef.current) return
     
@@ -46,38 +86,29 @@ export function AudioPlayer({
     setIsPlaying(!isPlaying)
   }
 
-  // Actualizar el tiempo actual
-  const updateTime = () => {
-    if (!audioRef.current) return
-    setCurrentTime(audioRef.current.currentTime)
-  }
-
-  // Manejar el cambio manual de posición
+  // Manejar cambio de posición
   const handleProgressChange = (value: number[]) => {
     if (!audioRef.current) return
-    const newTime = value[0]
+    const newTime = Math.min(value[0], 480) // No pasar de 8 minutos
     audioRef.current.currentTime = newTime
     setCurrentTime(newTime)
   }
 
-  // Manejar el cambio de volumen
+  // Manejar cambio de volumen
   const handleVolumeChange = (value: number[]) => {
     if (!audioRef.current) return
     const newVolume = value[0] / 100
     audioRef.current.volume = newVolume
     setVolume(newVolume)
-    if (newVolume === 0) {
-      setIsMuted(true)
-    } else {
-      setIsMuted(false)
-    }
+    setIsMuted(newVolume === 0)
   }
 
   // Alternar silencio
   const toggleMute = () => {
     if (!audioRef.current) return
-    audioRef.current.muted = !isMuted
-    setIsMuted(!isMuted)
+    const newMuted = !isMuted
+    audioRef.current.muted = newMuted
+    setIsMuted(newMuted)
   }
 
   // Cambiar velocidad de reproducción
@@ -102,7 +133,9 @@ export function AudioPlayer({
   // Avanzar/retroceder 15 segundos
   const seek = (seconds: number) => {
     if (!audioRef.current) return
-    audioRef.current.currentTime += seconds
+    const newTime = Math.max(0, Math.min(audioRef.current.currentTime + seconds, 480))
+    audioRef.current.currentTime = newTime
+    setCurrentTime(newTime)
   }
 
   // Formatear tiempo (mm:ss)
@@ -112,65 +145,83 @@ export function AudioPlayer({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`
   }
 
-  // Efectos secundarios
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration)
-    }
-
-    const handleEnded = () => {
-      setIsPlaying(false)
-      setCurrentTime(0)
-    }
-
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
-    audio.addEventListener('timeupdate', updateTime)
-    audio.addEventListener('ended', handleEnded)
-
-    return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
-      audio.removeEventListener('timeupdate', updateTime)
-      audio.removeEventListener('ended', handleEnded)
-    }
-  }, [])
+  // Calcular tiempo restante
+  const remainingTime = 480 - currentTime
 
   return (
     <div className={`rounded-lg shadow-md p-4 transition-colors ${variantStyles[variant]} ${className}`}>
       {/* Estilos para los controles */}
       <style jsx>{`
         .slider-thumb::-webkit-slider-thumb {
-          background-color: ${variant === 'default' ? '#3b82f6' : '#ffffff'};
+          -webkit-appearance: none;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: ${variant === 'default' ? '#3b82f6' : '#ffffff'};
+          cursor: pointer;
+          margin-top: -6px;
+          transition: all 0.1s ease;
+        }
+        .slider-thumb::-webkit-slider-thumb:hover {
+          transform: scale(1.2);
         }
         .slider-thumb::-moz-range-thumb {
-          background-color: ${variant === 'default' ? '#3b82f6' : '#ffffff'};
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: ${variant === 'default' ? '#3b82f6' : '#ffffff'};
+          cursor: pointer;
+          border: none;
+          transition: all 0.1s ease;
+        }
+        .slider-thumb::-moz-range-thumb:hover {
+          transform: scale(1.2);
+        }
+        .slider-thumb::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 4px;
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 2px;
+        }
+        .slider-thumb::-moz-range-track {
+          width: 100%;
+          height: 4px;
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 2px;
         }
       `}</style>
-      {/* Audio element (hidden) */}
+      
+      {/* Elemento de audio oculto */}
       <audio ref={audioRef} src={src} preload="metadata" />
       
       {/* Título */}
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
+      <h3 className="text-lg font-medium mb-4">{title}</h3>
       
       {/* Barra de progreso */}
       <div className="mb-4">
-        <div className="flex justify-between text-xs text-gray-500 mb-1">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
+        <div className="flex items-center space-x-2 mb-1">
+          <span className="text-xs w-12">{formatTime(currentTime)}</span>
+          <div className="flex-1">
+            <Slider
+              value={[currentTime]}
+              max={480}
+              step={0.1}
+              onValueChange={handleProgressChange}
+              className="slider-thumb"
+            />
+          </div>
+          <span className="text-xs w-12 text-right">{formatTime(remainingTime)}</span>
         </div>
-        <Slider
-          value={[currentTime]}
-          max={duration || 0}
-          step={0.1}
-          onValueChange={handleProgressChange}
-          className="w-full"
-        />
+        <div className="flex justify-between text-xs text-gray-400">
+          <span>0:00</span>
+          <span>8:00</span>
+        </div>
       </div>
       
       {/* Controles principales */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Button 
             variant="ghost" 
@@ -184,11 +235,11 @@ export function AudioPlayer({
           <Button 
             variant="default" 
             size="icon" 
-            className="h-12 w-12 rounded-full"
+            className="h-10 w-10 rounded-full"
             onClick={togglePlay}
             title={isPlaying ? 'Pausar' : 'Reproducir'}
           >
-            {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-1" />}
+            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
           </Button>
           
           <Button 
@@ -199,34 +250,14 @@ export function AudioPlayer({
           >
             <RotateCw className="h-4 w-4" />
           </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={restart}
-            title="Reiniciar"
-          >
-            <RotateCcw className="h-4 w-4" />
-          </Button>
         </div>
         
         <div className="flex items-center space-x-2">
           <Button 
-            variant={variant === 'default' ? 'ghost' : 'secondary'}
-            size="sm" 
-            onClick={changePlaybackRate}
-            className={`text-xs ${variant !== 'default' ? 'text-white hover:bg-white/20' : ''}`}
-            title="Velocidad de reproducción"
-          >
-            {playbackRate}x
-          </Button>
-          
-          <Button 
-            variant={variant === 'default' ? 'ghost' : 'secondary'}
+            variant="ghost" 
             size="icon" 
             onClick={toggleMute}
             title={isMuted ? 'Activar sonido' : 'Silenciar'}
-            className={variant !== 'default' ? 'text-white hover:bg-white/20' : ''}
           >
             {isMuted ? (
               <VolumeX className="h-4 w-4" />
@@ -237,13 +268,23 @@ export function AudioPlayer({
           
           <div className="w-24">
             <Slider
-              value={[isMuted ? 0 : volume * 100]}
+              value={[volume * 100]}
               max={100}
               step={1}
               onValueChange={handleVolumeChange}
-              className="w-full"
+              className="slider-thumb"
             />
           </div>
+          
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={changePlaybackRate}
+            className="text-xs"
+            title="Velocidad de reproducción"
+          >
+            {playbackRate}x
+          </Button>
         </div>
       </div>
     </div>
