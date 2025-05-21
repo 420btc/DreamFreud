@@ -6,6 +6,33 @@ interface HighlightedTextProps {
   onHighlightComplete?: () => void;
 }
 
+// Función para normalizar texto (eliminar tildes y convertir a minúsculas)
+const normalizeText = (str: string): string => {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+};
+
+// Función para calcular la similitud entre dos cadenas (distancia de Levenshtein)
+const similarity = (s1: string, s2: string): number => {
+  const longer = s1.length > s2.length ? s1 : s2;
+  const shorter = s1.length <= s2.length ? s1 : s2;
+  
+  if (longer.length === 0) return 1.0;
+  
+  // Si la diferencia de longitud es significativa, considerar como no coincidente
+  if (longer.length - shorter.length > 2) return 0.0;
+  
+  // Si una es subcadena de la otra, alta probabilidad de ser la misma palabra
+  if (longer.includes(shorter)) return 0.8;
+  
+  // Si comparten el mismo prefijo de 3 caracteres, considerar como posible coincidencia
+  if (shorter.length >= 3 && longer.startsWith(shorter.substring(0, 3))) return 0.7;
+  
+  return 0.0;
+};
+
 const HighlightedText: React.FC<HighlightedTextProps> = ({ text, input, onHighlightComplete }) => {
   useEffect(() => {
     if (onHighlightComplete) {
@@ -25,7 +52,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = ({ text, input, onHighli
           .toLowerCase()
           .split(/\s+/)
           .map(word => word.replace(/[^\wáéíóúüñ]/g, ''))
-          .filter(word => word.length >= 3)
+          .filter(word => word.length >= 3) // Solo palabras de 3 o más caracteres
       )
     );
 
@@ -33,36 +60,58 @@ const HighlightedText: React.FC<HighlightedTextProps> = ({ text, input, onHighli
       return <span className="text-white">{text}</span>;
     }
 
-    // Crear un patrón de búsqueda seguro
-    const pattern = new RegExp(
-      `(${wordsToHighlight
-        .map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-        .join('|')})`,
-      'gi'
-    );
-
-    // Dividir el texto en partes y resaltar coincidencias
-    const parts = text.split(pattern);
+    // Normalizar las palabras a buscar
+    const normalizedWords = wordsToHighlight.map(normalizeText);
+    
+    // Dividir el texto en palabras completas (incluyendo signos de puntuación adyacentes)
+    const wordRegex = /(\w+|[^\w\s]+|\s+)/g;
+    const parts = [];
+    let match;
+    let lastIndex = 0;
+    
+    // Dividir el texto en palabras y signos de puntuación
+    while ((match = wordRegex.exec(text)) !== null) {
+      parts.push({
+        text: match[0],
+        isWord: /^\w+$/.test(match[0]) && match[0].length >= 3
+      });
+      lastIndex = wordRegex.lastIndex;
+    }
+    
+    // Añadir cualquier texto restante
+    if (lastIndex < text.length) {
+      parts.push({
+        text: text.substring(lastIndex),
+        isWord: false
+      });
+    }
     
     return (
       <span className="text-white">
         {parts.map((part, i) => {
-          if (!part) return null;
+          if (!part.text.trim()) return <span key={i}>{part.text}</span>;
           
-          const isMatch = wordsToHighlight.some(word => 
-            part.toLowerCase() === word.toLowerCase()
-          );
-          
-          if (isMatch) {
-            const color = i % 2 === 0 ? 'text-blue-400' : 'text-purple-400';
-            return (
-              <span key={i} className={`${color} font-bold`}>
-                {part}
-              </span>
+          // Solo procesar palabras completas
+          if (part.isWord) {
+            const normalizedWord = normalizeText(part.text);
+            
+            // Buscar coincidencias exactas o muy similares
+            const match = normalizedWords.some(term => 
+              normalizedWord === term || 
+              similarity(normalizedWord, term) > 0.7
             );
+            
+            if (match) {
+              const color = i % 2 === 0 ? 'text-blue-400' : 'text-purple-400';
+              return (
+                <span key={i} className={`${color} font-bold`}>
+                  {part.text}
+                </span>
+              );
+            }
           }
           
-          return <span key={i}>{part}</span>;
+          return <span key={i}>{part.text}</span>;
         })}
       </span>
     );
