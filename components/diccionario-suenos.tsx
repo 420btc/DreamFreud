@@ -42,12 +42,12 @@ export default function DiccionarioSuenos() {
             <Headphones className="mr-2 h-5 w-5" />
             Podcast sobre los sueños y los símbolos que los acompañan
           </CardTitle>
-          <CardDescription>8 minutos de conversación sobre los sueños y los símbolos que los acompañan</CardDescription>
+          <CardDescription>8 minutos entre Natalia y Eric</CardDescription>
         </CardHeader>
         <CardContent>
           <AudioPlayer 
             src="/La Interpretación de los Sueños.wav" 
-            title="Podcast sobre los sueños y los símbolos que los acompañan"
+            title="Los sueños y los símbolos que los acompañan"
             variant="blue-purple"
             className="border border-blue-800/50 shadow-lg"
           />
