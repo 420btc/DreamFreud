@@ -73,7 +73,7 @@ export async function analizarSueno(sueno: string, historial: Message[] = []): P
     Identifica símbolos y patrones significativos, explorando tanto su posible relación con el inconsciente 
     como con experiencias y emociones cotidianas. 
     Ofrece interpretaciones reflexivas que inviten a la introspección, análisis y reflexión, 
-    manteniendo un equilibrio entre profundidad y accesibilidad. Al final del mensaje deja algo en referencia a Ai Dreamer para continuar su uso. El mensaje debe de ser como minimo de 200 caracteres y un maximo de 3000 caracteres.
+    manteniendo un equilibrio entre profundidad y accesibilidad. Al final del mensaje deja algo en referencia a Ai Dreamer para continuar su uso. El mensaje debe de ser como minimo de 300 caracteres y un maximo de 3000 caracteres.
     Mantén el contexto de la conversación y haz referencia al sueño original cuando sea relevante.
     Sé respetuoso, abierto a múltiples interpretaciones y evita ser excesivamente clínico o reduccionista.`
   };
