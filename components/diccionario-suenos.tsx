@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, BookOpen } from "lucide-react"
+import { Search, BookOpen, Headphones } from "lucide-react"
+import { AudioPlayer } from "@/components/ui/audio-player"
 import { simbolosInterpretados, obtenerCategorias, buscarPorTermino, type SimboloFreudiano } from "@/lib/simbolos-freudianos"
 
 export default function DiccionarioSuenos() {
@@ -33,6 +34,25 @@ export default function DiccionarioSuenos() {
   return (
     <div className="container mx-auto p-4 mt-20">
       <h1 className="text-3xl font-bold mb-6 text-center">Diccionario de Símbolos Oníricos</h1>
+      
+      {/* Sección del audiolibro */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Headphones className="mr-2 h-5 w-5" />
+            Conversación sobre los sueños y los símbolos que los acompañan
+          </CardTitle>
+          <CardDescription>8 minutos de conversación sobre los sueños y los símbolos que los acompañan</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AudioPlayer 
+            src="/La Interpretación de los Sueños.wav" 
+            title="La Interpretación de los Sueños - Sigmund Freud"
+            variant="blue"
+            className="border border-blue-800/50"
+          />
+        </CardContent>
+      </Card>
 
       <Card className="mb-6">
         <CardHeader>
@@ -173,6 +193,23 @@ export default function DiccionarioSuenos() {
           </div>
         )}
       </div>
+
+      {/* Sección del audiolibro */}
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Headphones className="mr-2 h-5 w-5" />
+            Audiolibro: La Interpretación de los Sueños
+          </CardTitle>
+          <CardDescription>Escucha el clásico de Sigmund Freud</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AudioPlayer 
+            src="/La Interpretación de los Sueños.wav" 
+            title="La Interpretación de los Sueños - Sigmund Freud"
+          />
+        </CardContent>
+      </Card>
     </div>
   )
 }
