@@ -380,12 +380,6 @@ export const simbolosInterpretados = [
     palabrasClave: ["jirafa", "cuello largo", "animal alto", "sabana", "animal exótico"],
   },
   {
-    simbolo: "Perro (estrangular un perro blanco)",
-    interpretacion: "Puede representar ira reprimida, el deseo de controlar o silenciar un aspecto de uno mismo o una situación asociada con las cualidades del animal o la persona que podría representar.",
-    categoria: "Animales",
-    palabrasClave: ["perro", "perro blanco", "mascota", "can", "cachorro", "perro callejero"],
-  },
-  {
     simbolo: "Subir una Escalera", // Similar a Escaleras
     interpretacion: "Simboliza ambición, esforzarse por alcanzar metas, progreso o ascenso social.",
     categoria: "Acciones",

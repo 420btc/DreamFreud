@@ -64,6 +64,101 @@ async function callChatAPI(messages: Message[]): Promise<string> {
 }
 
 // Función para analizar un sueño usando OpenAI
+// Función para analizar símbolos freudianos específicos
+// Interfaz para la respuesta de análisis de símbolos
+interface AnalisisSimbolos {
+  interpretaciones: Record<string, string>;
+  analisisGeneral?: string;
+}
+
+export async function analizarSimbolosFreudianos(simbolos: string[], textoCompleto?: string): Promise<AnalisisSimbolos> {
+  try {
+    if (!simbolos || simbolos.length === 0) {
+      return { interpretaciones: {} };
+    }
+
+    // Crear el mensaje para la IA
+    let mensajeUsuario = `Analiza los siguientes símbolos desde una perspectiva psicoanalítica freudiana. 
+    Para cada símbolo, proporciona una interpretación concisa pero significativa (100-200 caracteres):
+    ${simbolos.join('\n- ')}`;
+    
+    // Si se proporciona texto completo, pedir también un análisis general
+    if (textoCompleto) {
+      mensajeUsuario += `\n\nAdemás, proporciona un análisis general del sueño (200-300 caracteres) que integre estos símbolos en una interpretación coherente, considerando la teoría freudiana y posibles conexiones con el inconsciente.`;
+    }
+
+    const messages: Message[] = [
+      SYSTEM_MESSAGE_SIMBOLOS,
+      { role: 'user' as const, content: mensajeUsuario }
+    ];
+
+    // Llamar a la API
+    const respuesta = await callChatAPI(messages);
+    
+    // Procesar la respuesta para extraer las interpretaciones de cada símbolo y el análisis general
+    const resultado: AnalisisSimbolos = { interpretaciones: {} };
+    const lineas = respuesta.split('\n').filter(linea => linea.trim() !== '');
+    
+    let simboloActual = '';
+    let interpretacionActual = '';
+    let enAnalisisGeneral = false;
+    let analisisGeneral = '';
+    
+    for (const linea of lineas) {
+      // Buscar el inicio del análisis general
+      if (linea.toLowerCase().includes('análisis general') || 
+          linea.toLowerCase().includes('análisis del sueño') ||
+          linea.toLowerCase().includes('interpretación general')) {
+        enAnalisisGeneral = true;
+        if (simboloActual && interpretacionActual) {
+          resultado.interpretaciones[simboloActual] = interpretacionActual.trim();
+          simboloActual = '';
+          interpretacionActual = '';
+        }
+        continue;
+      }
+      
+      // Si estamos en el análisis general
+      if (enAnalisisGeneral) {
+        analisisGeneral += ' ' + linea.trim();
+        continue;
+      }
+      
+      // Procesar símbolos
+      if (linea.trim().endsWith(':')) {
+        // Guardar el símbolo anterior si existe
+        if (simboloActual && interpretacionActual) {
+          resultado.interpretaciones[simboloActual] = interpretacionActual.trim();
+          interpretacionActual = '';
+        }
+        simboloActual = linea.replace(':', '').trim();
+      } else if (simboloActual) {
+        // Acumular la interpretación
+        interpretacionActual += ' ' + linea.trim();
+      }
+    }
+    
+    // Asegurarse de guardar el último símbolo procesado
+    if (simboloActual && interpretacionActual) {
+      resultado.interpretaciones[simboloActual] = interpretacionActual.trim();
+    }
+    
+    // Si hay análisis general, limpiarlo y guardarlo
+    if (analisisGeneral) {
+      resultado.analisisGeneral = analisisGeneral
+        .replace(/análisis general[:\s]*/i, '')
+        .replace(/interpretación general[:\s]*/i, '')
+        .trim();
+    }
+    
+    return resultado;
+  } catch (error) {
+    console.error('Error al analizar símbolos con IA:', error);
+    // En caso de error, devolver un objeto con la estructura esperada
+    return { interpretaciones: {} };
+  }
+}
+
 export async function analizarSueno(sueno: string, historial: Message[] = []): Promise<string> {
   // Creamos el mensaje del sistema que define el comportamiento del asistente
   const systemMessage: Message = {
@@ -87,6 +182,27 @@ export async function analizarSueno(sueno: string, historial: Message[] = []): P
 
   return callChatAPI(messages);
 }
+
+// Mensaje del sistema para análisis de símbolos freudianos
+const SYSTEM_MESSAGE_SIMBOLOS: Message = {
+  role: 'system',
+  content: `Eres un experto en psicoanálisis freudiano con amplio conocimiento en interpretación de sueños. 
+  Tu tarea es analizar símbolos específicos que aparecen en los sueños desde una perspectiva freudiana. 
+  Proporciona una interpretación detallada de cada símbolo, considerando su posible relación con el inconsciente, 
+  deseos reprimidos, conflictos internos y su conexión con la vida del soñador.
+  
+  Características de tu análisis:
+  - Profundidad psicológica: Explora múltiples capas de significado
+  - Conexión con la teoría freudiana: Incluye conceptos como el inconsciente, el ello/yo/superyó, etc.
+  - Aplicación práctica: Cómo podría relacionarse con la vida del soñador
+  - Lenguaje claro: Explicaciones accesibles pero profesionales
+  - Extensión: Entre 100 y 200 caracteres por símbolo
+  
+  Estructura sugerida:
+  1. Explicación general del símbolo en el psicoanálisis
+  2. Posibles significados inconscientes
+  3. Cómo podría relacionarse con la experiencia del soñador`
+};
 
 // Mensaje del sistema para guiar el comportamiento del asistente
 const SYSTEM_MESSAGE: Message = {

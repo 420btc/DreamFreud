@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Clock, ExternalLink, Layers, BookOpen } from "lucide-react"
 import type { Sueno } from "@/types/sueno"
 import { buscarSimbolos, type SimboloFreudiano } from "@/lib/simbolos-freudianos"
+import { analizarSimbolosFreudianos } from "@/lib/openai-service"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 
@@ -21,51 +22,85 @@ interface AnalizarUltimoSuenoProps {
 }
 
 export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProps) {
-  const [sueno, setSueno] = useState<Sueno | null>(null)
+  const [suenos, setSuenos] = useState<Sueno[]>([])
+  const [suenoActual, setSuenoActual] = useState<Sueno | null>(null)
   const [simbolosEncontrados, setSimbolosEncontrados] = useState<SimboloFreudiano[]>([])
   const [analisisFreudiano, setAnalisisFreudiano] = useState<string>('')
   const [cargando, setCargando] = useState(true)
+  const [cargandoSimbolos, setCargandoSimbolos] = useState(false)
+  const [analisisGeneralIA, setAnalisisGeneralIA] = useState<string | null>(null)
+  const [interpretacionesIA, setInterpretacionesIA] = useState<Record<string, string>>({})
+
+  // Función para cargar y analizar un sueño específico
+  const cargarYAnalizarSueno = (suenoParaAnalizar: Sueno) => {
+    setSuenoActual(suenoParaAnalizar)
+    setCargandoSimbolos(true)
+    
+    // Buscar símbolos en el texto del sueño y generar análisis
+    if (suenoParaAnalizar.texto) {
+      const { simbolos, analisis } = buscarSimbolos(suenoParaAnalizar.texto)
+      setSimbolosEncontrados(simbolos)
+      setAnalisisFreudiano(analisis)
+      
+      // Si hay símbolos, obtener interpretaciones de IA
+      if (simbolos.length > 0) {
+        const simbolosUnicos = Array.from(new Set(simbolos.map(s => s.simbolo)))
+        analizarSimbolosFreudianos(simbolosUnicos, suenoParaAnalizar.texto)
+          .then(({ interpretaciones, analisisGeneral }) => {
+            setInterpretacionesIA(interpretaciones)
+            if (analisisGeneral) {
+              setAnalisisGeneralIA(analisisGeneral)
+            }
+          })
+          .catch(error => {
+            console.error('Error al analizar símbolos con IA:', error)
+          })
+          .finally(() => {
+            setCargandoSimbolos(false)
+          })
+      } else {
+        setCargandoSimbolos(false)
+      }
+    } else {
+      setCargandoSimbolos(false)
+    }
+  }
 
   useEffect(() => {
     try {
       const suenosGuardados = localStorage.getItem("suenos")
       if (suenosGuardados) {
-        const suenos: Sueno[] = JSON.parse(suenosGuardados) || []
-
-        if (suenos.length > 0) {
+        const suenosCargados: Sueno[] = JSON.parse(suenosGuardados) || []
+        
+        // Ordenar por fecha (más reciente primero)
+        const suenosOrdenados = [...suenosCargados].sort((a, b) => {
+          if (!a.fecha) return 1
+          if (!b.fecha) return -1
+          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+        })
+        
+        setSuenos(suenosOrdenados)
+        
+        if (suenosOrdenados.length > 0) {
           let suenoParaAnalizar: Sueno | undefined
-
+          
           // Si se proporciona un ID, buscar ese sueño específico
           if (suenoId) {
-            suenoParaAnalizar = suenos.find((s) => s.id === suenoId)
+            suenoParaAnalizar = suenosOrdenados.find((s) => s.id === suenoId)
           }
-
-          // Si no se encontró un sueño con ese ID o no se proporcionó ID, usar el último
+          
+          // Si no se encontró un sueño con ese ID o no se proporcionó ID, usar el primero
           if (!suenoParaAnalizar) {
-            // Ordenar por fecha (más reciente primero)
-            const suenosOrdenados = [...suenos].sort((a, b) => {
-              if (!a.fecha) return 1
-              if (!b.fecha) return -1
-              return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-            })
-
             suenoParaAnalizar = suenosOrdenados[0]
           }
-
+          
           if (suenoParaAnalizar) {
-            setSueno(suenoParaAnalizar)
-
-            // Buscar símbolos en el texto del sueño y generar análisis
-            if (suenoParaAnalizar.texto) {
-              const { simbolos, analisis } = buscarSimbolos(suenoParaAnalizar.texto)
-              setSimbolosEncontrados(simbolos)
-              setAnalisisFreudiano(analisis)
-            }
+            cargarYAnalizarSueno(suenoParaAnalizar)
           }
         }
       }
     } catch (error) {
-      console.error("Error al cargar sueño:", error)
+      console.error("Error al cargar sueños:", error)
     } finally {
       setCargando(false)
     }
@@ -81,7 +116,17 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
     )
   }
 
-  if (!sueno) {
+  if (cargando) {
+    return (
+      <div className="container mx-auto p-40">
+        <div className="flex justify-center items-center">
+          <p>Cargando análisis de sueños...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (suenos.length === 0) {
     return (
       <div className="container mx-auto p-4">
         <div className="text-center py-12">
@@ -100,49 +145,98 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center mt-20">Análisis de Sueño</h1>
-
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex justify-between items-start">
-            <div>
-              <CardTitle>
-                {sueno.fecha
-                  ? new Date(sueno.fecha).toLocaleDateString("es-ES", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })
-                  : "Sin fecha"}
-              </CardTitle>
-              <CardDescription className="flex items-center mt-1">
-                <Clock className="h-3 w-3 mr-1" />
-                {sueno.fecha
-                  ? new Date(sueno.fecha).toLocaleTimeString("es-ES", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  : "Sin hora"}
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium mb-1">Descripción del sueño:</h3>
-              <p className="text-sm text-foreground whitespace-pre-wrap">{sueno.texto || "Sin descripción"}</p>
-            </div>
-
-            {sueno.notas && (
-              <div>
-                <h3 className="text-sm font-medium mb-1">Notas personales:</h3>
-                <p className="text-sm text-muted-foreground whitespace-pre-wrap">{sueno.notas}</p>
+      <div className="flex flex-col md:flex-row gap-6 mt-20">
+        {/* Lista de sueños */}
+        <div className="w-full md:w-1/3 lg:w-1/4">
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Tus Sueños</CardTitle>
+              <CardDescription>Selecciona un sueño para analizarlo</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
+                {suenos.map((s) => (
+                  <div 
+                    key={s.id}
+                    onClick={() => cargarYAnalizarSueno(s)}
+                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
+                      suenoActual?.id === s.id 
+                        ? 'bg-primary/10 border border-primary/20' 
+                        : 'hover:bg-muted/50'
+                    }`}
+                  >
+                    <div className="font-medium line-clamp-1">
+                      {s.titulo || 'Sueño sin título'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {s.fecha ? new Date(s.fecha).toLocaleDateString("es-ES", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      }) : 'Sin fecha'}
+                      {suenoActual?.id === s.id && (
+                        <span className="ml-2 text-primary font-medium">• Viendo</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Detalles del sueño seleccionado */}
+        <div className="flex-1">
+          {suenoActual ? (
+            <Card className="mb-6">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle>
+                      {suenoActual.titulo || 'Sueño sin título'}
+                    </CardTitle>
+                    <CardDescription className="flex items-center mt-1">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {suenoActual.fecha
+                        ? new Date(suenoActual.fecha).toLocaleDateString("es-ES", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                          })
+                        : "Sin fecha"}
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-sm font-medium mb-1">Descripción del sueño:</h3>
+                    <p className="text-sm text-foreground whitespace-pre-wrap">{suenoActual.texto || "Sin descripción"}</p>
+                  </div>
+
+                  {suenoActual.notas && (
+                    <div>
+                      <h3 className="text-sm font-medium mb-1">Notas personales:</h3>
+                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">{suenoActual.notas}</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="p-8 text-center">
+              <p className="text-muted-foreground">
+                Selecciona un sueño de la lista para ver su análisis
+              </p>
+            </Card>
+          )}
+        </div>
+      </div>
 
       <Tabs defaultValue="simbolos" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
@@ -175,10 +269,25 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                 <div className="space-y-4">
                   {simbolosEncontrados.map((simbolo, index) => (
                     <div key={index} className="border-b pb-3 last:border-0 last:pb-0">
-                      <h3 className="font-medium">{simbolo.simbolo}</h3>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium">{simbolo.simbolo}</h3>
+                        {simbolo.categoria && (
+                          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                            {simbolo.categoria}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm text-muted-foreground mt-1">{simbolo.interpretacion}</p>
-                      {simbolo.categoria && (
-                        <p className="text-xs text-muted-foreground mt-1">Categoría: {simbolo.categoria}</p>
+                      {interpretacionesIA[simbolo.simbolo] && (
+                        <div className="mt-2 p-3 bg-muted/50 rounded-lg border-l-4 border-primary">
+                          <p className="text-sm font-medium text-primary mb-1">Interpretación Freudiana:</p>
+                          <p className="text-sm">{interpretacionesIA[simbolo.simbolo]}</p>
+                        </div>
+                      )}
+                      {cargandoSimbolos && !interpretacionesIA[simbolo.simbolo] && (
+                        <div className="mt-2 p-3 bg-muted/30 rounded-lg animate-pulse">
+                          <p className="text-sm text-muted-foreground">Analizando símbolo con IA...</p>
+                        </div>
                       )}
                     </div>
                   ))}
@@ -201,67 +310,92 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
         </TabsContent>
 
         <TabsContent value="analisis" className="space-y-4 mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Análisis Freudiano</CardTitle>
-              <CardDescription>Interpretación basada en los principios del psicoanálisis</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="prose max-w-none">
-                  {analisisFreudiano.split('\n').map((parrafo, index) => {
-                    // Si el párrafo comienza con ###, es un encabezado de categoría
-                    if (parrafo.startsWith('###')) {
-                      return (
-                        <h3 key={index} className="text-lg font-semibold mt-6 mb-3">
-                          {parrafo.replace(/^#+/g, '').trim()}
-                        </h3>
-                      )
-                    }
-                    // Si el párrafo comienza con ##, es un título principal
-                    if (parrafo.startsWith('##')) {
-                      return (
-                        <h2 key={index} className="text-xl font-bold mt-8 mb-4 border-b pb-2">
-                          {parrafo.replace(/^#+/g, '').trim()}
-                        </h2>
-                      )
-                    }
-                    // Si el párrafo está vacío, no renderizar nada
-                    if (!parrafo.trim()) return null;
-                    // Párrafo normal
-                    return (
-                      <p key={index} className="mb-4 text-foreground">
-                        {parrafo.trim()}
-                      </p>
-                    )
-                  })}
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Análisis Freudiano Tradicional</CardTitle>
+                <CardDescription>
+                  Interpretación basada en los símbolos encontrados en tu sueño.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="prose prose-sm max-w-none">
+                  {analisisFreudiano ? (
+                    <div className="space-y-4">
+                      {analisisFreudiano.split('\n\n').map((seccion, i) => {
+                        const seccionLimpia = seccion.trim();
+                        
+                        // Verificar si es un título especial
+                        if (seccionLimpia === 'Análisis del Sueño' || seccionLimpia === 'Reflexión final') {
+                          return (
+                            <h3 key={i} className="text-xl font-bold mt-6 mb-3 text-foreground">
+                              {seccionLimpia}
+                            </h3>
+                          );
+                        }
+                        
+                        // Si la sección comienza con números seguidos de punto, convertir en lista
+                        if (/^\d+\.\s/.test(seccionLimpia)) {
+                          const items = seccionLimpia.split(/\d+\.\s/).filter(Boolean);
+                          return (
+                            <ul key={i} className="list-disc pl-5 space-y-2">
+                              {items.map((item, j) => (
+                                <li key={j} className="text-foreground">
+                                  {item.trim().replace(/\.$/, '')}
+                                </li>
+                              ))}
+                            </ul>
+                          );
+                        }
+                        
+                        // Si es un párrafo normal
+                        return (
+                          <p key={i} className="text-foreground">
+                            {seccionLimpia}
+                          </p>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p>No se pudo generar un análisis para este sueño.</p>
+                  )}
                 </div>
-                
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="font-medium text-lg mb-3">Mecanismos del Sueño</h3>
-                  <p className="text-muted-foreground mb-3">Tu sueño puede mostrar signos de:</p>
-                  <ul className="space-y-2">
-                    <li className="flex">
-                      <span className="font-medium min-w-[120px]">Condensación:</span>
-                      <span>Múltiples ideas representadas por una sola imagen</span>
-                    </li>
-                    <li className="flex">
-                      <span className="font-medium min-w-[120px]">Desplazamiento:</span>
-                      <span>Emociones transferidas de un objeto a otro</span>
-                    </li>
-                    <li className="flex">
-                      <span className="font-medium min-w-[120px]">Representabilidad:</span>
-                      <span>Transformación de pensamientos en imágenes visuales</span>
-                    </li>
-                    <li className="flex">
-                      <span className="font-medium min-w-[120px]">Elaboración secundaria:</span>
-                      <span>Intento de dar coherencia lógica al sueño</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+
+            {(cargandoSimbolos || analisisGeneralIA) && (
+              <Card className="border-l-4 border-primary">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Brain className="h-5 w-5 text-primary" />
+                    <span>Análisis con IA</span>
+                    {cargandoSimbolos && (
+                      <span className="inline-flex items-center gap-1 text-sm font-normal text-muted-foreground">
+                        <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
+                        Analizando...
+                      </span>
+                    )}
+                  </CardTitle>
+                  <CardDescription>
+                    Interpretación avanzada utilizando inteligencia artificial basada en el psicoanálisis freudiano.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {analisisGeneralIA ? (
+                    <div className="prose prose-sm max-w-none">
+                      {analisisGeneralIA}
+                    </div>
+                  ) : cargandoSimbolos ? (
+                    <div className="space-y-2">
+                      <div className="h-4 bg-muted/50 rounded w-full animate-pulse"></div>
+                      <div className="h-4 bg-muted/50 rounded w-5/6 animate-pulse"></div>
+                      <div className="h-4 bg-muted/50 rounded w-4/6 animate-pulse"></div>
+                    </div>
+                  ) : null}
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </TabsContent>
 
         <TabsContent value="guia" className="space-y-4 mt-4">
@@ -301,18 +435,15 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
         </TabsContent>
 
         <TabsContent value="trabajo-sueno" className="space-y-4 mt-4">
-          {sueno?.texto ? (
-            <TrabajoSuenoInteractivo 
-              suenoId={sueno.id} 
-              contenidoSueno={sueno.texto} 
-            />
+          {suenoActual ? (
+            <TrabajoSuenoInteractivo suenoId={suenoActual.id} contenidoSueno={suenoActual.texto || ''} />
           ) : (
             <Card>
               <CardHeader>
                 <CardTitle>No hay contenido para analizar</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>No se encontró el contenido del sueño para realizar el análisis del trabajo del sueño.</p>
+                <p>Selecciona un sueño de la lista para ver el análisis del trabajo del sueño.</p>
               </CardContent>
             </Card>
           )}
