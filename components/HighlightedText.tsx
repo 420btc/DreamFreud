@@ -102,9 +102,11 @@ const HighlightedText: React.FC<HighlightedTextProps> = ({ text, input, onHighli
             );
             
             if (match) {
-              const color = i % 2 === 0 ? 'text-blue-400' : 'text-purple-400';
               return (
-                <span key={i} className={`${color} font-bold`}>
+                <span 
+                  key={i} 
+                  className="font-bold bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text"
+                >
                   {part.text}
                 </span>
               );
