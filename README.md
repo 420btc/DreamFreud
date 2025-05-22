@@ -35,7 +35,7 @@
     *   Inicio de sesión rápido y seguro utilizando cuentas de Google.
     *   Manejo de sesiones y perfiles de usuario integrado.
     *   Protección de rutas para contenido exclusivo de usuarios autenticados.
-*   **Integración con IA (Potencial):** El uso de la librería `openai` sugiere la posibilidad de análisis o sugerencias generadas por inteligencia artificial.
+*   **Integración con IA (Potencial):** El uso de la librería `openai` sugiere la posibilidad de análisis o sugerencias generadas por inteligencia artificial
 
 ## Tech Stack
 *   **Framework:** [Next.js](https://nextjs.org/) (v15.2.4)
