@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Book, Brain, History, Moon, Bot } from "lucide-react"
 import Link from "next/link"
 import { TituloConSparkles } from "@/components/ui/TituloConSparkles"
-import { GradientCard } from "@/components/ui/gradient-card"
 import AIMessageBarWrapper from '@/components/ui/AIMessageBarWrapper';
 import { HeroSection } from "@/components/hero-odyssey";
 
@@ -31,101 +30,85 @@ export default function Introduccion() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-4 px-2 sm:px-0">
-          {/* Tarjeta 1 */}
-          <div className="h-auto min-h-[200px] md:h-72">
-            <GradientCard>
-              <div className="h-full flex flex-col p-3 sm:p-4">
-                <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
-                  <Book className="h-6 w-6 text-gray-400 mb-2" />
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
-                    Registra tus Sueños
-                  </h3>
-                </div>
-                <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
-                  Mantén un diario de tus sueños para descubrir patrones y significados ocultos.
-                </p>
-                <div className="mt-2 sm:mt-auto">
-                  <Link href="/registrar" className="w-full block">
-                    <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
-                      Registrar un Sueño
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </GradientCard>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-4 px-2 sm:px-0">
+          {/* Sección 1 */}
+          <div className="h-auto min-h-[200px] md:h-72 flex flex-col p-3 sm:p-4">
+            <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
+              <Book className="h-6 w-6 text-gray-400 mb-2" />
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
+                Registra tus Sueños
+              </h3>
+            </div>
+            <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
+              Mantén un diario de tus sueños para descubrir patrones y significados ocultos.
+            </p>
+            <div className="mt-2 sm:mt-auto">
+              <Link href="/registrar" className="w-full block">
+                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                  Registrar un Sueño
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Tarjeta 2 */}
-          <div className="h-auto min-h-[200px] md:h-72">
-            <GradientCard>
-              <div className="h-full flex flex-col p-3 sm:p-4">
-                <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
-                  <Brain className="h-6 w-6 text-purple-400 mb-2" />
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
-                    Analiza tus Sueños
-                  </h3>
-                </div>
-                <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
-                  Descubre el significado de tus sueños según las teorías más comunes, o incluso las más raras.
-                </p>
-                <div className="mt-2 sm:mt-auto">
-                  <Link href="/analizar" className="w-full block">
-                    <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
-                      Analizar Último Sueño
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </GradientCard>
+          {/* Sección 2 */}
+          <div className="h-auto min-h-[200px] md:h-72 flex flex-col p-3 sm:p-4">
+            <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
+              <Brain className="h-6 w-6 text-purple-400 mb-2" />
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
+                Analiza tus Sueños
+              </h3>
+            </div>
+            <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
+              Descubre el significado de tus sueños según las teorías más comunes, o incluso las más raras.
+            </p>
+            <div className="mt-2 sm:mt-auto">
+              <Link href="/analizar" className="w-full block">
+                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                  Analizar Último Sueño
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Tarjeta 3 */}
-          <div className="h-auto min-h-[200px] md:h-72">
-            <GradientCard>
-              <div className="h-full flex flex-col p-3 sm:p-4">
-                <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
-                  <Moon className="h-6 w-6 text-blue-400 mb-2" />
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
-                    Diccionario de Símbolos
-                  </h3>
-                </div>
-                <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
-                  Explora el significado de los símbolos oníricos según Freud.
-                </p>
-                <div className="mt-2 sm:mt-auto">
-                  <Link href="/diccionario" className="w-full block">
-                    <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
-                      Consultar Diccionario
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </GradientCard>
+          {/* Sección 3 */}
+          <div className="h-auto min-h-[200px] md:h-72 flex flex-col p-3 sm:p-4">
+            <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
+              <Moon className="h-6 w-6 text-blue-400 mb-2" />
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
+                Diccionario de Símbolos
+              </h3>
+            </div>
+            <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
+              Explora el significado de los símbolos oníricos según Freud.
+            </p>
+            <div className="mt-2 sm:mt-auto">
+              <Link href="/diccionario" className="w-full block">
+                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                  Consultar Diccionario
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Tarjeta 4 */}
-          <div className="h-auto min-h-[200px] md:h-72">
-            <GradientCard>
-              <div className="h-full flex flex-col p-3 sm:p-4">
-                <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
-                  <History className="h-6 w-6 text-green-400 mb-2" />
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
-                    Historial de Sueños
-                  </h3>
-                </div>
-                <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
-                  Revisa todos tus sueños anteriores y sus interpretaciones.
-                </p>
-                <div className="mt-2 sm:mt-auto">
-                  <Link href="/historial" className="w-full block">
-                    <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
-                      Ver Historial
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </GradientCard>
+          {/* Sección 4 */}
+          <div className="h-auto min-h-[200px] md:h-72 flex flex-col p-3 sm:p-4">
+            <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
+              <History className="h-6 w-6 text-green-400 mb-2" />
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center">
+                Historial de Sueños
+              </h3>
+            </div>
+            <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6 px-1">
+              Revisa todos tus sueños anteriores y sus interpretaciones.
+            </p>
+            <div className="mt-2 sm:mt-auto">
+              <Link href="/historial" className="w-full block">
+                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                  Ver Historial
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
