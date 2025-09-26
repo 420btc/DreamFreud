@@ -56,15 +56,15 @@ export default async function RootLayout({
                 <Analytics />
               </main>
               <AppDock />
-              <footer className="py-4 border-t">
+              <footer className="py-4 border-t bg-gradient-to-r from-black via-gray-800 to-gray-600">
                 <div className="container mx-auto text-center">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-300">
                     By{' '}
                     <a 
                       href="https://x.com/CarlosFreire0" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                      className="font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
                     >
                       Carlos Freire
                     </a>
