@@ -114,7 +114,7 @@ export default function RegistrarSueno() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={guardarSueno} disabled={guardando || !texto.trim()} className="w-full bg-white hover:bg-grey-600">
+          <Button variant="dream" onClick={guardarSueno} disabled={guardando || !texto.trim()} className="w-full">
             {guardando ? (
               <>Guardando...</>
             ) : (

@@ -14,12 +14,12 @@ export default function Introduccion() {
       <div className="relative flex-shrink-0">
         <HeroSection />
       </div>
-      
+
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 flex-grow">
         <div className="text-center mb-12">
           <p className="text-2xl md:text-3xl font-light text-gray-300 italic mb-8 max-w-3xl mx-auto">
-            
+
           </p>
           <TituloConSparkles>
             Tu Diario de Sueños
@@ -44,7 +44,7 @@ export default function Introduccion() {
             </p>
             <div className="mt-2 sm:mt-auto">
               <Link href="/registrar" className="w-full block">
-                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                <Button variant="dream" className="w-full text-sm sm:text-base py-1 sm:py-2">
                   Registrar un Sueño
                 </Button>
               </Link>
@@ -64,7 +64,7 @@ export default function Introduccion() {
             </p>
             <div className="mt-2 sm:mt-auto">
               <Link href="/analizar" className="w-full block">
-                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                <Button variant="dream" className="w-full text-sm sm:text-base py-1 sm:py-2">
                   Analizar Último Sueño
                 </Button>
               </Link>
@@ -84,7 +84,7 @@ export default function Introduccion() {
             </p>
             <div className="mt-2 sm:mt-auto">
               <Link href="/diccionario" className="w-full block">
-                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                <Button variant="dream" className="w-full text-sm sm:text-base py-1 sm:py-2">
                   Consultar Diccionario
                 </Button>
               </Link>
@@ -104,7 +104,7 @@ export default function Introduccion() {
             </p>
             <div className="mt-2 sm:mt-auto">
               <Link href="/historial" className="w-full block">
-                <Button className="w-full text-sm sm:text-base py-1 sm:py-2 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white">
+                <Button variant="dream" className="w-full text-sm sm:text-base py-1 sm:py-2">
                   Ver Historial
                 </Button>
               </Link>
@@ -116,9 +116,9 @@ export default function Introduccion() {
         <div className="w-full max-w-8xl mx-auto mt-20 mb-12" id="asistente-ia">
           <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-xl backdrop-blur-sm">
             <div className="flex items-center justify-center mb-6">
-              <img 
-                src="/aidream.png" 
-                alt="Ai Dreamer Logo" 
+              <img
+                src="/aidream.png"
+                alt="Ai Dreamer Logo"
                 className="h-24 w-24 mr-3 object-contain"
               />
               <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
@@ -126,21 +126,21 @@ export default function Introduccion() {
               </h3>
             </div>
             <p className="text-gray-300 text-lg mb-6 max-w-3xl mx-auto text-center">
-              Explora el significado de tus sueños con la ayuda de nuestra IA entrenada en la teoría psicoanalítica de Freud. 
+              Explora el significado de tus sueños con la ayuda de nuestra IA entrenada en la teoría psicoanalítica de Freud.
               Haz preguntas sobre símbolos, interpretaciones o conceptos freudianos.
             </p>
             <div className="bg-black/50 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-gray-800/50 min-h-[400px] flex flex-col">
               <AIMessageBarWrapper />
             </div>
             <p className="text-sm text-gray-500 mt-4 text-center">
-              No se guarda ningún mensaje en la base de datos. La IA puede cometer errores. 
+              No se guarda ningún mensaje en la base de datos. La IA puede cometer errores.
             </p>
           </div>
         </div>
         <div className="mt-12 flex justify-center w-full">
           <div className="relative z-10">
-            <img 
-              src="/dreamer.png" 
+            <img
+              src="/dreamer.png"
               alt="Ai Dreamer Logo"
               className="h-[190px] w-[190px] object-contain"
             />

@@ -31,7 +31,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   console.log('RootLayout - Getting server session...')
-  
+
   let session = null;
   try {
     session = await getServerSession()
@@ -39,17 +39,17 @@ export default async function RootLayout({
   } catch (error) {
     console.error('Error getting server session:', error)
   }
-  
+
   // Agregar headers para evitar caché en desarrollo
-  const cacheControl = process.env.NODE_ENV === 'development' 
+  const cacheControl = process.env.NODE_ENV === 'development'
     ? 'no-store, no-cache, must-revalidate, proxy-revalidate'
     : 'public, max-age=0, s-maxage=3600'
-  
+
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} dark bg-background`}>
         <Providers session={session}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
             <div className="min-h-screen flex flex-col">
               <main className="flex-1">
                 {children}
@@ -60,9 +60,9 @@ export default async function RootLayout({
                 <div className="container mx-auto text-center">
                   <p className="text-sm text-gray-300">
                     By{' '}
-                    <a 
-                      href="https://x.com/CarlosFreire0" 
-                      target="_blank" 
+                    <a
+                      href="https://x.com/CarlosFreire0"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
                     >

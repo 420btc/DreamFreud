@@ -35,7 +35,7 @@ export default function HistorialSuenos() {
 
   useEffect(() => {
     if (!isMounted) return
-    
+
     const cargarDatos = async () => {
       setCargando(true)
       try {
@@ -126,19 +126,19 @@ export default function HistorialSuenos() {
                     <CardTitle className="text-lg">
                       {sueno.fecha
                         ? new Date(sueno.fecha).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
                         : "Sin fecha"}
                     </CardTitle>
                     <CardDescription className="flex items-center mt-1">
                       <Clock className="h-3 w-3 mr-1" />
                       {sueno.fecha
                         ? new Date(sueno.fecha).toLocaleTimeString("es-ES", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
                         : "Sin hora"}
                     </CardDescription>
                   </div>
@@ -167,7 +167,7 @@ export default function HistorialSuenos() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="w-full" asChild>
+                <Button variant="dreamOutline" className="w-full" asChild>
                   <Link href={`/analizar?id=${sueno.id}`}>Analizar este sueño</Link>
                 </Button>
               </CardFooter>
@@ -180,7 +180,7 @@ export default function HistorialSuenos() {
           <h3 className="text-lg font-medium mb-2">No hay sueños registrados</h3>
           <p className="text-muted-foreground mb-4">Comienza a registrar tus sueños para construir tu historial.</p>
           <Link href="/registrar">
-            <Button className="bg-white hover:bg-grey-600">Registrar mi primer sueño</Button> 
+            <Button variant="dream">Registrar mi primer sueño</Button>
           </Link>
         </div>
       )}

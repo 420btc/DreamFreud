@@ -36,13 +36,13 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
   const cargarYAnalizarSueno = (suenoParaAnalizar: Sueno) => {
     setSuenoActual(suenoParaAnalizar)
     setCargandoSimbolos(true)
-    
+
     // Buscar símbolos en el texto del sueño y generar análisis
     if (suenoParaAnalizar.texto) {
       const { simbolos, analisis } = buscarSimbolos(suenoParaAnalizar.texto)
       setSimbolosEncontrados(simbolos)
       setAnalisisFreudiano(analisis)
-      
+
       // Si hay símbolos, obtener interpretaciones de IA
       if (simbolos.length > 0) {
         const simbolosUnicos = Array.from(new Set(simbolos.map(s => s.simbolo)))
@@ -72,29 +72,29 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
       const suenosGuardados = localStorage.getItem("suenos")
       if (suenosGuardados) {
         const suenosCargados: Sueno[] = JSON.parse(suenosGuardados) || []
-        
+
         // Ordenar por fecha (más reciente primero)
         const suenosOrdenados = [...suenosCargados].sort((a, b) => {
           if (!a.fecha) return 1
           if (!b.fecha) return -1
           return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
         })
-        
+
         setSuenos(suenosOrdenados)
-        
+
         if (suenosOrdenados.length > 0) {
           let suenoParaAnalizar: Sueno | undefined
-          
+
           // Si se proporciona un ID, buscar ese sueño específico
           if (suenoId) {
             suenoParaAnalizar = suenosOrdenados.find((s) => s.id === suenoId)
           }
-          
+
           // Si no se encontró un sueño con ese ID o no se proporcionó ID, usar el primero
           if (!suenoParaAnalizar) {
             suenoParaAnalizar = suenosOrdenados[0]
           }
-          
+
           if (suenoParaAnalizar) {
             cargarYAnalizarSueno(suenoParaAnalizar)
           }
@@ -137,7 +137,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
             Registra un sueño primero para poder analizarlo según la teoría freudiana.
           </p>
           <Link href="/registrar">
-            <Button className="bg-white hover:bg-grey-600">Registrar un sueño</Button>
+            <Button variant="dream">Registrar un sueño</Button>
           </Link>
         </div>
       </div>
@@ -157,14 +157,13 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
             <CardContent>
               <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                 {suenos.map((s) => (
-                  <div 
+                  <div
                     key={s.id}
                     onClick={() => cargarYAnalizarSueno(s)}
-                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                      suenoActual?.id === s.id 
-                        ? 'bg-primary/10 border border-primary/20' 
+                    className={`p-3 rounded-lg cursor-pointer transition-colors ${suenoActual?.id === s.id
+                        ? 'bg-primary/10 border border-primary/20'
                         : 'hover:bg-muted/50'
-                    }`}
+                      }`}
                   >
                     <div className="font-medium line-clamp-1">
                       {s.titulo || generarTituloAutomatico(s.texto || '')}
@@ -202,12 +201,12 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                       <Clock className="h-3 w-3 mr-1" />
                       {suenoActual.fecha
                         ? new Date(suenoActual.fecha).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit"
-                          })
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })
                         : "Sin fecha"}
                     </CardDescription>
                   </div>
@@ -325,7 +324,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                     <div className="space-y-4">
                       {analisisFreudiano.split('\n\n').map((seccion, i) => {
                         const seccionLimpia = seccion.trim();
-                        
+
                         // Verificar si es un título especial
                         if (seccionLimpia === 'Análisis del Sueño' || seccionLimpia === 'Reflexión final') {
                           return (
@@ -334,7 +333,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                             </h3>
                           );
                         }
-                        
+
                         // Si la sección comienza con números seguidos de punto, convertir en lista
                         if (/^\d+\.\s/.test(seccionLimpia)) {
                           const items = seccionLimpia.split(/\d+\.\s/).filter(Boolean);
@@ -348,7 +347,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                             </ul>
                           );
                         }
-                        
+
                         // Si es un párrafo normal
                         return (
                           <p key={i} className="text-foreground">
