@@ -5,12 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { generarTituloAutomatico } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Brain, Clock, ExternalLink, Layers, BookOpen } from "lucide-react"
+import { Brain, Clock, ExternalLink, Layers, BookOpen, MessageSquare } from "lucide-react"
 import type { Sueno } from "@/types/sueno"
 import { buscarSimbolos, type SimboloFreudiano } from "@/lib/simbolos-freudianos"
 import { analizarSimbolosFreudianos } from "@/lib/openai-service"
 import dynamic from "next/dynamic"
 import Link from "next/link"
+import ChatAnalisis from "@/components/chat-analisis"
 
 // Importación dinámica para el componente interactivo
 const TrabajoSuenoInteractivo = dynamic(
@@ -253,7 +254,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
       </div>
 
       <Tabs defaultValue="simbolos" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="simbolos">
             <Brain className="mr-2 h-4 w-4" />
             Símbolos
@@ -265,6 +266,10 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
           <TabsTrigger value="trabajo-sueno">
             <BookOpen className="mr-2 h-4 w-4" />
             Trabajo del Sueño
+          </TabsTrigger>
+          <TabsTrigger value="chat">
+            <MessageSquare className="mr-2 h-4 w-4" />
+            Chat IA
           </TabsTrigger>
           <TabsTrigger value="guia">
             <BookOpen className="mr-2 h-4 w-4" />
@@ -410,6 +415,24 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
               </Card>
             )}
           </div>
+        </TabsContent>
+
+        <TabsContent value="chat" className="space-y-4 mt-4">
+          {suenoActual ? (
+            <ChatAnalisis 
+              suenoContexto={suenoActual.texto || ''} 
+              analisisInicial={analisisGeneralIA || analisisFreudiano} 
+            />
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>No hay sueño seleccionado</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Selecciona un sueño de la lista para chatear con la IA sobre él.</p>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="guia" className="space-y-4 mt-4">

@@ -237,11 +237,11 @@ export async function conversarConAsistente(mensaje: string, historial: Message[
     mensajes.push({ role: 'user', content: mensaje });
     
     // Limitar el historial para no exceder el límite de tokens
-    // Mantenemos el mensaje del sistema y los últimos 10 mensajes
-    if (mensajes.length > 11) { // 1 (sistema) + 10 mensajes (5 interacciones)
+    // Mantenemos el mensaje del sistema y los últimos 50 mensajes para maximizar el contexto
+    if (mensajes.length > 51) { // 1 (sistema) + 50 mensajes
       mensajes = [
         mensajes[0], // Mantener el mensaje del sistema
-        ...mensajes.slice(-10) // Mantener los últimos 10 mensajes
+        ...mensajes.slice(-50) // Mantener los últimos 50 mensajes
       ];
     }
 
