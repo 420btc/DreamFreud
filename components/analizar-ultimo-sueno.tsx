@@ -31,6 +31,30 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
   const [cargandoSimbolos, setCargandoSimbolos] = useState(false)
   const [analisisGeneralIA, setAnalisisGeneralIA] = useState<string | null>(null)
   const [interpretacionesIA, setInterpretacionesIA] = useState<Record<string, string>>({})
+  const [indiceFrase, setIndiceFrase] = useState(0)
+
+  const FRASES_CARGA = [
+    "Analizando el contenido latente...",
+    "Consultando el inconsciente...",
+    "Interpretando los símbolos oníricos...",
+    "Explorando deseos reprimidos...",
+    "Descifrando el significado oculto...",
+    "Conectando con la teoría freudiana...",
+    "Examinando los restos diurnos...",
+    "Desentrañando la condensación onírica..."
+  ]
+
+  useEffect(() => {
+    let intervalo: NodeJS.Timeout
+    if (cargandoSimbolos) {
+      intervalo = setInterval(() => {
+        setIndiceFrase((prev) => (prev + 1) % FRASES_CARGA.length)
+      }, 3000)
+    } else {
+      setIndiceFrase(0)
+    }
+    return () => clearInterval(intervalo)
+  }, [cargandoSimbolos])
 
   // Función para cargar y analizar un sueño específico
   const cargarYAnalizarSueno = (suenoParaAnalizar: Sueno) => {
@@ -112,16 +136,6 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
       <div className="container mx-auto p-40">
         <div className="flex justify-center items-center">
           <p>Cargando análisis de sueño...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (cargando) {
-    return (
-      <div className="container mx-auto p-40">
-        <div className="flex justify-center items-center">
-          <p>Cargando análisis de sueños...</p>
         </div>
       </div>
     )
@@ -286,7 +300,7 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                       )}
                       {cargandoSimbolos && !interpretacionesIA[simbolo.simbolo] && (
                         <div className="mt-2 p-3 bg-muted/30 rounded-lg animate-pulse">
-                          <p className="text-sm text-muted-foreground">Analizando símbolo con IA...</p>
+                          <p className="text-sm text-muted-foreground">{FRASES_CARGA[indiceFrase]}</p>
                         </div>
                       )}
                     </div>
@@ -370,9 +384,9 @@ export default function AnalizarUltimoSueno({ suenoId }: AnalizarUltimoSuenoProp
                     <Brain className="h-5 w-5 text-primary" />
                     <span>Análisis con IA</span>
                     {cargandoSimbolos && (
-                      <span className="inline-flex items-center gap-1 text-sm font-normal text-muted-foreground">
+                      <span className="inline-flex items-center gap-1 text-sm font-normal text-muted-foreground transition-all duration-500">
                         <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
-                        Analizando...
+                        {FRASES_CARGA[indiceFrase]}
                       </span>
                     )}
                   </CardTitle>
