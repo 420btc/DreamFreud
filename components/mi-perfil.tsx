@@ -217,13 +217,15 @@ export default function MiPerfil() {
   // Si no hay sesión, mostrar el formulario de inicio de sesión
   if (status === 'unauthenticated' || !session) {
     return (
-      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-[80vh] pt-24">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-2">Mi Perfil</h1>
-            <p className="text-muted-foreground mb-6">Inicia sesión para ver tu historial y estadísticas</p>
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <div className="w-full max-w-md space-y-8 flex flex-col items-center">
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-bold">Mi Perfil</h1>
+            <p className="text-muted-foreground">Inicia sesión para ver tu historial y estadísticas</p>
           </div>
-          <SignInCard2 />
+          <div className="w-full flex justify-center pl-2 md:pl-8">
+            <SignInCard2 />
+          </div>
         </div>
       </div>
     )
