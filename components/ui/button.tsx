@@ -18,9 +18,9 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        dream: "relative overflow-hidden text-white font-semibold bg-gradient-to-r from-purple-600 via-indigo-600 to-violet-600 hover:from-purple-500 hover:via-indigo-500 hover:to-violet-500 shadow-[0_4px_15px_rgba(139,92,246,0.35),0_0_30px_rgba(139,92,246,0.15)] hover:shadow-[0_8px_25px_rgba(139,92,246,0.45),0_0_50px_rgba(139,92,246,0.25)] hover:-translate-y-0.5 active:translate-y-0 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-500",
-        dreamOutline: "relative overflow-hidden border-2 border-purple-500/50 bg-transparent text-purple-300 hover:text-white hover:border-purple-400 hover:bg-purple-500/10 shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:shadow-[0_0_25px_rgba(139,92,246,0.35)] hover:-translate-y-0.5 active:translate-y-0",
-        dreamGhost: "text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 transition-colors",
+        dream: "relative overflow-hidden text-white font-medium bg-black/40 backdrop-blur-xl border border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:bg-black/60 hover:border-white/20 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_0_20px_rgba(255,255,255,0.05)] transition-all duration-300 active:scale-95 before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent",
+        dreamOutline: "relative overflow-hidden text-white/70 font-medium bg-black/20 backdrop-blur-md border border-white/5 hover:bg-black/40 hover:text-white hover:border-white/10 transition-all duration-300 active:scale-95",
+        dreamGhost: "text-white/60 hover:text-white hover:bg-white/5 transition-colors",
       },
       size: {
         default: "h-10 px-4 py-2",

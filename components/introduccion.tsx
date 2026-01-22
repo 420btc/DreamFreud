@@ -138,14 +138,7 @@ export default function Introduccion() {
           </div>
         </div>
         <div className="mt-12 flex justify-center w-full">
-          <div className="relative z-10">
-            <img
-              src="/dreamer.png"
-              alt="Ai Dreamer Logo"
-              className="h-[190px] w-[190px] object-contain"
-            />
-          </div>
-          <div className="mt-10 text-center italic font-bold space-y-2 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          <div className="mt-10 text-center font-serif italic text-xl tracking-wide text-white/90 space-y-2">
             <p>Sueños que danzan en la noche callada,</p>
             <p>tejen promesas en luz plateada.</p>
             <p>Alas del alma, sin fin ni adiós,</p>
