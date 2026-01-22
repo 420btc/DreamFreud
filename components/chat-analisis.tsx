@@ -9,6 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Send, User, Bot, Loader2 } from "lucide-react"
 import { conversarConAsistente, type Message } from "@/lib/openai-service"
 
+const STOP_WORDS = new Set([
+  "el", "la", "los", "las", "un", "una", "unos", "unas", "y", "o", "pero", "si", "de", "del", "al", "en", "por", "para", "con", "sin", "sobre", "mi", "tu", "su", "me", "te", "se", "nos", "que", "quien", "cual", "este", "esta", "ese", "esa", "aquel", "aquella", "ser", "estar", "haber", "hacer", "ir", "venir", "tener", "porque", "cuando", "donde", "como", "todo", "nada", "algo", "alguien", "nadie", "cada", "otro", "otra", "otros", "otras", "mismo", "misma", "mismos", "mismas", "tan", "tanto", "tanta", "tantos", "tantas", "muy", "mas", "menos", "poco", "poca", "pocos", "pocas", "mucho", "mucha", "muchos", "muchas", "bastante", "demasiado", "entonces", "luego", "pues", "asi", "bien", "mal", "siempre", "nunca", "jamas", "hoy", "ayer", "mañana", "ahora", "antes", "despues", "aqui", "ahi", "alli", "alla", "cerca", "lejos", "arriba", "abajo", "dentro", "fuera", "encima", "debajo", "delante", "detras", "izquierda", "derecha", "soy", "eres", "es", "somos", "son", "estoy", "estas", "esta", "estamos", "estan", "tengo", "tienes", "tiene", "tenemos", "tienen", "hago", "haces", "hace", "hacemos", "hacen", "voy", "vas", "va", "vamos", "van", "era", "eras", "eramos", "eran", "estaba", "estabas", "estabamos", "estaban", "tenia", "tenias", "teniamos", "tenian", "hacia", "hacias", "haciamos", "hacian", "iba", "ibas", "ibamos", "iban", "fui", "fuiste", "fue", "fuimos", "fueron", "estuve", "estuviste", "estuvo", "estuvimos", "estuvieron", "tuve", "tuviste", "tuvo", "tuvimos", "tuvieron", "hice", "hiciste", "hizo", "hicimos", "hicieron", "quisiera", "gustaria", "podria", "puedo", "puedes", "puede", "podemos", "pueden", "saber", "decir", "hablar", "contar", "explicar", "entender", "comprender", "significa", "significado", "interpretacion", "interpretar", "analisis", "analizar", "hola", "adios", "gracias", "favor", "bueno", "malo", "mejor", "peor", "gran", "grande", "pequeño", "importante", "interesante", "sueño", "soñar", "soñe"
+]);
+
 interface ChatAnalisisProps {
   suenoContexto: string
   analisisInicial?: string | null
@@ -97,6 +101,38 @@ export default function ChatAnalisis({ suenoContexto, analisisInicial }: ChatAna
     }
   }
 
+  const renderizarMensajeUsuario = (texto: string) => {
+    // 1. Limpiar y tokenizar para análisis
+    const palabras = texto.split(/\s+/);
+    
+    // 2. Identificar candidatos (filtrar stop words y cortos)
+    const candidatos = palabras
+      .map(p => ({ original: p, limpio: p.toLowerCase().replace(/[^\wáéíóúüñ]/g, '') }))
+      .filter(p => p.limpio.length > 3 && !STOP_WORDS.has(p.limpio));
+
+    // 3. Seleccionar top 3 por longitud (heurística)
+    const unicos = Array.from(new Set(candidatos.map(c => c.limpio)));
+    const topWords = unicos
+      .sort((a, b) => b.length - a.length)
+      .slice(0, 3);
+      
+    const topWordsSet = new Set(topWords);
+
+    // 4. Renderizar preservando espacios y puntuación
+    // Dividimos por palabras manteniendo separadores
+    const partes = texto.split(/(\s+|[.,;?!¡¿()]+)/);
+    
+    return partes.map((parte, index) => {
+      const limpia = parte.toLowerCase().replace(/[^\wáéíóúüñ]/g, '');
+      // Verificamos si la parte limpia coincide con alguna de las top words
+      // y si es una palabra completa (no un espacio o signo)
+      if (limpia.length > 0 && topWordsSet.has(limpia)) {
+        return <span key={index} className="text-blue-200 font-extrabold underline decoration-blue-400 decoration-2 underline-offset-2">{parte}</span>;
+      }
+      return <span key={index}>{parte}</span>;
+    });
+  };
+
   return (
     <Card className="flex flex-col h-[600px]">
       <CardHeader>
@@ -138,7 +174,9 @@ export default function ChatAnalisis({ suenoContexto, analisisInicial }: ChatAna
                       : "bg-muted"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                  <p className="whitespace-pre-wrap">
+                    {msg.role === "user" ? renderizarMensajeUsuario(msg.content) : msg.content}
+                  </p>
                 </div>
               </div>
             ))}
