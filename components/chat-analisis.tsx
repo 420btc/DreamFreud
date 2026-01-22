@@ -134,19 +134,21 @@ export default function ChatAnalisis({ suenoContexto, analisisInicial }: ChatAna
   };
 
   return (
-    <Card className="flex flex-col h-[600px]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Bot className="h-5 w-5 text-primary" />
+    <Card className="flex flex-col h-[600px] bg-black/40 backdrop-blur-xl border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_40px_rgba(0,0,0,0.5)] text-white">
+      <CardHeader className="border-b border-white/5 bg-black/20">
+        <CardTitle className="flex items-center gap-2 text-white">
+          <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+            <Bot className="h-4 w-4 text-white" />
+          </div>
           Chat con IA Freudiana
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-white/60">
           Profundiza en el significado de tu sueño conversando con el asistente.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 overflow-hidden p-0">
         <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
-          <div className="space-y-4">
+          <div className="space-y-6">
             {mensajes.map((msg, index) => (
               <div
                 key={index}
@@ -154,27 +156,27 @@ export default function ChatAnalisis({ suenoContexto, analisisInicial }: ChatAna
                   msg.role === "user" ? "flex-row-reverse" : ""
                 }`}
               >
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-8 w-8 border border-white/10 shadow-lg">
                   {msg.role === "user" ? (
                     <>
                       <AvatarImage src="/placeholder-user.jpg" />
-                      <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
+                      <AvatarFallback className="bg-white/10 text-white"><User className="h-4 w-4" /></AvatarFallback>
                     </>
                   ) : (
                     <>
                       <AvatarImage src="/iconos/bird.png" />
-                      <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
+                      <AvatarFallback className="bg-white/10 text-white"><Bot className="h-4 w-4" /></AvatarFallback>
                     </>
                   )}
                 </Avatar>
                 <div
-                  className={`rounded-lg p-3 max-w-[80%] text-sm ${
+                  className={`rounded-2xl p-4 max-w-[85%] text-sm shadow-md backdrop-blur-sm ${
                     msg.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted"
+                      ? "bg-black/60 text-white border border-white/10 rounded-tr-sm"
+                      : "bg-white/5 text-white border border-white/5 rounded-tl-sm"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">
+                  <p className="whitespace-pre-wrap leading-relaxed">
                     {msg.role === "user" ? renderizarMensajeUsuario(msg.content) : msg.content}
                   </p>
                 </div>
@@ -182,29 +184,34 @@ export default function ChatAnalisis({ suenoContexto, analisisInicial }: ChatAna
             ))}
             {cargando && (
               <div className="flex items-start gap-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
+                <Avatar className="h-8 w-8 border border-white/10">
+                  <AvatarFallback className="bg-white/10 text-white"><Bot className="h-4 w-4" /></AvatarFallback>
                 </Avatar>
-                <div className="bg-muted rounded-lg p-3">
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                <div className="bg-white/5 rounded-2xl p-4 border border-white/5 rounded-tl-sm">
+                  <Loader2 className="h-4 w-4 animate-spin text-white/70" />
                 </div>
               </div>
             )}
           </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="p-4 pt-0 mt-2">
-        <div className="flex w-full items-center space-x-2">
+      <CardFooter className="p-4 pt-0 mt-2 border-t border-white/5 bg-black/20">
+        <div className="flex w-full items-center space-x-2 mt-4">
           <Input
             placeholder="Pregunta sobre tu sueño..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={cargando}
-            className="flex-1"
+            className="flex-1 bg-white/5 border-white/10 text-white placeholder-white/30 focus-visible:ring-white/20 focus-visible:border-white/20 rounded-full px-4 py-6"
           />
-          <Button size="icon" onClick={enviarMensaje} disabled={cargando || !input.trim()}>
-            <Send className="h-4 w-4" />
+          <Button 
+            size="icon" 
+            onClick={enviarMensaje} 
+            disabled={cargando || !input.trim()}
+            className="rounded-full h-12 w-12 bg-white text-black hover:bg-white/90 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+          >
+            <Send className="h-5 w-5" />
             <span className="sr-only">Enviar</span>
           </Button>
         </div>

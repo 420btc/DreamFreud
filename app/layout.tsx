@@ -6,6 +6,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppDock } from "@/components/app-dock"
 import { Providers } from "@/components/providers"
+import { Badge } from "@/components/ui/badge"
 import { getServerSession } from "@/lib/auth"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -56,9 +57,9 @@ export default async function RootLayout({
                 <Analytics />
               </main>
               <AppDock />
-              <footer className="py-4 border-t bg-gradient-to-r from-black via-gray-800 to-gray-600">
-                <div className="container mx-auto text-center">
-                  <p className="text-sm text-gray-300">
+              <footer className="py-8 border-t border-white/10 bg-black/40 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_40px_rgba(0,0,0,0.5)]">
+                <div className="container mx-auto flex flex-col items-center justify-center gap-4">
+                  <p className="text-sm text-gray-300 text-center">
                     By{' '}
                     <a
                       href="https://x.com/CarlosFreire0"
@@ -70,6 +71,11 @@ export default async function RootLayout({
                     </a>
                     {' '}in May 2025
                   </p>
+                  <a href="https://carlosfr.es" target="_blank" rel="noopener noreferrer">
+                    <Badge variant="outline" className="bg-white/5 hover:bg-white/10 text-gray-300 border-white/20 transition-colors">
+                      carlosfr.es
+                    </Badge>
+                  </a>
                 </div>
               </footer>
             </div>

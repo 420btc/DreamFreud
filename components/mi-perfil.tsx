@@ -82,7 +82,7 @@ export default function MiPerfil() {
           titulo: 'Sueño de prueba',
           texto: 'Este es un sueño de ejemplo para mostrar cómo se vería en tu perfil.',
           fecha: new Date().toISOString(),
-          emocion: 'feliz',
+          emocion: 'felicidad',
           etiquetas: ['ejemplo', 'prueba'],
           createdAt: Date.now()
         }
@@ -217,9 +217,14 @@ export default function MiPerfil() {
   // Si no hay sesión, mostrar el formulario de inicio de sesión
   if (status === 'unauthenticated' || !session) {
     return (
-      <div className="max-w-md mx-auto mt-10">
-        <h2 className="text-2xl font-bold mb-6 text-center">Inicia sesión para ver tu perfil</h2>
-        <SignInCard2 />
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-[80vh] pt-24">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold mb-2">Mi Perfil</h1>
+            <p className="text-muted-foreground mb-6">Inicia sesión para ver tu historial y estadísticas</p>
+          </div>
+          <SignInCard2 />
+        </div>
       </div>
     )
   }
@@ -395,30 +400,6 @@ export default function MiPerfil() {
     );
   }
 
-  // Usuario no autenticado - Mostrar formulario de inicio de sesión
-  const isAuthenticated = status === 'authenticated' && session?.user;
-  if (!isAuthenticated) {
-    console.log('Usuario no autenticado, mostrando formulario de inicio de sesión');
-    return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6 text-center mt-20">Mi Perfil</h1>
-        <div className="max-w-md mx-auto">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-center">Inicia sesión</CardTitle>
-              <CardDescription className="text-center">
-                Inicia sesión con Google para ver tu perfil y tu historial de sueños
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex justify-center pb-6">
-              <SignInCard2 />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-  
   if (cargando) {
     console.log('Mostrando loader de carga de datos');
     return (

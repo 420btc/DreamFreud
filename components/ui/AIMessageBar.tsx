@@ -390,11 +390,11 @@ export const AIMessageBar = () => {
     if (message.isLoading) {
       return (
         <div className="flex w-full justify-center mb-4 px-2 sm:px-4">
-          <div className="relative w-full px-4 py-3 sm:px-6 sm:py-3 bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mx-auto max-w-full sm:max-w-4xl">
-            <div className="flex items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              <span className="text-sm">Analizando tu sueño...</span>
-            </div>
+          <div className="relative w-full px-4 py-3 sm:px-6 sm:py-3 bg-black/40 backdrop-blur-md text-white rounded-2xl border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] mx-auto max-w-full sm:max-w-4xl flex items-center gap-3">
+            <div className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="h-2 w-2 bg-white rounded-full animate-bounce"></div>
+            <span className="text-sm font-medium text-white/70 ml-2">Analizando tu sueño...</span>
           </div>
         </div>
       );
@@ -403,31 +403,32 @@ export const AIMessageBar = () => {
     return (
       <div 
         key={`${message.role}-${index}-${message.timestamp}`} 
-        className={`flex w-full ${isUser ? 'justify-end' : 'justify-center'} mb-4 px-2 sm:px-4`}
+        className={`flex w-full ${isUser ? 'justify-end' : 'justify-center'} mb-6 px-2 sm:px-4`}
       >
         <div 
-          className={`relative w-full px-4 py-3 sm:px-6 sm:py-3 rounded-lg ${
+          className={`relative w-full px-5 py-4 sm:px-6 sm:py-5 rounded-2xl transition-all duration-300 ${
             isUser 
-              ? 'bg-black/80 text-white border border-gray-700 rounded-br-lg max-w-full sm:max-w-4xl' 
-              : 'bg-black/80 text-white rounded-lg border border-gray-700 shadow-lg mr-auto max-w-full sm:max-w-4xl'
+              ? 'bg-black/40 backdrop-blur-xl text-white border border-white/10 rounded-br-sm shadow-[0_4px_15px_rgba(0,0,0,0.3)] max-w-full sm:max-w-4xl ml-auto' 
+              : 'bg-white/5 backdrop-blur-xl text-white border border-white/5 rounded-bl-sm shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_4px_20px_rgba(0,0,0,0.4)] mr-auto max-w-full sm:max-w-4xl'
           }`}
         >
           {!isUser ? (
-            <div className="text-xs font-medium text-gray-300 mb-1">
+            <div className="text-xs font-bold text-white/50 mb-2 flex items-center gap-2 uppercase tracking-wider">
+              <Sparkles className="h-3 w-3" />
               Ai Dreamer
             </div>
           ) : (
-            <div className="text-xs font-medium text-blue-200 mb-1">
+            <div className="text-xs font-bold text-white/50 mb-2 text-right uppercase tracking-wider">
               Tú
             </div>
           )}
           <div className="relative">
-            <div className="pr-8 pb-4">
-              <div className="whitespace-pre-wrap break-words">
+            <div className="pr-8 pb-2">
+              <div className="whitespace-pre-wrap break-words leading-relaxed text-white/90">
                 {getMessageContent()}
               </div>
             </div>
-            <span className="absolute bottom-0 right-2 text-xs opacity-70">
+            <span className="absolute bottom-0 right-0 text-[10px] text-white/30 font-mono">
               {formatTime(message.timestamp)}
             </span>
           </div>
@@ -446,13 +447,15 @@ export const AIMessageBar = () => {
   return (
     <div className="flex flex-col h-full w-full max-w-full overflow-hidden">
       {/* Encabezado */}
-      <div className="flex items-center justify-between p-4 sm:p-6 border-b">
+      <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/5 bg-black/40 backdrop-blur-md">
         <div className="flex items-center">
-          <Bot className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 mr-2" />
-          <h2 className="text-base sm:text-lg font-semibold">Ai Dreamer</h2>
+          <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)] mr-3">
+            <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+          </div>
+          <h2 className="text-base sm:text-lg font-bold text-white tracking-wide">Ai Dreamer</h2>
         </div>
         <button 
-          className="text-gray-500 hover:text-gray-700 p-1"
+          className="text-white/40 hover:text-white p-2 hover:bg-white/5 rounded-full transition-colors"
           onClick={clearChat}
           title="Limpiar conversación"
         >
@@ -481,35 +484,38 @@ export const AIMessageBar = () => {
       </div>
 
       {/* Área de entrada */}
-      <div className="px-2 py-3 sm:px-4 border-t bg-black w-full">
+      <div className="px-2 py-3 sm:px-4 border-t border-white/5 bg-black/40 backdrop-blur-md w-full">
         <form 
           ref={formRef}
           onSubmit={handleSubmit}
           className="flex items-center gap-1 sm:gap-2 w-full"
         >
-          <input
-            type="text"
-            value={input}
-            onChange={handleInputChange}
-            onFocus={() => setHasUserInteracted(true)}
-            placeholder="Escribe tu mensaje..."
-            className="flex-1 px-3 sm:px-4 py-2 bg-gray-900 text-white border border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 text-sm sm:text-base min-w-0"
-            disabled={isTyping}
-          />
+          <div className="relative flex-1 group">
+            <input
+              type="text"
+              value={input}
+              onChange={handleInputChange}
+              onFocus={() => setHasUserInteracted(true)}
+              placeholder="Escribe tu mensaje..."
+              className="w-full px-4 sm:px-6 py-3 bg-white/5 text-white border border-white/10 rounded-full focus:outline-none focus:bg-white/10 focus:border-white/20 focus:shadow-[0_0_15px_rgba(255,255,255,0.1)] placeholder-white/30 text-sm sm:text-base transition-all duration-300"
+              disabled={isTyping}
+            />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          </div>
           <button
             type="submit"
             disabled={!input.trim() || isTyping}
-            className={`p-1.5 sm:p-2 rounded-full flex-shrink-0 ${
+            className={`p-3 sm:p-3 rounded-full flex-shrink-0 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.3)] ${
               input.trim() && !isTyping
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
-                : 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                ? 'bg-white text-black hover:bg-gray-200 hover:scale-105 active:scale-95'
+                : 'bg-white/10 text-white/30 cursor-not-allowed border border-white/5'
             }`}
             title={!input.trim() ? "Escribe un mensaje" : "Enviar mensaje"}
           >
             {isTyping ? (
-              <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+              <Loader2 className="h-5 w-5 sm:h-5 sm:w-5 animate-spin" />
             ) : (
-              <Send className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Send className="h-5 w-5 sm:h-5 sm:w-5" />
             )}
           </button>
         </form>

@@ -114,25 +114,27 @@ export default function Introduccion() {
 
         {/* Sección del Asistente de IA */}
         <div className="w-full max-w-8xl mx-auto mt-20 mb-12" id="asistente-ia">
-          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 rounded-2xl border border-blue-500/20 shadow-xl backdrop-blur-sm">
-            <div className="flex items-center justify-center mb-6">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_40px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+            
+            <div className="flex items-center justify-center mb-6 relative z-10">
               <img
                 src="/aidream.png"
                 alt="Ai Dreamer Logo"
-                className="h-24 w-24 mr-3 object-contain"
+                className="h-24 w-24 mr-3 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
               />
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl font-bold text-white drop-shadow-md">
                 Asistente de Sueños
               </h3>
             </div>
-            <p className="text-gray-300 text-lg mb-6 max-w-3xl mx-auto text-center">
+            <p className="text-gray-300 text-lg mb-6 max-w-3xl mx-auto text-center relative z-10">
               Explora el significado de tus sueños con la ayuda de nuestra IA entrenada en la teoría psicoanalítica de Freud.
               Haz preguntas sobre símbolos, interpretaciones o conceptos freudianos.
             </p>
-            <div className="bg-black/50 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-gray-800/50 min-h-[400px] flex flex-col">
+            <div className="bg-black/60 backdrop-blur-md rounded-xl overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] border border-white/5 min-h-[400px] flex flex-col relative z-10">
               <AIMessageBarWrapper />
             </div>
-            <p className="text-sm text-gray-500 mt-4 text-center">
+            <p className="text-sm text-gray-500 mt-4 text-center relative z-10">
               No se guarda ningún mensaje en la base de datos. La IA puede cometer errores.
             </p>
           </div>
