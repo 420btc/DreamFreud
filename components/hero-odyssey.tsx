@@ -132,12 +132,46 @@ interface LightningProps {
 
 const Lightning: React.FC<LightningProps> = ({
   hue = 230,
-  xOffset = 0, // Mantenemos xOffset por si se quiere usar para ajustes finos
+  xOffset = 0,
   speed = 0.2,
   intensity = 1,
-  size = 1,    // Valor base de 'size'
+  size = 1,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const glRef = useRef<WebGLRenderingContext | null>(null);
+  const programRef = useRef<WebGLProgram | null>(null);
+  const animationFrameIdRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number>(0);
+  const hueRef = useRef(hue);
+  const xOffsetRef = useRef(xOffset);
+  const speedRef = useRef(speed);
+  const intensityRef = useRef(intensity);
+  const sizeRef = useRef(size);
+  const uniformLocationsRef = useRef<{
+    iResolution: WebGLUniformLocation | null;
+    iTime: WebGLUniformLocation | null;
+    uHue: WebGLUniformLocation | null;
+    uXOffset: WebGLUniformLocation | null;
+    uSpeed: WebGLUniformLocation | null;
+    uIntensity: WebGLUniformLocation | null;
+    uSize: WebGLUniformLocation | null;
+  }>({
+    iResolution: null,
+    iTime: null,
+    uHue: null,
+    uXOffset: null,
+    uSpeed: null,
+    uIntensity: null,
+    uSize: null,
+  });
+
+  useEffect(() => {
+    hueRef.current = hue;
+    xOffsetRef.current = xOffset;
+    speedRef.current = speed;
+    intensityRef.current = intensity;
+    sizeRef.current = size;
+  }, [hue, xOffset, speed, intensity, size]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -177,6 +211,8 @@ const Lightning: React.FC<LightningProps> = ({
       return;
     }
 
+    glRef.current = gl;
+
     const vertexShaderSource = `
       attribute vec2 aPosition;
       void main() {
@@ -192,7 +228,7 @@ const Lightning: React.FC<LightningProps> = ({
       uniform float uXOffset;
       uniform float uSpeed;
       uniform float uIntensity;
-      uniform float uSize; // Este es el 'size' que ajustaremos
+      uniform float uSize;
       
       #define OCTAVE_COUNT 10
 
@@ -247,8 +283,8 @@ const Lightning: React.FC<LightningProps> = ({
           vec2 uv = fragCoord / iResolution.xy;
           uv = 2.0 * uv - 1.0;
           uv.x *= iResolution.x / iResolution.y;
-          uv.x += uXOffset; // uXOffset se mantiene por si se necesita un ajuste manual fino
-          uv += 2.0 * fbm(uv * uSize + 0.8 * iTime * uSpeed) - 1.0; // uSize aquí
+          uv.x += uXOffset;
+          uv += 2.0 * fbm(uv * uSize + 0.8 * iTime * uSpeed) - 1.0;
           float dist = abs(uv.x);
           vec3 baseColor = hsv2rgb(vec3(uHue / 360.0, 0.7, 0.8));
           vec3 col = baseColor * pow(mix(0.0, 0.07, hash11(iTime * uSpeed)) / dist, 1.0) * uIntensity;
@@ -288,6 +324,7 @@ const Lightning: React.FC<LightningProps> = ({
       return;
     }
     gl.useProgram(program);
+    programRef.current = program;
 
     const vertices = new Float32Array([
       -1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1,
@@ -300,82 +337,78 @@ const Lightning: React.FC<LightningProps> = ({
     gl.enableVertexAttribArray(aPosition);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
 
-    const iResolutionLocation = gl.getUniformLocation(program, "iResolution");
-    const iTimeLocation = gl.getUniformLocation(program, "iTime");
-    const uHueLocation = gl.getUniformLocation(program, "uHue");
-    const uXOffsetLocation = gl.getUniformLocation(program, "uXOffset");
-    const uSpeedLocation = gl.getUniformLocation(program, "uSpeed");
-    const uIntensityLocation = gl.getUniformLocation(program, "uIntensity");
-    const uSizeLocation = gl.getUniformLocation(program, "uSize");
+    uniformLocationsRef.current = {
+      iResolution: gl.getUniformLocation(program, "iResolution"),
+      iTime: gl.getUniformLocation(program, "iTime"),
+      uHue: gl.getUniformLocation(program, "uHue"),
+      uXOffset: gl.getUniformLocation(program, "uXOffset"),
+      uSpeed: gl.getUniformLocation(program, "uSpeed"),
+      uIntensity: gl.getUniformLocation(program, "uIntensity"),
+      uSize: gl.getUniformLocation(program, "uSize"),
+    };
 
-    const startTime = performance.now();
-    let animationFrameId: number;
+    startTimeRef.current = performance.now();
 
     const render = () => {
-      if (!canvasRef.current) { // Asegurarse que el canvas sigue montado
-        cancelAnimationFrame(animationFrameId);
+      if (!canvasRef.current || !glRef.current || !programRef.current) {
+        if (animationFrameIdRef.current) {
+          cancelAnimationFrame(animationFrameIdRef.current);
+        }
         return;
       }
-      
-      // Es importante llamar a resizeCanvas dentro del bucle de render
-      // o al menos asegurar que las dimensiones del canvas sean correctas
-      // antes de obtenerlas para iResolution y aspectRatio.
-      // La llamada a resizeCanvas() ya está fuera y se actualiza en el evento 'resize'.
-      // Pero para la primera renderización o cambios de layout que no sean 'resize',
-      // es bueno tenerlo aquí o asegurar que clientWidth/Height están actualizados.
-      // Si resizeCanvas ya se encarga de actualizar canvas.width y canvas.height, está bien.
+
+      const canvas = canvasRef.current;
+      const gl = glRef.current;
+      const uniforms = uniformLocationsRef.current;
 
       if (canvas.width === 0 || canvas.height === 0) {
-        // Si el canvas no tiene dimensiones, se intenta redimensionar.
-        // Esto puede pasar si el layout no está listo en el primer frame.
         resizeCanvas(); 
       }
 
       if (canvas.width > 0 && canvas.height > 0) {
           gl.viewport(0, 0, canvas.width, canvas.height);
-          gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+          if (uniforms.iResolution) gl.uniform2f(uniforms.iResolution, canvas.width, canvas.height);
+          
           const currentTime = performance.now();
-          gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
-          gl.uniform1f(uHueLocation, hue);
-          gl.uniform1f(uXOffsetLocation, xOffset); // Se pasa el prop xOffset
-          gl.uniform1f(uSpeedLocation, speed);
-          gl.uniform1f(uIntensityLocation, intensity);
+          if (uniforms.iTime) gl.uniform1f(uniforms.iTime, (currentTime - startTimeRef.current) / 1000.0);
+          if (uniforms.uHue) gl.uniform1f(uniforms.uHue, hueRef.current);
+          if (uniforms.uXOffset) gl.uniform1f(uniforms.uXOffset, xOffsetRef.current);
+          if (uniforms.uSpeed) gl.uniform1f(uniforms.uSpeed, speedRef.current);
+          if (uniforms.uIntensity) gl.uniform1f(uniforms.uIntensity, intensityRef.current);
 
-          // --- LÓGICA PARA AJUSTAR 'size' EN MÓVILES ---
           const aspectRatio = canvas.width / canvas.height;
-          let adjustedSize = size; // Usa el 'size' de los props por defecto (viene de HeroSection)
+          let adjustedSize = sizeRef.current;
 
-          if (aspectRatio < 1.0) { // Pantalla vertical (más alta que ancha) o cuadrada
-            // Reduce el 'size' para que el efecto se vea más "alejado" o completo
-            // El factor 0.65 es experimental. Puedes ajustarlo (e.g., 0.5, 0.75)
-            adjustedSize = size * 0.65; 
+          if (aspectRatio < 1.0) {
+            adjustedSize = sizeRef.current * 0.65; 
           }
-          gl.uniform1f(uSizeLocation, adjustedSize);
-          // --- FIN DE LA LÓGICA DE AJUSTE ---
+          if (uniforms.uSize) gl.uniform1f(uniforms.uSize, adjustedSize);
 
           gl.drawArrays(gl.TRIANGLES, 0, 6); 
       }
-      animationFrameId = requestAnimationFrame(render);
+      animationFrameIdRef.current = requestAnimationFrame(render);
     };
-    animationFrameId = requestAnimationFrame(render);
+    animationFrameIdRef.current = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
       if (gl) {
-        gl.deleteProgram(program);
+        if (program) gl.deleteProgram(program);
         if (vertexShader) gl.deleteShader(vertexShader);
         if (fragmentShader) gl.deleteShader(fragmentShader);
         if (vertexBuffer) gl.deleteBuffer(vertexBuffer);
       }
+      glRef.current = null;
+      programRef.current = null;
     };
-  }, [hue, xOffset, speed, intensity, size]); // Dependencias del useEffect
+  }, []);
 
   return <canvas ref={canvasRef} className="w-full h-full absolute top-0 left-0 pointer-events-none" />;
 };
 
-// El componente HeroSection se mantiene igual que en la versión anterior.
-// Solo necesitas reemplazar el componente Lightning con esta nueva versión.
 export const HeroSection: React.FC = () => {
   const [lightningHue, setLightningHue] = useState(220);
 
